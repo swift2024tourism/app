@@ -17,6 +17,7 @@ class TitleScreen extends StatelessWidget {
               onPressed: null,
               style: ElevatedButton.styleFrom(
                   minimumSize: const Size(250, 90),
+                  backgroundColor: Colors.blue,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(0))),
               child: const Text('クリックしてスタート', style: TextStyle(fontSize: 20)),
