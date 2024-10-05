@@ -11,15 +11,13 @@ class GameModel with _$GameModel {
     required List<Waypoint> waypoints,
   }) = _GameModel;
 
-  static Future<GameModel> fromFirestore(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) async {
+  static Future<GameModel> fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot) async {
     final data = snapshot.data() as Map<String, dynamic>;
     List<Waypoint> waypoints = [];
     List<dynamic> waypointsRef = data['waypoints'];
 
     for (final waypointRef in waypointsRef) {
-      DocumentReference<Map<String, dynamic>> docRef =
-          waypointRef as DocumentReference<Map<String, dynamic>>;
+      DocumentReference<Map<String, dynamic>> docRef = waypointRef as DocumentReference<Map<String, dynamic>>;
       DocumentSnapshot<Map<String, dynamic>> value = await docRef.get();
       waypoints.add(await Waypoint.fromFirestore(value));
     }
