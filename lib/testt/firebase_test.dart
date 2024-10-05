@@ -1,6 +1,6 @@
-import 'dart:convert';
-
+import 'package:app/model/game_model.dart';
 import 'package:app/model/picture_model.dart';
+import 'package:app/model/waypoint.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -31,30 +31,33 @@ Future<void> testFirebase() async {
             });
           });
         });
-        //GeoPoint geo = (docSnapShot["geopoint"] as GeoPoint);
-        //debugPrint(geo.latitude.toString());
-        //debugPrint("waypoints");
-        //List<dynamic> pictures = element["pictures"];
-        //pictures.forEach((value) {
-        //  debugPrint("aiueo");
-        //  debugPrint(value);
-        //  //PictureModel model = PictureModel.fromFirestore(value);
-        //  //debugPrint(model.name);
-        //});
-
-        //await element.get().then((DocumentSnapshot value) {
-        //  debugPrint("aiueo");
-        //  PictureModel model = PictureModel.fromFirestore(value);
-        //  debugPrint(model.name);
-        //});
       });
-//      for (DocumentReference<Map<String, dynamic>> element in list) {
-//        await element
-//            .get()
-//            .then((DocumentSnapshot<Map<String, dynamic>> value) {
-//          debugPrint(value["name"]);
-//        });
-//      }
     }
   });
+}
+
+Future<void> testFirebase2() async {
+  List<GameModel> games = [];
+  games = await FirebaseFirestore.instance
+      .collection("games")
+      .get()
+      .then((QuerySnapshot<Object?> snapshot) async {
+    return games = await Future.wait(snapshot.docs
+        .map((QueryDocumentSnapshot<Object?> documentSnapshot) async {
+      return await GameModel.fromFirestore(
+          documentSnapshot as DocumentSnapshot<Map<String, dynamic>>);
+    }));
+  });
+
+  games.forEach(
+    (GameModel game) {
+      debugPrint(game.name);
+      game.waypoints.forEach((Waypoint waypoint) {
+        debugPrint(waypoint.geopoint.latitude.toString());
+        waypoint.pictures.forEach((PictureModel picture) {
+          debugPrint(picture.name);
+        });
+      });
+    },
+  );
 }
