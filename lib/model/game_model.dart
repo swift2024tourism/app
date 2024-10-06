@@ -9,6 +9,7 @@ class GameModel with _$GameModel {
   const factory GameModel({
     required String name,
     required List<Waypoint> waypoints,
+    required String id,
   }) = _GameModel;
 
   static Future<GameModel> fromFirestore(
@@ -24,6 +25,7 @@ class GameModel with _$GameModel {
       waypoints.add(await Waypoint.fromFirestore(value));
     }
 
-    return GameModel(name: data['name'] as String, waypoints: waypoints);
+    return GameModel(
+        name: data['name'] as String, waypoints: waypoints, id: snapshot.id);
   }
 }

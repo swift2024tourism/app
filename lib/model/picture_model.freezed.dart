@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PictureModel {
   String get name => throw _privateConstructorUsedError;
   String get url => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PictureModelCopyWith<PictureModel> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $PictureModelCopyWith<$Res> {
           PictureModel value, $Res Function(PictureModel) then) =
       _$PictureModelCopyWithImpl<$Res, PictureModel>;
   @useResult
-  $Res call({String name, String url});
+  $Res call({String name, String url, String id});
 }
 
 /// @nodoc
@@ -48,6 +49,7 @@ class _$PictureModelCopyWithImpl<$Res, $Val extends PictureModel>
   $Res call({
     Object? name = null,
     Object? url = null,
+    Object? id = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -57,6 +59,10 @@ class _$PictureModelCopyWithImpl<$Res, $Val extends PictureModel>
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -70,7 +76,7 @@ abstract class _$$PictureModelImplCopyWith<$Res>
       __$$PictureModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String url});
+  $Res call({String name, String url, String id});
 }
 
 /// @nodoc
@@ -86,6 +92,7 @@ class __$$PictureModelImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? url = null,
+    Object? id = null,
   }) {
     return _then(_$PictureModelImpl(
       name: null == name
@@ -96,6 +103,10 @@ class __$$PictureModelImplCopyWithImpl<$Res>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -103,16 +114,19 @@ class __$$PictureModelImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$PictureModelImpl implements _PictureModel {
-  const _$PictureModelImpl({required this.name, required this.url});
+  const _$PictureModelImpl(
+      {required this.name, required this.url, required this.id});
 
   @override
   final String name;
   @override
   final String url;
+  @override
+  final String id;
 
   @override
   String toString() {
-    return 'PictureModel(name: $name, url: $url)';
+    return 'PictureModel(name: $name, url: $url, id: $id)';
   }
 
   @override
@@ -121,11 +135,12 @@ class _$PictureModelImpl implements _PictureModel {
         (other.runtimeType == runtimeType &&
             other is _$PictureModelImpl &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.url, url) || other.url == url));
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.id, id) || other.id == id));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, url);
+  int get hashCode => Object.hash(runtimeType, name, url, id);
 
   @JsonKey(ignore: true)
   @override
@@ -137,12 +152,15 @@ class _$PictureModelImpl implements _PictureModel {
 abstract class _PictureModel implements PictureModel {
   const factory _PictureModel(
       {required final String name,
-      required final String url}) = _$PictureModelImpl;
+      required final String url,
+      required final String id}) = _$PictureModelImpl;
 
   @override
   String get name;
   @override
   String get url;
+  @override
+  String get id;
   @override
   @JsonKey(ignore: true)
   _$$PictureModelImplCopyWith<_$PictureModelImpl> get copyWith =>

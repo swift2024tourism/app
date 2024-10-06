@@ -9,6 +9,7 @@ class Waypoint with _$Waypoint {
   const factory Waypoint({
     required GeoPoint geopoint,
     required List<PictureModel> pictures,
+    required String id,
   }) = _Waypoint;
 
   static Future<Waypoint> fromFirestore(
@@ -16,12 +17,17 @@ class Waypoint with _$Waypoint {
   ) async {
     final data = snapshot.data() as Map<String, dynamic>;
 
-    List<DocumentReference<Map<String, dynamic>>> picturesRef = List<DocumentReference<Map<String, dynamic>>>.from(data['pictures']);
+    List<DocumentReference<Map<String, dynamic>>> picturesRef =
+        List<DocumentReference<Map<String, dynamic>>>.from(data['pictures']);
 
-    List<PictureModel> pictures = await Future.wait(picturesRef.map((DocumentReference<Map<String, dynamic>> e) async {
+    List<PictureModel> pictures = await Future.wait(
+        picturesRef.map((DocumentReference<Map<String, dynamic>> e) async {
       return PictureModel.fromFirestore(await e.get());
     }));
 
-    return Waypoint(geopoint: data['geopoint'] as GeoPoint, pictures: pictures);
+    return Waypoint(
+        geopoint: data['geopoint'] as GeoPoint,
+        pictures: pictures,
+        id: snapshot.id);
   }
 }

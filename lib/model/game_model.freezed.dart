@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$GameModel {
   String get name => throw _privateConstructorUsedError;
   List<Waypoint> get waypoints => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $GameModelCopyWith<GameModel> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $GameModelCopyWith<$Res> {
   factory $GameModelCopyWith(GameModel value, $Res Function(GameModel) then) =
       _$GameModelCopyWithImpl<$Res, GameModel>;
   @useResult
-  $Res call({String name, List<Waypoint> waypoints});
+  $Res call({String name, List<Waypoint> waypoints, String id});
 }
 
 /// @nodoc
@@ -47,6 +48,7 @@ class _$GameModelCopyWithImpl<$Res, $Val extends GameModel>
   $Res call({
     Object? name = null,
     Object? waypoints = null,
+    Object? id = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -57,6 +59,10 @@ class _$GameModelCopyWithImpl<$Res, $Val extends GameModel>
           ? _value.waypoints
           : waypoints // ignore: cast_nullable_to_non_nullable
               as List<Waypoint>,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -69,7 +75,7 @@ abstract class _$$GameModelImplCopyWith<$Res>
       __$$GameModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, List<Waypoint> waypoints});
+  $Res call({String name, List<Waypoint> waypoints, String id});
 }
 
 /// @nodoc
@@ -85,6 +91,7 @@ class __$$GameModelImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? waypoints = null,
+    Object? id = null,
   }) {
     return _then(_$GameModelImpl(
       name: null == name
@@ -95,6 +102,10 @@ class __$$GameModelImplCopyWithImpl<$Res>
           ? _value._waypoints
           : waypoints // ignore: cast_nullable_to_non_nullable
               as List<Waypoint>,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -103,7 +114,9 @@ class __$$GameModelImplCopyWithImpl<$Res>
 
 class _$GameModelImpl implements _GameModel {
   const _$GameModelImpl(
-      {required this.name, required final List<Waypoint> waypoints})
+      {required this.name,
+      required final List<Waypoint> waypoints,
+      required this.id})
       : _waypoints = waypoints;
 
   @override
@@ -117,8 +130,11 @@ class _$GameModelImpl implements _GameModel {
   }
 
   @override
+  final String id;
+
+  @override
   String toString() {
-    return 'GameModel(name: $name, waypoints: $waypoints)';
+    return 'GameModel(name: $name, waypoints: $waypoints, id: $id)';
   }
 
   @override
@@ -128,12 +144,13 @@ class _$GameModelImpl implements _GameModel {
             other is _$GameModelImpl &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality()
-                .equals(other._waypoints, _waypoints));
+                .equals(other._waypoints, _waypoints) &&
+            (identical(other.id, id) || other.id == id));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, name, const DeepCollectionEquality().hash(_waypoints));
+      runtimeType, name, const DeepCollectionEquality().hash(_waypoints), id);
 
   @JsonKey(ignore: true)
   @override
@@ -145,12 +162,15 @@ class _$GameModelImpl implements _GameModel {
 abstract class _GameModel implements GameModel {
   const factory _GameModel(
       {required final String name,
-      required final List<Waypoint> waypoints}) = _$GameModelImpl;
+      required final List<Waypoint> waypoints,
+      required final String id}) = _$GameModelImpl;
 
   @override
   String get name;
   @override
   List<Waypoint> get waypoints;
+  @override
+  String get id;
   @override
   @JsonKey(ignore: true)
   _$$GameModelImplCopyWith<_$GameModelImpl> get copyWith =>
