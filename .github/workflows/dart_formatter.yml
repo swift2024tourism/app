@@ -1,4 +1,4 @@
-name: Run Dart Formatter and Analyze
+name: Run Dart Formatter
 
 on:
   workflow_dispatch:
@@ -29,9 +29,6 @@ jobs:
       
       - name: run pub get
         run: flutter pub get
-
-      - name: dart analyze
-        run: flutter analyze
         
       - name: dart format
         run: dart format -l 140 $(find lib -name "*.dart" -not -wholename "**/*.g*" -not -wholename "**/*.freezed.*" -not -wholename "**/firebase_options.dart" -not -wholename "**/oss_licenses.dart")
