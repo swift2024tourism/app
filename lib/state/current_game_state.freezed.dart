@@ -17,6 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$CurrentGameState {
   GameModel? get currentGame => throw _privateConstructorUsedError;
+  int get currentWaypointIndex => throw _privateConstructorUsedError;
+  int get currentPictureIndex => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CurrentGameStateCopyWith<CurrentGameState> get copyWith =>
@@ -29,7 +31,10 @@ abstract class $CurrentGameStateCopyWith<$Res> {
           CurrentGameState value, $Res Function(CurrentGameState) then) =
       _$CurrentGameStateCopyWithImpl<$Res, CurrentGameState>;
   @useResult
-  $Res call({GameModel? currentGame});
+  $Res call(
+      {GameModel? currentGame,
+      int currentWaypointIndex,
+      int currentPictureIndex});
 
   $GameModelCopyWith<$Res>? get currentGame;
 }
@@ -48,12 +53,22 @@ class _$CurrentGameStateCopyWithImpl<$Res, $Val extends CurrentGameState>
   @override
   $Res call({
     Object? currentGame = freezed,
+    Object? currentWaypointIndex = null,
+    Object? currentPictureIndex = null,
   }) {
     return _then(_value.copyWith(
       currentGame: freezed == currentGame
           ? _value.currentGame
           : currentGame // ignore: cast_nullable_to_non_nullable
               as GameModel?,
+      currentWaypointIndex: null == currentWaypointIndex
+          ? _value.currentWaypointIndex
+          : currentWaypointIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentPictureIndex: null == currentPictureIndex
+          ? _value.currentPictureIndex
+          : currentPictureIndex // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 
@@ -78,7 +93,10 @@ abstract class _$$CurrentGameStateImplCopyWith<$Res>
       __$$CurrentGameStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({GameModel? currentGame});
+  $Res call(
+      {GameModel? currentGame,
+      int currentWaypointIndex,
+      int currentPictureIndex});
 
   @override
   $GameModelCopyWith<$Res>? get currentGame;
@@ -96,27 +114,49 @@ class __$$CurrentGameStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? currentGame = freezed,
+    Object? currentWaypointIndex = null,
+    Object? currentPictureIndex = null,
   }) {
     return _then(_$CurrentGameStateImpl(
       currentGame: freezed == currentGame
           ? _value.currentGame
           : currentGame // ignore: cast_nullable_to_non_nullable
               as GameModel?,
+      currentWaypointIndex: null == currentWaypointIndex
+          ? _value.currentWaypointIndex
+          : currentWaypointIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentPictureIndex: null == currentPictureIndex
+          ? _value.currentPictureIndex
+          : currentPictureIndex // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
 
 /// @nodoc
 
-class _$CurrentGameStateImpl implements _CurrentGameState {
-  const _$CurrentGameStateImpl({this.currentGame});
+class _$CurrentGameStateImpl extends _CurrentGameState {
+  const _$CurrentGameStateImpl(
+      {this.currentGame,
+      this.currentWaypointIndex = 0,
+      this.currentPictureIndex = 0})
+      : assert(currentWaypointIndex >= 0),
+        assert(currentPictureIndex >= 0),
+        super._();
 
   @override
   final GameModel? currentGame;
+  @override
+  @JsonKey()
+  final int currentWaypointIndex;
+  @override
+  @JsonKey()
+  final int currentPictureIndex;
 
   @override
   String toString() {
-    return 'CurrentGameState(currentGame: $currentGame)';
+    return 'CurrentGameState(currentGame: $currentGame, currentWaypointIndex: $currentWaypointIndex, currentPictureIndex: $currentPictureIndex)';
   }
 
   @override
@@ -125,11 +165,16 @@ class _$CurrentGameStateImpl implements _CurrentGameState {
         (other.runtimeType == runtimeType &&
             other is _$CurrentGameStateImpl &&
             (identical(other.currentGame, currentGame) ||
-                other.currentGame == currentGame));
+                other.currentGame == currentGame) &&
+            (identical(other.currentWaypointIndex, currentWaypointIndex) ||
+                other.currentWaypointIndex == currentWaypointIndex) &&
+            (identical(other.currentPictureIndex, currentPictureIndex) ||
+                other.currentPictureIndex == currentPictureIndex));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, currentGame);
+  int get hashCode => Object.hash(
+      runtimeType, currentGame, currentWaypointIndex, currentPictureIndex);
 
   @JsonKey(ignore: true)
   @override
@@ -139,12 +184,19 @@ class _$CurrentGameStateImpl implements _CurrentGameState {
           this, _$identity);
 }
 
-abstract class _CurrentGameState implements CurrentGameState {
-  const factory _CurrentGameState({final GameModel? currentGame}) =
-      _$CurrentGameStateImpl;
+abstract class _CurrentGameState extends CurrentGameState {
+  const factory _CurrentGameState(
+      {final GameModel? currentGame,
+      final int currentWaypointIndex,
+      final int currentPictureIndex}) = _$CurrentGameStateImpl;
+  const _CurrentGameState._() : super._();
 
   @override
   GameModel? get currentGame;
+  @override
+  int get currentWaypointIndex;
+  @override
+  int get currentPictureIndex;
   @override
   @JsonKey(ignore: true)
   _$$CurrentGameStateImplCopyWith<_$CurrentGameStateImpl> get copyWith =>
