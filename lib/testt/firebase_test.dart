@@ -1,13 +1,13 @@
-import 'package:app/model/enums/difficulty_model.dart';
 import 'package:app/model/game_model.dart';
 import 'package:app/model/picture_model.dart';
-import 'package:app/repository/games_repository.dart';
 import 'package:app/view_model/current_game_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FirebaseTestView extends StatelessWidget {
+  const FirebaseTestView({super.key});
+
   @override
   Widget build(BuildContext context) {
     debugPrint("build firebasetestview");

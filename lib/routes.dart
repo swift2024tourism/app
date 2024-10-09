@@ -13,7 +13,8 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/test/firebase',
-      pageBuilder: (context, state) => MaterialPage(child: FirebaseTestView()),
+      pageBuilder: (context, state) =>
+          const MaterialPage(child: FirebaseTestView()),
     ),
     GoRoute(
         path: '/game',
@@ -21,7 +22,7 @@ final router = GoRouter(
     GoRoute(
         path: '/game/result',
         pageBuilder: (context, state) {
-          return MaterialPage(child: GameResult());
+          return const MaterialPage(child: GameResult());
         })
   ],
 );
