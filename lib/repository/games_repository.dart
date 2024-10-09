@@ -19,8 +19,10 @@ IGamesRepository gamesRepository(ref) {
 //Rawで囲うと勝手にAsyncValueにならない
 //ref: https://riverpod.dev/docs/essentials/websockets_sync
 @Riverpod(keepAlive: true)
-Raw<Future<List<GameModel>>> getGamesByDifficulty(GetGamesByDifficultyRef ref, Difficulty difficulty) async {
-  List<GameModel> games = await ref.read(gamesRepositoryProvider).getGamesByDifficulty(difficulty);
+Raw<Future<List<GameModel>>> getGamesByDifficulty(
+    GetGamesByDifficultyRef ref, Difficulty difficulty) async {
+  List<GameModel> games =
+      await ref.read(gamesRepositoryProvider).getGamesByDifficulty(difficulty);
   return games;
 }
 
@@ -31,9 +33,13 @@ class GamesRepository extends IGamesRepository {
   @override
   Future<List<GameModel>> getAllGames() async {
     List<GameModel> games = [];
-    games = await gamesCollectionRef.get().then((QuerySnapshot<Object?> snapshot) async {
-      return games = await Future.wait(snapshot.docs.map((QueryDocumentSnapshot<Object?> documentSnapshot) async {
-        return await GameModel.fromFirestore(documentSnapshot as DocumentSnapshot<Map<String, dynamic>>);
+    games = await gamesCollectionRef
+        .get()
+        .then((QuerySnapshot<Object?> snapshot) async {
+      return games = await Future.wait(snapshot.docs
+          .map((QueryDocumentSnapshot<Object?> documentSnapshot) async {
+        return await GameModel.fromFirestore(
+            documentSnapshot as DocumentSnapshot<Map<String, dynamic>>);
       }));
     });
 
@@ -45,9 +51,14 @@ class GamesRepository extends IGamesRepository {
     List<GameModel> games = [];
 
     debugPrint("difficulty: ${difficulty.name}");
-    games = await gamesCollectionRef.where("difficulty", isEqualTo: difficulty.name).get().then((QuerySnapshot<Object?> snapshot) async {
-      games = await Future.wait(snapshot.docs.map((QueryDocumentSnapshot<Object?> documentSnapshot) async {
-        return await GameModel.fromFirestore(documentSnapshot as DocumentSnapshot<Map<String, dynamic>>);
+    games = await gamesCollectionRef
+        .where("difficulty", isEqualTo: difficulty.name)
+        .get()
+        .then((QuerySnapshot<Object?> snapshot) async {
+      games = await Future.wait(snapshot.docs
+          .map((QueryDocumentSnapshot<Object?> documentSnapshot) async {
+        return await GameModel.fromFirestore(
+            documentSnapshot as DocumentSnapshot<Map<String, dynamic>>);
       }));
       return games;
     });

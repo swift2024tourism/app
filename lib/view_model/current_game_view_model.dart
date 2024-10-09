@@ -9,7 +9,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'current_game_view_model.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class CurrentGameViewModel extends _$CurrentGameViewModel {
   @override
   Future<CurrentGameState> build() async {
@@ -18,11 +18,13 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
     );
   }
 
-  Future<void> initGame(Difficulty difficulty, BuildContext? context) async {
+  Future<void> initGame(Difficulty difficulty) async {
     state = const AsyncLoading();
+
     final games = await ref.read(getGamesByDifficultyProvider(difficulty));
 
     final monoGame = getMonoGame(games);
+    debugPrint("now start game: ${monoGame.name}");
 
     state = AsyncData(CurrentGameState(currentGame: monoGame));
   }
@@ -31,5 +33,41 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   GameModel getMonoGame(List<GameModel> games) {
     final randomIndex = Random().nextInt(games.length);
     return games[randomIndex];
+  }
+
+  void nextWaypoint() {
+    state.whenData((CurrentGameState value) {
+      if (value.isWaypointIndexIncrementable()) {
+        state = AsyncData(value.copyWith(
+            currentWaypointIndex: value.currentWaypointIndex + 1));
+      }
+    });
+  }
+
+  void previousWaypoint() {
+    state.whenData((CurrentGameState value) {
+      if (value.isWaypointIndexDecrementable()) {
+        state = AsyncData(value.copyWith(
+            currentWaypointIndex: value.currentWaypointIndex - 1));
+      }
+    });
+  }
+
+  void nextPicture() {
+    state.whenData((CurrentGameState value) {
+      if (value.isPictureIndexIncrementable()) {
+        state = AsyncData(
+            value.copyWith(currentPictureIndex: value.currentPictureIndex + 1));
+      }
+    });
+  }
+
+  void previousPicture() {
+    state.whenData((CurrentGameState value) {
+      if (value.isPictureIndexDecrementable()) {
+        state = AsyncData(
+            value.copyWith(currentPictureIndex: value.currentPictureIndex - 1));
+      }
+    });
   }
 }

@@ -7,12 +7,12 @@ part of 'current_game_view_model.dart';
 // **************************************************************************
 
 String _$currentGameViewModelHash() =>
-    r'fd382bc0f2fa55d2c6555691d7d14a6cd1085d7a';
+    r'6abdc3d6691fb51e9ef3509dfc4319a69b3b0cd3';
 
 /// See also [CurrentGameViewModel].
 @ProviderFor(CurrentGameViewModel)
-final currentGameViewModelProvider = AutoDisposeAsyncNotifierProvider<
-    CurrentGameViewModel, CurrentGameState>.internal(
+final currentGameViewModelProvider =
+    AsyncNotifierProvider<CurrentGameViewModel, CurrentGameState>.internal(
   CurrentGameViewModel.new,
   name: r'currentGameViewModelProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final currentGameViewModelProvider = AutoDisposeAsyncNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$CurrentGameViewModel = AutoDisposeAsyncNotifier<CurrentGameState>;
+typedef _$CurrentGameViewModel = AsyncNotifier<CurrentGameState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

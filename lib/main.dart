@@ -1,8 +1,5 @@
 import 'package:app/firebase_options.dart';
-import 'package:app/model/game_model.dart';
-import 'package:app/repository/games_repository.dart';
-import 'package:app/testt/firebase_test.dart';
-import 'package:app/view/splash.dart';
+import 'package:app/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const ProviderScope(child: Splash()));
+  runApp(const ProviderScope(child: MyApp()));
   //takuto
 }
 
@@ -19,13 +16,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: FirebaseTestView(),
+      routerConfig: router,
     );
   }
 }
