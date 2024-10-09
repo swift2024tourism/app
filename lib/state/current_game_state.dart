@@ -1,4 +1,6 @@
 import 'package:app/model/game_model.dart';
+import 'package:app/model/game_result_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'current_game_state.freezed.dart';
@@ -9,8 +11,10 @@ class CurrentGameState with _$CurrentGameState {
   @Assert('currentPictureIndex >= 0')
   const factory CurrentGameState({
     GameModel? currentGame,
+    GeoPoint? currentLocation,
     @Default(0) int currentWaypointIndex,
     @Default(0) int currentPictureIndex,
+    GameResultModel? gameResult,
   }) = _CurrentGameState;
 
   // クラスメソッドのため
@@ -22,8 +26,7 @@ class CurrentGameState with _$CurrentGameState {
   }
 
   bool isPictureIndexIncrementable() {
-    return currentPictureIndex <
-        currentGame!.waypoints[currentWaypointIndex].pictures.length - 1;
+    return currentPictureIndex < currentGame!.waypoints[currentWaypointIndex].pictures.length - 1;
   }
 
   bool isWaypointIndexDecrementable() {

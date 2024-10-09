@@ -29,6 +29,12 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
     state = AsyncData(CurrentGameState(currentGame: monoGame));
   }
 
+  Future<void> finishGame() async {
+    state.whenData((CurrentGameState data) {
+      debugPrint("finish game: ${data.currentGame!.name}");
+    });
+  }
+
   /// Get a random game from the list of games
   GameModel getMonoGame(List<GameModel> games) {
     final randomIndex = Random().nextInt(games.length);
@@ -38,8 +44,7 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   void nextWaypoint() {
     state.whenData((CurrentGameState value) {
       if (value.isWaypointIndexIncrementable()) {
-        state = AsyncData(value.copyWith(
-            currentWaypointIndex: value.currentWaypointIndex + 1));
+        state = AsyncData(value.copyWith(currentWaypointIndex: value.currentWaypointIndex + 1));
       }
     });
   }
@@ -47,8 +52,7 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   void previousWaypoint() {
     state.whenData((CurrentGameState value) {
       if (value.isWaypointIndexDecrementable()) {
-        state = AsyncData(value.copyWith(
-            currentWaypointIndex: value.currentWaypointIndex - 1));
+        state = AsyncData(value.copyWith(currentWaypointIndex: value.currentWaypointIndex - 1));
       }
     });
   }
@@ -56,8 +60,7 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   void nextPicture() {
     state.whenData((CurrentGameState value) {
       if (value.isPictureIndexIncrementable()) {
-        state = AsyncData(
-            value.copyWith(currentPictureIndex: value.currentPictureIndex + 1));
+        state = AsyncData(value.copyWith(currentPictureIndex: value.currentPictureIndex + 1));
       }
     });
   }
@@ -65,8 +68,7 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   void previousPicture() {
     state.whenData((CurrentGameState value) {
       if (value.isPictureIndexDecrementable()) {
-        state = AsyncData(
-            value.copyWith(currentPictureIndex: value.currentPictureIndex - 1));
+        state = AsyncData(value.copyWith(currentPictureIndex: value.currentPictureIndex - 1));
       }
     });
   }
