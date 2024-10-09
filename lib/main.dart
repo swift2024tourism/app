@@ -1,4 +1,3 @@
-import 'package:app/nannido.dart';
 import 'package:app/tyuuigaki.dart';
 import 'package:flutter/material.dart';
 
