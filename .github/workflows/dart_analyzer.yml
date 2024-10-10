@@ -1,7 +1,6 @@
 name: Run Dart Analyze
 
 on:
-  workflow_dispatch:
   pull_request:
     branches:
       - main
