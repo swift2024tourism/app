@@ -14,7 +14,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'current_game_view_model.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class CurrentGameViewModel extends _$CurrentGameViewModel {
   @override
   Future<CurrentGameState> build() async {
@@ -53,7 +53,6 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
 
           // ユーザーのgps
           // #TODO パーミッションがなかった時の処理を作る
-          debugPrint("権限周り：${permission}");
           if (await Permission.location.request().isGranted ||
               permission == LocationPermission.whileInUse ||
               permission == LocationPermission.always) {

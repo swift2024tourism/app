@@ -1,3 +1,4 @@
+import 'package:app/testt/difficulty_mock_view.dart';
 import 'package:app/testt/firebase_test.dart';
 import 'package:app/view/game.dart';
 import 'package:app/view/game_result.dart';
@@ -23,6 +24,11 @@ final router = GoRouter(
         path: '/game/result',
         pageBuilder: (context, state) {
           return MaterialPage(child: GameResult());
+        }),
+    GoRoute(
+        path: '/difficulty',
+        pageBuilder: (context, state) {
+          return MaterialPage(child: DifficultyMockView());
         })
   ],
 );

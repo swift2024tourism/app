@@ -21,7 +21,10 @@ class Game extends StatelessWidget {
                   return Column(
                     children: [
                       Text(currentGame.name),
-                      Image.network(currentGame.waypoints[state.currentWaypointIndex].pictures[state.currentPictureIndex].url)
+                      Image.network(currentGame
+                          .waypoints[state.currentWaypointIndex]
+                          .pictures[state.currentPictureIndex]
+                          .url)
                     ],
                   );
                 }),
@@ -33,12 +36,14 @@ class Game extends StatelessWidget {
                   TextButton(
                     child: const Text("決定"),
                     onPressed: () async {
-                      bool isSuc = await ref.read(currentGameViewModelProvider.notifier).finishGame();
+                      bool isSuc = await ref
+                          .watch(currentGameViewModelProvider.notifier)
+                          .finishGame();
                       debugPrint("isSuc");
                       debugPrint(isSuc.toString());
                       if (context.mounted) {
                         if (isSuc) {
-                          context.go('/game/result');
+                          context.push('/game/result');
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -54,7 +59,9 @@ class Game extends StatelessWidget {
                     children: [
                       IconButton(
                           onPressed: () {
-                            ref.read(currentGameViewModelProvider.notifier).previousPicture();
+                            ref
+                                .read(currentGameViewModelProvider.notifier)
+                                .previousPicture();
                           },
                           icon: const Icon(
                             Icons.arrow_back,
@@ -65,7 +72,9 @@ class Game extends StatelessWidget {
                       ),
                       IconButton(
                           onPressed: () {
-                            ref.read(currentGameViewModelProvider.notifier).nextPicture();
+                            ref
+                                .read(currentGameViewModelProvider.notifier)
+                                .nextPicture();
                           },
                           icon: const Icon(
                             Icons.arrow_forward,

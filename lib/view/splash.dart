@@ -13,7 +13,8 @@ class Splash extends ConsumerWidget {
         future: _init(ref),
         builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.go('/game'));
+            WidgetsBinding.instance
+                .addPostFrameCallback((timeStamp) => context.go('/difficulty'));
             return const SizedBox.shrink();
           } else {
             return const Scaffold(
@@ -27,7 +28,6 @@ class Splash extends ConsumerWidget {
 
   Future<void> _init(WidgetRef ref) async {
     await Future.delayed(const Duration(seconds: 1));
-    await ref.read(currentGameViewModelProvider.notifier).initGame(Difficulty.medium);
     debugPrint("init done");
   }
 }
