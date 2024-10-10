@@ -1,4 +1,5 @@
 import 'package:app/model/enums/difficulty_model.dart';
+import 'package:app/repository/games_repository.dart';
 import 'package:app/view_model/current_game_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,15 +13,30 @@ class DifficultyMockView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Consumer(builder: (context, ref, _) {
-        return TextButton(
-          child: const Text("難易度：中"),
-          onPressed: () async {
-            await ref
-                .watch(currentGameViewModelProvider.notifier)
-                .initGame(Difficulty.medium);
-            WidgetsBinding.instance
-                .addPostFrameCallback((timeStamp) => context.push('/game'));
-          },
+        return Column(
+          children: [
+            TextButton(
+              child: const Text("難易度：優しい"),
+              onPressed: () async {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.push('/game/select/easy'));
+              },
+            ),
+            TextButton(
+              child: const Text("難易度：中"),
+              onPressed: () async {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.push('/game/select/medium'));
+              },
+            ),
+            TextButton(
+              child: const Text("難易度：難しい"),
+              onPressed: () async {
+                // ignore: unused_result
+                await ref.refresh(getGamesByDifficultyProvider(Difficulty.hard));
+                await ref.watch(currentGameViewModelProvider.notifier).initGame(Difficulty.hard, null);
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.push('/game'));
+              },
+            ),
+          ],
         );
       }),
     );

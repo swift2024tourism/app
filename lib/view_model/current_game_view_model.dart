@@ -22,15 +22,21 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
     );
   }
 
-  Future<void> initGame(Difficulty difficulty) async {
+  Future<void> initGame(Difficulty difficulty, int? gameIndex) async {
     state = const AsyncLoading();
 
     final games = await ref.read(getGamesByDifficultyProvider(difficulty));
 
-    final monoGame = getMonoGame(games);
-    debugPrint("now start game: ${monoGame.name}");
+    GameModel game;
 
-    state = AsyncData(CurrentGameState(currentGame: monoGame));
+    if (gameIndex == null) {
+      game = getMonoGame(games);
+    } else {
+      game = games[gameIndex];
+    }
+    debugPrint("now start game: ${game.name}");
+
+    state = AsyncData(CurrentGameState(currentGame: game, difficulty: difficulty));
   }
 
   // 確定ボタンを押された時の処理

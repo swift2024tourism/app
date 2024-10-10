@@ -1,3 +1,4 @@
+import 'package:app/model/enums/difficulty_model.dart';
 import 'package:app/model/game/game_model.dart';
 import 'package:app/view_model/current_game_view_model.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class Game extends StatelessWidget {
                   GameModel currentGame = state.currentGame!;
                   return Column(
                     children: [
-                      Text(currentGame.name),
+                      if (state.difficulty != Difficulty.hard) Text(currentGame.name),
                       Image.network(currentGame.waypoints[state.currentWaypointIndex].pictures[state.currentPictureIndex].url)
                     ],
                   );

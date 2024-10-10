@@ -1,3 +1,4 @@
+import 'package:app/model/enums/difficulty_model.dart';
 import 'package:app/model/game/game_model.dart';
 import 'package:app/model/game_result/game_result_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,6 +11,7 @@ class CurrentGameState with _$CurrentGameState {
   @Assert('currentWaypointIndex >= 0')
   @Assert('currentPictureIndex >= 0')
   const factory CurrentGameState({
+    @Default(Difficulty.easy) Difficulty difficulty,
     GameModel? currentGame,
     GeoPoint? currentLocation,
     @Default(0) int currentWaypointIndex,

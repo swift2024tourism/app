@@ -22,7 +22,7 @@ final gamesRepositoryProvider = AutoDisposeProvider<IGamesRepository>.internal(
 
 typedef GamesRepositoryRef = AutoDisposeProviderRef<IGamesRepository>;
 String _$getGamesByDifficultyHash() =>
-    r'23d5e96ef3c5a154793df312d116e94f5375f879';
+    r'95804a9cae999f3452a045e2f077d783434ef314';
 
 /// Copied from Dart SDK
 class _SystemHash {

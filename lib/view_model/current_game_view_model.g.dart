@@ -7,7 +7,7 @@ part of 'current_game_view_model.dart';
 // **************************************************************************
 
 String _$currentGameViewModelHash() =>
-    r'3fc46886264851b8683271744127caf0d97b3c28';
+    r'db164d292284127b288b71aa309383d1b584313f';
 
 /// See also [CurrentGameViewModel].
 @ProviderFor(CurrentGameViewModel)
