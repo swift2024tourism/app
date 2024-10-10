@@ -15,11 +15,8 @@ class DifficultyMockView extends StatelessWidget {
         return TextButton(
           child: const Text("難易度：中"),
           onPressed: () async {
-            await ref
-                .watch(currentGameViewModelProvider.notifier)
-                .initGame(Difficulty.medium);
-            WidgetsBinding.instance
-                .addPostFrameCallback((timeStamp) => context.push('/game'));
+            await ref.watch(currentGameViewModelProvider.notifier).initGame(Difficulty.medium);
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.push('/game'));
           },
         );
       }),
