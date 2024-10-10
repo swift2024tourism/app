@@ -23,8 +23,29 @@ IGamesRepository gamesRepository(ref) {
 //ref: https://riverpod.dev/docs/essentials/websockets_sync
 @Riverpod(keepAlive: true)
 Raw<Future<List<GameModel>>> getGamesByDifficulty(GetGamesByDifficultyRef ref, Difficulty difficulty) async {
-  List<GameModel> games = await ref.read(gamesRepositoryProvider).getGamesByDifficulty(difficulty);
-  return games;
+  switch (difficulty) {
+    case Difficulty.easy:
+      return await ref.read(gamesRepositoryProvider).getGamesByDifficulty(difficulty);
+    case Difficulty.medium:
+      List<GameModel> games = await ref.read(gamesRepositoryProvider).getGamesByDifficulty(difficulty);
+      games.map<GameModel>((value) {
+        value.waypoints.shuffle();
+        return value;
+      });
+      return games;
+    case Difficulty.hard:
+      List<GameModel> games = await ref.read(gamesRepositoryProvider).getAllGames();
+      GameModel? game;
+      games.map((value) {
+        if (game == null) {
+          game = value;
+        } else {
+          game!.waypoints.addAll(value.waypoints);
+        }
+      });
+      game!.waypoints.shuffle();
+      return [game!];
+  }
 }
 
 class GamesRepository extends IGamesRepository {
