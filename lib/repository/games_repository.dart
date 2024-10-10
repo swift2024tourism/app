@@ -11,9 +11,13 @@ abstract class IGamesRepository {
   Future<List<GameModel>> getGamesByDifficulty(Difficulty difficulty);
 }
 
+// for development use games_test
+const gamesCollection = "games_test";
+
 @riverpod
 IGamesRepository gamesRepository(ref) {
-  return GamesRepository(FirebaseFirestore.instance.collection("games"));
+  return GamesRepository(
+      FirebaseFirestore.instance.collection(gamesCollection));
 }
 
 //Rawで囲うと勝手にAsyncValueにならない

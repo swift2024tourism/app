@@ -22,7 +22,7 @@ final router = GoRouter(
     GoRoute(
         path: '/game/result',
         pageBuilder: (context, state) {
-          return const MaterialPage(child: GameResult());
+          return MaterialPage(child: GameResult());
         })
   ],
 );
