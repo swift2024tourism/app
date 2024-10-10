@@ -51,7 +51,7 @@ Raw<Future<List<GameModel>>> getGamesByDifficulty(GetGamesByDifficultyRef ref, D
       List<Waypoint> shuffledWaypoints = List.from(game!.waypoints)..shuffle();
       game = game.copyWith(waypoints: shuffledWaypoints);
 
-      return [game!];
+      return [game];
   }
 }
 

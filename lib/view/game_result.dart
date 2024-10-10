@@ -13,10 +13,10 @@ class GameResult extends StatelessWidget {
       appBar: AppBar(),
       body: Column(
         children: [
-          GameResultTop(),
+          const GameResultTop(),
           Consumer(builder: (context, ref, _) {
             return TextButton(
-              child: Text("次へ"),
+              child: const Text("次へ"),
               onPressed: () async {
                 bool isLast = !ref.read(currentGameViewModelProvider.notifier).nextWaypoint();
                 if (isLast) {
