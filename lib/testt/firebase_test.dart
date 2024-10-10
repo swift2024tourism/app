@@ -1,5 +1,5 @@
-import 'package:app/model/game_model.dart';
-import 'package:app/model/picture_model.dart';
+import 'package:app/model/game/game_model.dart';
+import 'package:app/model/picture/picture_model.dart';
 import 'package:app/view_model/current_game_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
