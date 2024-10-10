@@ -1,4 +1,4 @@
-import 'package:app/model/game_model.dart';
+import 'package:app/model/game/game_model.dart';
 import 'package:app/view_model/current_game_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,10 +21,7 @@ class Game extends StatelessWidget {
                   return Column(
                     children: [
                       Text(currentGame.name),
-                      Image.network(currentGame
-                          .waypoints[state.currentWaypointIndex]
-                          .pictures[state.currentPictureIndex]
-                          .url)
+                      Image.network(currentGame.waypoints[state.currentWaypointIndex].pictures[state.currentPictureIndex].url)
                     ],
                   );
                 }),
@@ -36,9 +33,7 @@ class Game extends StatelessWidget {
                   TextButton(
                     child: const Text("決定"),
                     onPressed: () async {
-                      bool isSuc = await ref
-                          .watch(currentGameViewModelProvider.notifier)
-                          .finishGame();
+                      bool isSuc = await ref.watch(currentGameViewModelProvider.notifier).finishGame();
                       debugPrint("isSuc");
                       debugPrint(isSuc.toString());
                       if (context.mounted) {
@@ -59,9 +54,7 @@ class Game extends StatelessWidget {
                     children: [
                       IconButton(
                           onPressed: () {
-                            ref
-                                .read(currentGameViewModelProvider.notifier)
-                                .previousPicture();
+                            ref.read(currentGameViewModelProvider.notifier).previousPicture();
                           },
                           icon: const Icon(
                             Icons.arrow_back,
@@ -72,9 +65,7 @@ class Game extends StatelessWidget {
                       ),
                       IconButton(
                           onPressed: () {
-                            ref
-                                .read(currentGameViewModelProvider.notifier)
-                                .nextPicture();
+                            ref.read(currentGameViewModelProvider.notifier).nextPicture();
                           },
                           icon: const Icon(
                             Icons.arrow_forward,
