@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$Waypoint {
   GeoPoint get geopoint => throw _privateConstructorUsedError;
   List<PictureModel> get pictures => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WaypointCopyWith<Waypoint> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $WaypointCopyWith<$Res> {
   factory $WaypointCopyWith(Waypoint value, $Res Function(Waypoint) then) =
       _$WaypointCopyWithImpl<$Res, Waypoint>;
   @useResult
-  $Res call({GeoPoint geopoint, List<PictureModel> pictures});
+  $Res call({GeoPoint geopoint, List<PictureModel> pictures, String id});
 }
 
 /// @nodoc
@@ -47,6 +48,7 @@ class _$WaypointCopyWithImpl<$Res, $Val extends Waypoint>
   $Res call({
     Object? geopoint = null,
     Object? pictures = null,
+    Object? id = null,
   }) {
     return _then(_value.copyWith(
       geopoint: null == geopoint
@@ -57,6 +59,10 @@ class _$WaypointCopyWithImpl<$Res, $Val extends Waypoint>
           ? _value.pictures
           : pictures // ignore: cast_nullable_to_non_nullable
               as List<PictureModel>,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -69,7 +75,7 @@ abstract class _$$WaypointImplCopyWith<$Res>
       __$$WaypointImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({GeoPoint geopoint, List<PictureModel> pictures});
+  $Res call({GeoPoint geopoint, List<PictureModel> pictures, String id});
 }
 
 /// @nodoc
@@ -85,6 +91,7 @@ class __$$WaypointImplCopyWithImpl<$Res>
   $Res call({
     Object? geopoint = null,
     Object? pictures = null,
+    Object? id = null,
   }) {
     return _then(_$WaypointImpl(
       geopoint: null == geopoint
@@ -95,6 +102,10 @@ class __$$WaypointImplCopyWithImpl<$Res>
           ? _value._pictures
           : pictures // ignore: cast_nullable_to_non_nullable
               as List<PictureModel>,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -103,7 +114,9 @@ class __$$WaypointImplCopyWithImpl<$Res>
 
 class _$WaypointImpl implements _Waypoint {
   const _$WaypointImpl(
-      {required this.geopoint, required final List<PictureModel> pictures})
+      {required this.geopoint,
+      required final List<PictureModel> pictures,
+      required this.id})
       : _pictures = pictures;
 
   @override
@@ -117,8 +130,11 @@ class _$WaypointImpl implements _Waypoint {
   }
 
   @override
+  final String id;
+
+  @override
   String toString() {
-    return 'Waypoint(geopoint: $geopoint, pictures: $pictures)';
+    return 'Waypoint(geopoint: $geopoint, pictures: $pictures, id: $id)';
   }
 
   @override
@@ -128,12 +144,13 @@ class _$WaypointImpl implements _Waypoint {
             other is _$WaypointImpl &&
             (identical(other.geopoint, geopoint) ||
                 other.geopoint == geopoint) &&
-            const DeepCollectionEquality().equals(other._pictures, _pictures));
+            const DeepCollectionEquality().equals(other._pictures, _pictures) &&
+            (identical(other.id, id) || other.id == id));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, geopoint, const DeepCollectionEquality().hash(_pictures));
+  int get hashCode => Object.hash(runtimeType, geopoint,
+      const DeepCollectionEquality().hash(_pictures), id);
 
   @JsonKey(ignore: true)
   @override
@@ -145,12 +162,15 @@ class _$WaypointImpl implements _Waypoint {
 abstract class _Waypoint implements Waypoint {
   const factory _Waypoint(
       {required final GeoPoint geopoint,
-      required final List<PictureModel> pictures}) = _$WaypointImpl;
+      required final List<PictureModel> pictures,
+      required final String id}) = _$WaypointImpl;
 
   @override
   GeoPoint get geopoint;
   @override
   List<PictureModel> get pictures;
+  @override
+  String get id;
   @override
   @JsonKey(ignore: true)
   _$$WaypointImplCopyWith<_$WaypointImpl> get copyWith =>

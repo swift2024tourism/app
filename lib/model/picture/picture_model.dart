@@ -8,6 +8,7 @@ class PictureModel with _$PictureModel {
   const factory PictureModel({
     required String name,
     required String url,
+    required String id,
   }) = _PictureModel;
 
   factory PictureModel.fromFirestore(DocumentSnapshot snapshot) {
@@ -15,6 +16,7 @@ class PictureModel with _$PictureModel {
     return PictureModel(
       name: data['name'] as String,
       url: data['url'] as String,
+      id: snapshot.id,
     );
   }
 }

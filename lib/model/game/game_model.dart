@@ -1,4 +1,4 @@
-import 'package:app/model/waypoint.dart';
+import 'package:app/model/waypoint/waypoint.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -9,6 +9,7 @@ class GameModel with _$GameModel {
   const factory GameModel({
     required String name,
     required List<Waypoint> waypoints,
+    required String id,
   }) = _GameModel;
 
   static Future<GameModel> fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot) async {
@@ -22,6 +23,6 @@ class GameModel with _$GameModel {
       waypoints.add(await Waypoint.fromFirestore(value));
     }
 
-    return GameModel(name: data['name'] as String, waypoints: waypoints);
+    return GameModel(name: data['name'] as String, waypoints: waypoints, id: snapshot.id);
   }
 }

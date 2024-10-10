@@ -1,4 +1,4 @@
-import 'package:app/model/picture_model.dart';
+import 'package:app/model/picture/picture_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -9,6 +9,7 @@ class Waypoint with _$Waypoint {
   const factory Waypoint({
     required GeoPoint geopoint,
     required List<PictureModel> pictures,
+    required String id,
   }) = _Waypoint;
 
   static Future<Waypoint> fromFirestore(
@@ -22,6 +23,6 @@ class Waypoint with _$Waypoint {
       return PictureModel.fromFirestore(await e.get());
     }));
 
-    return Waypoint(geopoint: data['geopoint'] as GeoPoint, pictures: pictures);
+    return Waypoint(geopoint: data['geopoint'] as GeoPoint, pictures: pictures, id: snapshot.id);
   }
 }
