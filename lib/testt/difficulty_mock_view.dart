@@ -16,19 +16,19 @@ class DifficultyMockView extends StatelessWidget {
         return Column(
           children: [
             TextButton(
-              child: const Text("難易度：優しい"),
+              child: const Text("難易度：初級"),
               onPressed: () async {
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.push('/game/select/easy'));
               },
             ),
             TextButton(
-              child: const Text("難易度：中"),
+              child: const Text("難易度：中級"),
               onPressed: () async {
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.push('/game/select/medium'));
               },
             ),
             TextButton(
-              child: const Text("難易度：難しい"),
+              child: const Text("難易度：上級"),
               onPressed: () async {
                 // ignore: unused_result
                 await ref.refresh(getGamesByDifficultyProvider(Difficulty.hard));
