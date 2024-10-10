@@ -1,5 +1,5 @@
-import 'package:app/model/game_model.dart';
-import 'package:app/model/game_result_model.dart';
+import 'package:app/model/game/game_model.dart';
+import 'package:app/model/game_result/game_result_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

@@ -1,4 +1,4 @@
-import 'package:app/model/picture_model.dart';
+import 'package:app/model/picture/picture_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -17,17 +17,12 @@ class Waypoint with _$Waypoint {
   ) async {
     final data = snapshot.data() as Map<String, dynamic>;
 
-    List<DocumentReference<Map<String, dynamic>>> picturesRef =
-        List<DocumentReference<Map<String, dynamic>>>.from(data['pictures']);
+    List<DocumentReference<Map<String, dynamic>>> picturesRef = List<DocumentReference<Map<String, dynamic>>>.from(data['pictures']);
 
-    List<PictureModel> pictures = await Future.wait(
-        picturesRef.map((DocumentReference<Map<String, dynamic>> e) async {
+    List<PictureModel> pictures = await Future.wait(picturesRef.map((DocumentReference<Map<String, dynamic>> e) async {
       return PictureModel.fromFirestore(await e.get());
     }));
 
-    return Waypoint(
-        geopoint: data['geopoint'] as GeoPoint,
-        pictures: pictures,
-        id: snapshot.id);
+    return Waypoint(geopoint: data['geopoint'] as GeoPoint, pictures: pictures, id: snapshot.id);
   }
 }

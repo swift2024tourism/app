@@ -1,5 +1,3 @@
-import 'package:app/model/enums/difficulty_model.dart';
-import 'package:app/view_model/current_game_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -13,8 +11,7 @@ class Splash extends ConsumerWidget {
         future: _init(ref),
         builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            WidgetsBinding.instance
-                .addPostFrameCallback((timeStamp) => context.go('/difficulty'));
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.go('/difficulty'));
             return const SizedBox.shrink();
           } else {
             return const Scaffold(

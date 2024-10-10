@@ -14,21 +14,18 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/test/firebase',
-      pageBuilder: (context, state) =>
-          const MaterialPage(child: FirebaseTestView()),
+      pageBuilder: (context, state) => const MaterialPage(child: FirebaseTestView()),
     ),
-    GoRoute(
-        path: '/game',
-        pageBuilder: (context, state) => const MaterialPage(child: Game())),
+    GoRoute(path: '/game', pageBuilder: (context, state) => const MaterialPage(child: Game())),
     GoRoute(
         path: '/game/result',
         pageBuilder: (context, state) {
-          return MaterialPage(child: GameResult());
+          return const MaterialPage(child: GameResult());
         }),
     GoRoute(
         path: '/difficulty',
         pageBuilder: (context, state) {
-          return MaterialPage(child: DifficultyMockView());
+          return const MaterialPage(child: DifficultyMockView());
         })
   ],
 );

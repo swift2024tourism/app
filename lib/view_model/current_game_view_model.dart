@@ -1,11 +1,10 @@
 import 'dart:math';
 
 import 'package:app/model/enums/difficulty_model.dart';
-import 'package:app/model/game_model.dart';
-import 'package:app/model/game_result_model.dart';
+import 'package:app/model/game/game_model.dart';
+import 'package:app/model/game_result/game_result_model.dart';
 import 'package:app/repository/games_repository.dart';
 import 'package:app/state/current_game_state.dart';
-import 'package:app/view/game_result.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -37,7 +36,6 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   // 確定ボタンを押された時の処理
   /// if error return false
   Future<bool> finishGame() async {
-    bool success = false;
     return state.maybeWhen(
         data: (CurrentGameState data) async {
           debugPrint("finish game: ${data.currentGame!.name}");
@@ -46,8 +44,7 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
           ].request();
           var permission = await Geolocator.requestPermission();
 
-          if (permission == LocationPermission.denied &&
-              PermissionStatus.granted != statuses[Permission.location]) {
+          if (permission == LocationPermission.denied && PermissionStatus.granted != statuses[Permission.location]) {
             return false;
           }
 
@@ -60,19 +57,16 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
             debugPrint("current: ${current.latitude}, ${current.longitude}");
 
             // 目的地のgps
-            GeoPoint target =
-                data.currentGame!.waypoints[data.currentWaypointIndex].geopoint;
+            GeoPoint target = data.currentGame!.waypoints[data.currentWaypointIndex].geopoint;
             // 現在地と目的地の間の距離
-            double distance = Geolocator.distanceBetween(current.latitude,
-                current.longitude, target.latitude, target.longitude);
+            double distance = Geolocator.distanceBetween(current.latitude, current.longitude, target.latitude, target.longitude);
+
             // #TODO スコア計算 score変数に代入しといてください
             int score = 100;
             state = AsyncData(data.copyWith(
                 currentLocation: GeoPoint(current.latitude, current.longitude),
-                gameResult: GameResultModel(
-                    score: score, meterDistanceFromAnswer: distance.toInt())));
+                gameResult: GameResultModel(score: score, meterDistanceFromAnswer: distance.toInt())));
             return true;
-            debugPrint(success.toString());
           } else {
             return false;
           }
@@ -89,8 +83,7 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   void nextWaypoint() {
     state.whenData((CurrentGameState value) {
       if (value.isWaypointIndexIncrementable()) {
-        state = AsyncData(value.copyWith(
-            currentWaypointIndex: value.currentWaypointIndex + 1));
+        state = AsyncData(value.copyWith(currentWaypointIndex: value.currentWaypointIndex + 1));
       }
     });
   }
@@ -98,8 +91,7 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   void previousWaypoint() {
     state.whenData((CurrentGameState value) {
       if (value.isWaypointIndexDecrementable()) {
-        state = AsyncData(value.copyWith(
-            currentWaypointIndex: value.currentWaypointIndex - 1));
+        state = AsyncData(value.copyWith(currentWaypointIndex: value.currentWaypointIndex - 1));
       }
     });
   }
@@ -107,8 +99,7 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   void nextPicture() {
     state.whenData((CurrentGameState value) {
       if (value.isPictureIndexIncrementable()) {
-        state = AsyncData(
-            value.copyWith(currentPictureIndex: value.currentPictureIndex + 1));
+        state = AsyncData(value.copyWith(currentPictureIndex: value.currentPictureIndex + 1));
       }
     });
   }
@@ -116,8 +107,7 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   void previousPicture() {
     state.whenData((CurrentGameState value) {
       if (value.isPictureIndexDecrementable()) {
-        state = AsyncData(
-            value.copyWith(currentPictureIndex: value.currentPictureIndex - 1));
+        state = AsyncData(value.copyWith(currentPictureIndex: value.currentPictureIndex - 1));
       }
     });
   }
