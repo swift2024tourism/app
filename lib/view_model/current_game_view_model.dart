@@ -17,6 +17,7 @@ part 'current_game_view_model.g.dart';
 class CurrentGameViewModel extends _$CurrentGameViewModel {
   @override
   Future<CurrentGameState> build() async {
+    debugPrint("CurrentGameViewModel build");
     return const CurrentGameState(
       currentGame: null,
     );
@@ -86,12 +87,16 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
     return games[randomIndex];
   }
 
-  void nextWaypoint() {
+  bool nextWaypoint() {
+    bool result = false;
     state.whenData((CurrentGameState value) {
+      debugPrint("currentWaypointIndex: ${value.currentWaypointIndex}");
       if (value.isWaypointIndexIncrementable()) {
-        state = AsyncData(value.copyWith(currentWaypointIndex: value.currentWaypointIndex + 1));
+        state = AsyncData(value.copyWith(currentWaypointIndex: value.currentWaypointIndex + 1, currentPictureIndex: 0));
+        result = true;
       }
     });
+    return result;
   }
 
   void previousWaypoint() {
