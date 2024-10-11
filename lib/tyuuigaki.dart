@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Tyuuigaki extends StatelessWidget {
+  const Tyuuigaki({super.key});
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -23,8 +26,8 @@ class Tyuuigaki extends StatelessWidget {
         children: [
           Container(
             height: screenSize.height * 0.6,
-            margin: EdgeInsets.only(left: 25.0),
-            padding: EdgeInsets.all(20.0),
+            margin: const EdgeInsets.only(left: 25.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
@@ -58,14 +61,14 @@ class Tyuuigaki extends StatelessWidget {
           ),
           Container(
             height: screenSize.height * 0.6,
-            margin: EdgeInsets.only(right: 10.0),
-            padding: EdgeInsets.all(20.0),
+            margin: const EdgeInsets.only(right: 10.0),
+            padding: const EdgeInsets.all(20.0),
             child: const Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                const Text('ゲームをする際は周囲の\n交通状況にご注意ください。', style: TextStyle(fontSize: 15)),
-                const Text('歩きながらスマートフォンを\n操作する行為は思わぬ重大な\n事故になる可能性があります。\n絶対におやめください。', style: TextStyle(fontSize: 15)),
-                const Text('観光名所には立ち入り禁止\nエリアがあります。\n立ち入り禁止エリアには\n入らないようにお願いします。', style: TextStyle(fontSize: 15)),
+                Text('ゲームをする際は周囲の\n交通状況にご注意ください。', style: TextStyle(fontSize: 15)),
+                Text('歩きながらスマートフォンを\n操作する行為は思わぬ重大な\n事故になる可能性があります。\n絶対におやめください。', style: TextStyle(fontSize: 15)),
+                Text('観光名所には立ち入り禁止\nエリアがあります。\n立ち入り禁止エリアには\n入らないようにお願いします。', style: TextStyle(fontSize: 15)),
               ],
             ),
           ),
@@ -77,7 +80,9 @@ class Tyuuigaki extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                context.pop();
+              },
               style: ElevatedButton.styleFrom(
                   minimumSize: const Size(50, 55), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0))),
               child: const Text(
@@ -86,7 +91,10 @@ class Tyuuigaki extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                context.pop();
+                context.push('/nannido');
+              },
               style: ElevatedButton.styleFrom(
                   minimumSize: const Size(50, 55), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0))),
               child: const Text(
