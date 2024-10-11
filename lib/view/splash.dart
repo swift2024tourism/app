@@ -11,8 +11,7 @@ class Splash extends ConsumerWidget {
         future: _init(ref),
         builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            WidgetsBinding.instance
-                .addPostFrameCallback((timeStamp) => context.go('/title'));
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.go('/title'));
             return const SizedBox.shrink();
           } else {
             return const Scaffold(
