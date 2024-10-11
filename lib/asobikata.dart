@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Asobikata extends StatelessWidget {
+  const Asobikata({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -9,10 +11,10 @@ class Asobikata extends StatelessWidget {
           width: 430,
           height: 932,
           clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(color: Colors.white),
+          decoration: const BoxDecoration(color: Colors.white),
           child: Stack(
             children: [
-              Positioned(
+              const Positioned(
                 left: 53,
                 top: 39,
                 child: Text(
@@ -27,7 +29,7 @@ class Asobikata extends StatelessWidget {
               Positioned(
                 left: 56,
                 top: 771,
-                child: Container(
+                child: SizedBox(
                   width: 137,
                   height: 44,
                   child: Stack(
@@ -39,14 +41,14 @@ class Asobikata extends StatelessWidget {
                           width: 137,
                           height: 44,
                           decoration: ShapeDecoration(
-                            color: Color(0xFFD9D9D9),
+                            color: const Color(0xFFD9D9D9),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
                         ),
                       ),
-                      Positioned(
+                      const Positioned(
                         left: 29,
                         top: 6,
                         child: Text(
@@ -65,7 +67,7 @@ class Asobikata extends StatelessWidget {
               Positioned(
                 left: 236,
                 top: 771,
-                child: Container(
+                child: SizedBox(
                   width: 137,
                   height: 44,
                   child: Stack(
@@ -77,14 +79,14 @@ class Asobikata extends StatelessWidget {
                           width: 137,
                           height: 44,
                           decoration: ShapeDecoration(
-                            color: Color(0xFF00CCFF),
+                            color: const Color(0xFF00CCFF),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
                         ),
                       ),
-                      Positioned(
+                      const Positioned(
                         left: 13,
                         top: 6,
                         child: Text(
@@ -100,7 +102,7 @@ class Asobikata extends StatelessWidget {
                   ),
                 ),
               ),
-              Positioned(
+              const Positioned(
                 left: 60,
                 top: 190,
                 child: Text(
@@ -113,7 +115,7 @@ class Asobikata extends StatelessWidget {
                   ),
                 ),
               ),
-              Positioned(
+              const Positioned(
                 left: 72,
                 top: 321,
                 child: Text(

@@ -73,7 +73,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             TextButton(
-              child: Text("プレイ！"),
+              child: const Text("プレイ！"),
               onPressed: () => context.push('/nannido'),
             )
           ],

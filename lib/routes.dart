@@ -11,7 +11,6 @@ import 'package:app/view/game_result.dart';
 import 'package:app/view/game_select.dart';
 import 'package:app/view/splash.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
@@ -46,9 +45,9 @@ final router = GoRouter(
         pageBuilder: (context, state) {
           return const MaterialPage(child: MainMenu());
         }),
-    GoRoute(path: '/title', pageBuilder: (context, state) => MaterialPage(child: TitleScreen())),
-    GoRoute(path: '/asobikata', pageBuilder: (context, state) => MaterialPage(child: Asobikata())),
-    GoRoute(path: '/tyuuigaki', pageBuilder: (context, state) => MaterialPage(child: Tyuuigaki())),
-    GoRoute(path: '/nannido', pageBuilder: (context, state) => MaterialPage(child: Nannido())),
+    GoRoute(path: '/title', pageBuilder: (context, state) => const MaterialPage(child: TitleScreen())),
+    GoRoute(path: '/asobikata', pageBuilder: (context, state) => const MaterialPage(child: Asobikata())),
+    GoRoute(path: '/tyuuigaki', pageBuilder: (context, state) => const MaterialPage(child: Tyuuigaki())),
+    GoRoute(path: '/nannido', pageBuilder: (context, state) => const MaterialPage(child: Nannido())),
   ],
 );
