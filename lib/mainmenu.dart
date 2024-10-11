@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class MainMenu extends StatelessWidget {
   const MainMenu({super.key});
@@ -52,7 +53,12 @@ class HomePage extends StatelessWidget {
                 foregroundColor: Colors.white,
                 minimumSize: const Size(300, 100),
               ),
-              child: const Text('遊び方'),
+              child: TextButton(
+                child: const Text('遊び方'),
+                onPressed: () {
+                  context.push('/asobikata');
+                },
+              ),
             ),
             ElevatedButton(
               onPressed: () {},
@@ -61,20 +67,15 @@ class HomePage extends StatelessWidget {
                 foregroundColor: Colors.white,
                 minimumSize: const Size(300, 100),
               ),
-              child: const Text('ゲームする際の注意事項'),
+              child: TextButton(
+                child: const Text('ゲームする際の注意事項'),
+                onPressed: () => context.push('/tyuuigaki'),
+              ),
             ),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('函館が初めての人'),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('函館に来たことがある人'),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('函館に詳しい人'),
-            ),
+            TextButton(
+              child: Text("プレイ！"),
+              onPressed: () => context.push('/nannido'),
+            )
           ],
         ),
       ),
