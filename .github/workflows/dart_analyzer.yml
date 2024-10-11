@@ -1,0 +1,25 @@
+name: Run Dart Analyze
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  dart_format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: kuhnroyal/flutter-fvm-config-action/setup@v3
+        name: setup fvm flutter
+
+      - shell: bash
+        run: flutter --version
+      
+      - name: run pub get
+        run: flutter pub get
+
+      - name: dart analyze
+        run: flutter analyze
