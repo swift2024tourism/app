@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Tyuuigaki extends StatelessWidget {
   const Tyuuigaki({super.key});
@@ -79,7 +80,9 @@ class Tyuuigaki extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                context.pop();
+              },
               style: ElevatedButton.styleFrom(
                   minimumSize: const Size(50, 55), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0))),
               child: const Text(
@@ -88,7 +91,10 @@ class Tyuuigaki extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                context.pop();
+                context.push('/nannido');
+              },
               style: ElevatedButton.styleFrom(
                   minimumSize: const Size(50, 55), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0))),
               child: const Text(
