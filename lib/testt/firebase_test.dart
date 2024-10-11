@@ -1,7 +1,56 @@
-import 'package:app/model/game_model.dart';
-import 'package:app/model/picture_model.dart';
+import 'package:app/model/game/game_model.dart';
+import 'package:app/model/picture/picture_model.dart';
+import 'package:app/view_model/current_game_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class FirebaseTestView extends StatelessWidget {
+  const FirebaseTestView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    debugPrint("build firebasetestview");
+    return Scaffold(body: Consumer(
+      builder: (context, ref, _) {
+        return ref.watch(currentGameViewModelProvider).maybeWhen(
+            orElse: () => const CircularProgressIndicator(),
+            data: (state) {
+              return Text("ゲームの場所：${state.currentGame!.name}");
+            });
+        //return FutureBuilder(
+        //    future: games.getGamesByDifficulty(Difficulty.hard),
+        //    builder: (context, AsyncSnapshot<List<GameModel>> gamesSnapshot) {
+        //      if (gamesSnapshot.connectionState == ConnectionState.waiting) {
+        //        return const Center(child: CircularProgressIndicator());
+        //      }
+        //      if (gamesSnapshot.hasError) {
+        //        return const Center(child: Text("エラーが発生しました"));
+        //      }
+        //      return ListView.builder(
+        //          itemCount: gamesSnapshot.data!.length,
+        //          itemBuilder: (context, index) {
+        //            return ListTile(
+        //                title: Text(
+        //                    "ゲームの場所：${gamesSnapshot.data![index].name}, id: ${gamesSnapshot.data![index].id}"),
+        //                subtitle: ListView.builder(
+        //                  shrinkWrap: true,
+        //                  physics: NeverScrollableScrollPhysics(),
+        //                  itemCount:
+        //                      gamesSnapshot.data![index].waypoints.length,
+        //                  itemBuilder: (context, waypointIndex) {
+        //                    return ListTile(
+        //                      title: Text(
+        //                          "ウェイポイントの場所：${gamesSnapshot.data![index].waypoints[waypointIndex].geopoint.latitude}"),
+        //                    );
+        //                  },
+        //                ));
+        //          });
+        //    });
+      },
+    ));
+  }
+}
 
 Future<void> testFirebase() async {
   var ref = FirebaseFirestore.instance.collection("games");
@@ -10,6 +59,7 @@ Future<void> testFirebase() async {
     for (final docSnapShot in snapshot.docs) {
       debugPrint(docSnapShot["name"]);
       List<dynamic> waypoints = docSnapShot["waypoints"];
+      debugPrint("げーむのドックidは${docSnapShot.id}");
 
       // ignore: avoid_function_literals_in_foreach_calls
       waypoints.forEach((element) async {
@@ -42,10 +92,12 @@ Future<void> testFirebase2() async {
 
   for (var game in games) {
     debugPrint(game.name);
+    debugPrint(game.id);
     for (var waypoint in game.waypoints) {
       debugPrint(waypoint.geopoint.latitude.toString());
       for (var picture in waypoint.pictures) {
         debugPrint(picture.name);
+        debugPrint(picture.id);
       }
     }
   }

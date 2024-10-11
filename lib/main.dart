@@ -1,12 +1,13 @@
 import 'package:app/firebase_options.dart';
-import 'package:app/testt/firebase_test.dart';
+import 'package:app/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
   //takuto
 }
 
@@ -15,13 +16,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      routerConfig: router,
     );
   }
 }
@@ -37,10 +38,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final int _counter = 0;
-
-  void _incrementCounter() {
-    testFirebase2();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,11 +60,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: Consumer(builder: (context, ref, _) {
+        return FloatingActionButton(
+          onPressed: () async {},
+          tooltip: 'Increment',
+          child: const Icon(Icons.add),
+        );
+      }), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 } //yokomichi
