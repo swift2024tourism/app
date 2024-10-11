@@ -1,3 +1,4 @@
+import 'package:app/title.dart';
 import 'package:app/tyuuigaki.dart';
 import 'package:app/firebase_options.dart';
 import 'package:app/routes.dart';
