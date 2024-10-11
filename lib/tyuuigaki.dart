@@ -63,14 +63,9 @@ class Tyuuigaki extends StatelessWidget {
             child: const Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                const Text('ゲームをする際は周囲の\n交通状況にご注意ください。',
-                    style: TextStyle(fontSize: 15)),
-                const Text(
-                    '歩きながらスマートフォンを\n操作する行為は思わぬ重大な\n事故になる可能性があります。\n絶対におやめください。',
-                    style: TextStyle(fontSize: 15)),
-                const Text(
-                    '観光名所には立ち入り禁止\nエリアがあります。\n立ち入り禁止エリアには\n入らないようにお願いします。',
-                    style: TextStyle(fontSize: 15)),
+                const Text('ゲームをする際は周囲の\n交通状況にご注意ください。', style: TextStyle(fontSize: 15)),
+                const Text('歩きながらスマートフォンを\n操作する行為は思わぬ重大な\n事故になる可能性があります。\n絶対におやめください。', style: TextStyle(fontSize: 15)),
+                const Text('観光名所には立ち入り禁止\nエリアがあります。\n立ち入り禁止エリアには\n入らないようにお願いします。', style: TextStyle(fontSize: 15)),
               ],
             ),
           ),
@@ -84,9 +79,7 @@ class Tyuuigaki extends StatelessWidget {
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(50, 55),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0))),
+                  minimumSize: const Size(50, 55), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0))),
               child: const Text(
                 'メニューへ',
                 style: TextStyle(fontSize: 15, color: Colors.black),
@@ -95,9 +88,7 @@ class Tyuuigaki extends StatelessWidget {
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(50, 55),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0))),
+                  minimumSize: const Size(50, 55), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0))),
               child: const Text(
                 'ゲームを始める',
                 style: TextStyle(fontSize: 15, color: Colors.black),
