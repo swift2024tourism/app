@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "526249125108",
+    "project_id": "swift2024app",
+    "storage_bucket": "swift2024app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526249125108:android:295da0e8cb303e91c52aa1",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4F9nYDqD6iWXHnw12awFhkoYyJAH1jX0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526249125108:android:f31515d7f78d49bbc52aa1",
+        "android_client_info": {
+          "package_name": "jp.ac.fun.swift2024tourism"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4F9nYDqD6iWXHnw12awFhkoYyJAH1jX0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
