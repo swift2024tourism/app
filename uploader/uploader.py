@@ -4,19 +4,20 @@ from firebase_admin import credentials, firestore ,storage
 
 
 # Firebase Admin SDKの初期化
-cred = credentials.Certificate(r"C:\Users\hoshi\app\uploader\swift2024app-firebase-adminsdk-vk4eb-6af6538459.json")
+cred = credentials.Certificate("/Users/takuto/Code/swift/app/uploader/swift2024app-firebase-adminsdk-vk4eb-018856aa18.json")
 firebase_admin.initialize_app(cred,{
     'storageBucket':'swift2024app.appspot.com'
 })
 
 db = firestore.client()
 
-path = "C:/Users/hoshi/"
-filename = "image_123650291.jpeg"
-bucket = storage.bucket('swift2024app')
+path = "/Users/takuto/Code/swift/app/uploader/"
+filename = "OIP.jpeg"
+#bucket = storage.bucket('swift2024app')
+bucket = storage.bucket()
 blob = bucket.blob(filename)
 blob.upload_from_filename(path + filename)
-blob.male_public()
+#blob.male_public()
 
 #-------------------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------------------
