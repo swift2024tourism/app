@@ -21,9 +21,12 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/test/firebase',
-      pageBuilder: (context, state) => const MaterialPage(child: FirebaseTestView()),
+      pageBuilder: (context, state) =>
+          const MaterialPage(child: FirebaseTestView()),
     ),
-    GoRoute(path: '/game', pageBuilder: (context, state) => const MaterialPage(child: Game())),
+    GoRoute(
+        path: '/game',
+        pageBuilder: (context, state) => const MaterialPage(child: Game())),
     GoRoute(
         path: '/game/result',
         pageBuilder: (context, state) {
@@ -33,7 +36,9 @@ final router = GoRouter(
         path: '/game/select/:difficulty',
         pageBuilder: (context, GoRouterState state) {
           debugPrint(state.pathParameters['difficulty']);
-          return MaterialPage(child: GameSelect(Difficulty.values.firstWhere((value) => value.name == state.pathParameters['difficulty'])));
+          return MaterialPage(
+              child: GameSelect(Difficulty.values.firstWhere((value) =>
+                  value.name == state.pathParameters['difficulty'])));
         }),
     GoRoute(
         path: '/difficulty',
@@ -45,9 +50,20 @@ final router = GoRouter(
         pageBuilder: (context, state) {
           return const MaterialPage(child: MainMenu());
         }),
-    GoRoute(path: '/title', pageBuilder: (context, state) => const MaterialPage(child: TitleScreen())),
-    GoRoute(path: '/asobikata', pageBuilder: (context, state) => const MaterialPage(child: Asobikata())),
-    GoRoute(path: '/tyuuigaki', pageBuilder: (context, state) => const MaterialPage(child: Tyuuigaki())),
-    GoRoute(path: '/nannido', pageBuilder: (context, state) => const MaterialPage(child: Nannido())),
+    GoRoute(
+        path: '/title',
+        pageBuilder: (context, state) =>
+            const MaterialPage(child: TitleScreen())),
+    GoRoute(
+        path: '/asobikata',
+        pageBuilder: (context, state) =>
+            const MaterialPage(child: Asobikata())),
+    GoRoute(
+        path: '/tyuuigaki',
+        pageBuilder: (context, state) =>
+            const MaterialPage(child: Tyuuigaki())),
+    GoRoute(
+        path: '/nannido',
+        pageBuilder: (context, state) => MaterialPage(child: Nannido())),
   ],
 );
