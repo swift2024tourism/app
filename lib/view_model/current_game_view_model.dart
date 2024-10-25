@@ -10,6 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'dart:math';
+
+import 'package:vector_math/vector_math_64.dart';
 
 part 'current_game_view_model.g.dart';
 
@@ -69,16 +72,42 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
             double distance = Geolocator.distanceBetween(current.latitude, current.longitude, target.latitude, target.longitude);
 
             // #TODO スコア計算 score変数に代入しといてください
-            int score = 100;
+            int score = 80;
+            double direction = Geolocator.bearingBetween(current.latitude, current.longitude, target.latitude, target.longitude);
+            debugPrint(calculateBearing(current.latitude, current.longitude, target.latitude, target.longitude).toString());
+            direction = radians(calculateBearing(current.latitude, current.longitude, target.latitude, target.longitude)) + pi - pi / 2;
+
             state = AsyncData(data.copyWith(
                 currentLocation: GeoPoint(current.latitude, current.longitude),
-                gameResult: GameResultModel(score: score, meterDistanceFromAnswer: distance.toInt())));
+                gameResult:
+                    GameResultModel(score: score, meterDistanceFromAnswer: distance.toInt(), directionFromCurrentLocation: direction)));
+            debugPrint("direction: $direction");
             return true;
           } else {
             return false;
           }
         },
         orElse: () => false);
+  }
+
+  double calculateBearing(double lat1, double lon1, double lat2, double lon2) {
+    // 緯度経度をラジアンに変換
+    double lat1Rad = lat1 * pi / 180;
+    double lon1Rad = lon1 * pi / 180;
+    double lat2Rad = lat2 * pi / 180;
+    double lon2Rad = lon2 * pi / 180;
+
+    // 方位角を計算
+    double dLon = lon2Rad - lon1Rad;
+    double y = sin(dLon) * cos(lat2Rad);
+    double x = cos(lat1Rad) * sin(lat2Rad) - sin(lat1Rad) * cos(lat2Rad) * cos(dLon);
+    double bearingRad = atan2(y, x);
+
+    // ラジアンを度に変換
+    double bearingDeg = bearingRad * 180 / pi;
+
+    // 方位角を0-360度の範囲に調整
+    return (bearingDeg + 360) % 360;
   }
 
   /// Get a random game from the list of games
