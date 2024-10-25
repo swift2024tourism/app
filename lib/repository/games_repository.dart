@@ -13,7 +13,7 @@ abstract class IGamesRepository {
 }
 
 // for development use games_test
-const gamesCollection = "games_test";
+const gamesCollection = "games";
 
 @riverpod
 IGamesRepository gamesRepository(ref) {

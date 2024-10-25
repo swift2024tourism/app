@@ -21,7 +21,7 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   static const double INNER_RADIUS = 5.0; // 満点を取得できる内側の円の半径（メートル）
   static const double OUTER_RADIUS = 10.0; // 得点圏の外側の円の半径（メートル）
   static const int MAX_SCORE = 100; // 最高得点
-  static const int MIN_SCORE = 50; // 最低得点（外側の円の境界上でのスコア）
+  static const int MIN_SCORE = 0; // 最低得点（外側の円の境界上でのスコア）
 
   @override
   Future<CurrentGameState> build() async {
@@ -85,14 +85,15 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
             debugPrint("current: ${current.latitude}, ${current.longitude}");
 
             GeoPoint target = data.currentGame!.waypoints[data.currentWaypointIndex].geopoint;
-            double distance = Geolocator.distanceBetween(current.latitude, current.longitude, target.latitude, target.longitude);
+            final double distance = Geolocator.distanceBetween(current.latitude, current.longitude, target.latitude, target.longitude);
+            debugPrint("距離は: $distance");
 
             double direction = Geolocator.bearingBetween(current.latitude, current.longitude, target.latitude, target.longitude);
             debugPrint(calculateBearing(current.latitude, current.longitude, target.latitude, target.longitude).toString());
             direction = radians(calculateBearing(current.latitude, current.longitude, target.latitude, target.longitude)) + pi - pi / 2;
             // 距離に基づいてスコアを計算
             int score = calculateScore(distance);
-            debugPrint("Distance: ${distance}m, Score: $score");
+            debugPrint("Distance: ${distance.toInt()}m, Score: $score");
 
             state = AsyncData(data.copyWith(
                 currentLocation: GeoPoint(current.latitude, current.longitude),

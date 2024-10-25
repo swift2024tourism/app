@@ -121,7 +121,7 @@ class GameResultTop extends ConsumerWidget {
                                 ),
                               ),
                               Text(
-                                "31m",
+                                "${data.gameResult!.meterDistanceFromAnswer.toString()}m",
                                 style: TextStyle(fontSize: 40, color: boldTextFontColor, fontWeight: FontWeight.w600),
                               )
                             ],
