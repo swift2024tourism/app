@@ -15,12 +15,36 @@ part 'current_game_view_model.g.dart';
 
 @riverpod
 class CurrentGameViewModel extends _$CurrentGameViewModel {
+  // 定数の定義
+  static const double INNER_RADIUS = 5.0; // 満点を取得できる内側の円の半径（メートル）
+  static const double OUTER_RADIUS = 10.0; // 得点圏の外側の円の半径（メートル）
+  static const int MAX_SCORE = 100; // 最高得点
+  static const int MIN_SCORE = 50; // 最低得点（外側の円の境界上でのスコア）
+
   @override
   Future<CurrentGameState> build() async {
     debugPrint("CurrentGameViewModel build");
     return const CurrentGameState(
       currentGame: null,
     );
+  }
+
+  // スコアを計算するメソッド
+  int calculateScore(double distance) {
+    if (distance <= INNER_RADIUS) {
+      // 内側の円（5m以内）なら100点
+      return MAX_SCORE;
+    } else if (distance <= OUTER_RADIUS) {
+      // 外側の円（5-10m）なら距離に応じて50-100点の間で線形に減少
+      // 線形補間を使用してスコアを計算
+      double scoreRange = (MAX_SCORE - MIN_SCORE).toDouble();
+      double distanceRatio =
+          (OUTER_RADIUS - distance) / (OUTER_RADIUS - INNER_RADIUS);
+      return (MIN_SCORE + (scoreRange * distanceRatio)).round();
+    } else {
+      // 円の外（10m以上）なら50点
+      return MIN_SCORE;
+    }
   }
 
   Future<void> initGame(Difficulty difficulty, int? gameIndex) async {
@@ -37,11 +61,10 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
     }
     debugPrint("now start game: ${game.name}");
 
-    state = AsyncData(CurrentGameState(currentGame: game, difficulty: difficulty));
+    state =
+        AsyncData(CurrentGameState(currentGame: game, difficulty: difficulty));
   }
 
-  // 確定ボタンを押された時の処理
-  /// if error return false
   Future<bool> finishGame() async {
     return state.maybeWhen(
         data: (CurrentGameState data) async {
@@ -51,28 +74,30 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
           ].request();
           var permission = await Geolocator.requestPermission();
 
-          if (permission == LocationPermission.denied && PermissionStatus.granted != statuses[Permission.location]) {
+          if (permission == LocationPermission.denied &&
+              PermissionStatus.granted != statuses[Permission.location]) {
             return false;
           }
 
-          // ユーザーのgps
-          // #TODO パーミッションがなかった時の処理を作る
           if (await Permission.location.request().isGranted ||
               permission == LocationPermission.whileInUse ||
               permission == LocationPermission.always) {
             Position current = await Geolocator.getCurrentPosition();
             debugPrint("current: ${current.latitude}, ${current.longitude}");
 
-            // 目的地のgps
-            GeoPoint target = data.currentGame!.waypoints[data.currentWaypointIndex].geopoint;
-            // 現在地と目的地の間の距離
-            double distance = Geolocator.distanceBetween(current.latitude, current.longitude, target.latitude, target.longitude);
+            GeoPoint target =
+                data.currentGame!.waypoints[data.currentWaypointIndex].geopoint;
+            double distance = Geolocator.distanceBetween(current.latitude,
+                current.longitude, target.latitude, target.longitude);
 
-            // #TODO スコア計算 score変数に代入しといてください
-            int score = 100;
+            // 距離に基づいてスコアを計算
+            int score = calculateScore(distance);
+            debugPrint("Distance: ${distance}m, Score: $score");
+
             state = AsyncData(data.copyWith(
                 currentLocation: GeoPoint(current.latitude, current.longitude),
-                gameResult: GameResultModel(score: score, meterDistanceFromAnswer: distance.toInt())));
+                gameResult: GameResultModel(
+                    score: score, meterDistanceFromAnswer: distance.toInt())));
             return true;
           } else {
             return false;
@@ -81,7 +106,6 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
         orElse: () => false);
   }
 
-  /// Get a random game from the list of games
   GameModel getMonoGame(List<GameModel> games) {
     final randomIndex = Random().nextInt(games.length);
     return games[randomIndex];
@@ -92,7 +116,9 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
     state.whenData((CurrentGameState value) {
       debugPrint("currentWaypointIndex: ${value.currentWaypointIndex}");
       if (value.isWaypointIndexIncrementable()) {
-        state = AsyncData(value.copyWith(currentWaypointIndex: value.currentWaypointIndex + 1, currentPictureIndex: 0));
+        state = AsyncData(value.copyWith(
+            currentWaypointIndex: value.currentWaypointIndex + 1,
+            currentPictureIndex: 0));
         result = true;
       }
     });
@@ -102,7 +128,8 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   void previousWaypoint() {
     state.whenData((CurrentGameState value) {
       if (value.isWaypointIndexDecrementable()) {
-        state = AsyncData(value.copyWith(currentWaypointIndex: value.currentWaypointIndex - 1));
+        state = AsyncData(value.copyWith(
+            currentWaypointIndex: value.currentWaypointIndex - 1));
       }
     });
   }
@@ -110,7 +137,8 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   void nextPicture() {
     state.whenData((CurrentGameState value) {
       if (value.isPictureIndexIncrementable()) {
-        state = AsyncData(value.copyWith(currentPictureIndex: value.currentPictureIndex + 1));
+        state = AsyncData(
+            value.copyWith(currentPictureIndex: value.currentPictureIndex + 1));
       }
     });
   }
@@ -118,7 +146,8 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   void previousPicture() {
     state.whenData((CurrentGameState value) {
       if (value.isPictureIndexDecrementable()) {
-        state = AsyncData(value.copyWith(currentPictureIndex: value.currentPictureIndex - 1));
+        state = AsyncData(
+            value.copyWith(currentPictureIndex: value.currentPictureIndex - 1));
       }
     });
   }
