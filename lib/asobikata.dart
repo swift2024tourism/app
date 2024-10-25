@@ -1,137 +1,106 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Asobikata extends StatelessWidget {
   const Asobikata({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(children: <Widget>[
         Container(
-          width: 430,
-          height: 932,
-          clipBehavior: Clip.antiAlias,
-          decoration: const BoxDecoration(color: Colors.white),
-          child: Stack(
+          height: 100,
+          decoration: const BoxDecoration(
+            color: Color(0xFFFCC14A),
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(40),
+              bottomRight: Radius.circular(40),
+            ),
+          ),
+          child: const Center(
+            child: Text(
+              'このゲームの遊びかた',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 80),
+        const Center(
+          child: Text(
+            '撮影されている場所がどこか\n実際に歩いて探そう!',
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        const SizedBox(height: 50),
+        const Center(
+          child: Text(
+            'ゲームでは2枚1組の写真が表示されます\nその写真で写っている建物や記念碑などを\n手がかりに撮影場所を実際に歩いて探します',
+            style: TextStyle(
+              fontSize: 15,
+              color: Colors.black,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        const SizedBox(height: 20),
+        const Text(
+          '撮影場所についたら、決定ボタンを押します!',
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.black,
+          ),
+        ),
+        const Spacer(),
+        Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const Positioned(
-                left: 53,
-                top: 39,
-                child: Text(
-                  'このゲームの遊び方',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 36,
-                    height: 0,
-                  ),
+              ElevatedButton(
+                onPressed: () {
+                  context.pop();
+                },
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(50, 55),
+                    backgroundColor: Color.fromARGB(192, 218, 218, 218),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                child: const Text(
+                  'メニューへ',
+                  style: TextStyle(fontSize: 15, color: Colors.black),
                 ),
               ),
-              Positioned(
-                left: 56,
-                top: 771,
-                child: SizedBox(
-                  width: 137,
-                  height: 44,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Container(
-                          width: 137,
-                          height: 44,
-                          decoration: ShapeDecoration(
-                            color: const Color(0xFFD9D9D9),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        left: 29,
-                        top: 6,
-                        child: Text(
-                          'メニューへ',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            height: 0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 236,
-                top: 771,
-                child: SizedBox(
-                  width: 137,
-                  height: 44,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Container(
-                          width: 137,
-                          height: 44,
-                          decoration: ShapeDecoration(
-                            color: const Color(0xFF00CCFF),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        left: 13,
-                        top: 6,
-                        child: Text(
-                          'ゲームを始める',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            height: 0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const Positioned(
-                left: 60,
-                top: 190,
-                child: Text(
-                  '撮影されている場所がどこか\n実際に歩いて探そう！',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
-                    height: 0,
-                  ),
-                ),
-              ),
-              const Positioned(
-                left: 72,
-                top: 321,
-                child: Text(
-                  'ゲームでは2枚1組の写真が表示されます\nその写真で写っている建物や記念碑などを\n手がかりに撮影場所を実際に歩いて探します\n\n撮影場所がわかったら、決定ボタンを押します！',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 13,
-                    height: 0,
-                  ),
+              const SizedBox(height: 145),
+              ElevatedButton(
+                onPressed: () {
+                  context.pop();
+                  context.push('/nannido');
+                },
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(50, 55),
+                    backgroundColor: const Color.fromARGB(255, 68, 122, 156),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                child: const Text(
+                  'ゲームを始める',
+                  style: TextStyle(fontSize: 15, color: Colors.white),
                 ),
               ),
             ],
           ),
         ),
-      ],
+        const SizedBox(height: 50),
+      ]),
     );
   }
 }

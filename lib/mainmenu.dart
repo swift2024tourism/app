@@ -20,65 +20,99 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            // デフォルト表示
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue, width: 2),
-                borderRadius: BorderRadius.circular(8),
+        backgroundColor: Colors.white,
+        body: Column(children: <Widget>[
+          Container(
+            height: 100,
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 68, 122, 156),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(40),
+                bottomRight: Radius.circular(40),
               ),
-              padding: const EdgeInsets.all(8),
-              child: const Text(
-                'アプリ名',
+            ),
+            child: const Center(
+              child: Text(
+                'Main Menu',
                 style: TextStyle(
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  fontSize: 36,
+                  color: Colors.white,
                 ),
               ),
             ),
-            // 太さを指定
-            ElevatedButton(
-              onPressed: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (context) => const HowPlay(),
-                //   ),
-                // );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-                minimumSize: const Size(300, 100),
-              ),
-              child: TextButton(
-                child: const Text('遊び方'),
-                onPressed: () {
-                  context.push('/asobikata');
-                },
-              ),
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                const SizedBox(height: 80),
+                ElevatedButton(
+                  onPressed: () {
+                    context.push('/asobikata');
+                  },
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(320, 90),
+                      backgroundColor: const Color(0xFFFCC14A),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  child: const Text(
+                    'このゲームのあそびかた',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                ElevatedButton(
+                  onPressed: () {
+                    context.push('/tyuuigaki');
+                  },
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(320, 90),
+                      backgroundColor: const Color(0xFFE63746),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  child: const Text(
+                    'ゲームを安全に楽しむために',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                const SizedBox(height: 40),
+                ElevatedButton(
+                  onPressed: () {
+                    context.push('/nannido');
+                  },
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(320, 250),
+                      alignment: Alignment.centerLeft,
+                      backgroundColor: const Color.fromARGB(255, 68, 122, 156),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  child: const Text.rich(TextSpan(children: <TextSpan>[
+                    TextSpan(
+                        text: 'Start the\nGame!\n',
+                        style: TextStyle(
+                          fontSize: 60,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        )),
+                    TextSpan(
+                        text: 'ゲームをはじめる',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ))
+                  ])),
+                ),
+              ],
             ),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.yellow,
-                foregroundColor: Colors.white,
-                minimumSize: const Size(300, 100),
-              ),
-              child: TextButton(
-                child: const Text('ゲームする際の注意事項'),
-                onPressed: () => context.push('/tyuuigaki'),
-              ),
-            ),
-            TextButton(
-              child: const Text("プレイ！"),
-              onPressed: () => context.push('/nannido'),
-            )
-          ],
-        ),
-      ),
-    );
+          ),
+        ]));
   }
 }

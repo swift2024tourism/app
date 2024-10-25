@@ -9,102 +9,130 @@ class Tyuuigaki extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
+        backgroundColor: Colors.white,
         body: Column(children: <Widget>[
-      const Align(
-        alignment: Alignment.topCenter,
-        child: Padding(
-          padding: EdgeInsets.only(top: 100.0),
-          child: Text(
-            'ゲームを安全に楽しむために',
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
           Container(
-            height: screenSize.height * 0.6,
-            margin: const EdgeInsets.only(left: 25.0),
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
+            height: 100,
+            decoration: const BoxDecoration(
+              color: Color(0xFFE63746),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(40),
+                bottomRight: Radius.circular(40),
+              ),
+            ),
+            child: const Center(
+              child: Text(
+                'ゲームを安全に楽しむために',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 50),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 Container(
-                  //アイコン画像を入れる？
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius: BorderRadius.circular(8),
+                  height: screenSize.height * 0.55,
+                  margin: const EdgeInsets.only(left: 30.0),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        //アイコン画像を入れる？
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.blueAccent,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.blueAccent,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.blueAccent,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius: BorderRadius.circular(8),
+                  height: screenSize.height * 0.55,
+                  margin: const EdgeInsets.only(right: 10.0),
+                  padding: const EdgeInsets.all(20.0),
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text('ゲームをする際は周囲の\n交通状況にご注意ください。',
+                          style: TextStyle(fontSize: 15)),
+                      Text(
+                          '歩きながらスマートフォンを\n操作する行為は思わぬ重大な\n事故になる可能性があります。\n絶対におやめください。',
+                          style: TextStyle(fontSize: 15)),
+                      Text(
+                          '観光名所には立ち入り禁止\nエリアがあります。\n立ち入り禁止エリアには\n入らないようにお願いします。',
+                          style: TextStyle(fontSize: 15)),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-          Container(
-            height: screenSize.height * 0.6,
-            margin: const EdgeInsets.only(right: 10.0),
-            padding: const EdgeInsets.all(20.0),
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Text('ゲームをする際は周囲の\n交通状況にご注意ください。', style: TextStyle(fontSize: 15)),
-                Text('歩きながらスマートフォンを\n操作する行為は思わぬ重大な\n事故になる可能性があります。\n絶対におやめください。', style: TextStyle(fontSize: 15)),
-                Text('観光名所には立ち入り禁止\nエリアがあります。\n立ち入り禁止エリアには\n入らないようにお願いします。', style: TextStyle(fontSize: 15)),
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    context.pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(50, 55),
+                      backgroundColor: Color.fromARGB(192, 218, 218, 218),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  child: const Text(
+                    'メニューへ',
+                    style: TextStyle(fontSize: 15, color: Colors.black),
+                  ),
+                ),
+                const SizedBox(height: 145),
+                ElevatedButton(
+                  onPressed: () {
+                    context.pop();
+                    context.push('/nannido');
+                  },
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(50, 55),
+                      backgroundColor: const Color.fromARGB(255, 68, 122, 156),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  child: const Text(
+                    'ゲームを始める',
+                    style: TextStyle(fontSize: 15, color: Colors.white),
+                  ),
+                ),
               ],
             ),
           ),
-        ],
-      ),
-      Padding(
-        padding: const EdgeInsets.only(top: 16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                context.pop();
-              },
-              style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(50, 55), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0))),
-              child: const Text(
-                'メニューへ',
-                style: TextStyle(fontSize: 15, color: Colors.black),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                context.pop();
-                context.push('/nannido');
-              },
-              style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(50, 55), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0))),
-              child: const Text(
-                'ゲームを始める',
-                style: TextStyle(fontSize: 15, color: Colors.black),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ]));
+          const SizedBox(height: 50),
+        ]));
   }
 }
