@@ -18,6 +18,7 @@ class Nannido extends StatelessWidget {
           children: [
             _buildHeader(),
             _buildDifficultyButtons(context),
+            _buildBackButton(context), // ここに戻るボタンを追加
           ],
         ),
       ),
@@ -88,6 +89,33 @@ class Nannido extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           backgroundColor: Colors.white,
+        ),
+      ),
+    );
+  }
+
+  // 戻るボタンを定義
+  Widget _buildBackButton(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(20),
+      child: SizedBox(
+        width: double.infinity,
+        height: 50,
+        child: ElevatedButton(
+          onPressed: () => context.pop(), // 前の画面に戻る
+          child: Text(
+            '戻る',
+            style: TextStyle(fontSize: 24),
+          ),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Color(0xFF4A789C)),
+            foregroundColor: MaterialStateProperty.all(Colors.white),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
         ),
       ),
     );
