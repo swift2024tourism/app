@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
             ),
             child: const Center(
               child: Text(
-                'Main Menu',
+                'メインメニュー',
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -70,16 +70,14 @@ class HomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
                 ElevatedButton(
-                  onPressed: () {
-                    context.push('/tyuuigaki');
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(320, 90),
                       backgroundColor: const Color(0xFFE63746),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
                   child: const Text(
-                    'ゲームを安全に楽しむために',
+                    'a',
                     style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
@@ -97,22 +95,11 @@ class HomePage extends StatelessWidget {
                       backgroundColor: const Color.fromARGB(255, 68, 122, 156),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
-                  child: const Text.rich(TextSpan(children: <TextSpan>[
-                    TextSpan(
-                        text: 'Start the\nGame!\n',
-                        style: TextStyle(
-                          fontSize: 60,
-                          fontWeight: FontWeight.bold,
+                  child: const Text('ゲームを始める',
+                      style: TextStyle(
+                          fontSize: 40,
                           color: Colors.white,
-                        )),
-                    TextSpan(
-                        text: 'ゲームをはじめる',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ))
-                  ])),
+                          fontWeight: FontWeight.bold)),
                 ),
               ],
             ),

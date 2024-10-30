@@ -88,7 +88,7 @@ class Asobikata extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   context.pop();
-                  context.push('/nannido');
+                  context.push('/tyuuigaki');
                 },
                 style: ElevatedButton.styleFrom(
                     minimumSize: const Size(50, 55),
@@ -96,7 +96,7 @@ class Asobikata extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))),
                 child: const Text(
-                  'ゲームを始める',
+                  '次へ',
                   style: TextStyle(fontSize: 15, color: Colors.white),
                 ),
               ),

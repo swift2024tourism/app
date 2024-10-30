@@ -32,7 +32,7 @@ class TitleScreen extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
               child: const Text(
-                'Tap To Start',
+                'ゲームを始める',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
