@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:app/mainmenu.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class TitleScreen extends StatelessWidget {
   const TitleScreen({super.key});
@@ -22,7 +22,9 @@ class TitleScreen extends StatelessWidget {
             const SizedBox(height: 200),
             ElevatedButton(
               onPressed: () {
-                context.go('/mainmenu');
+                Navigator.of(context).push(
+                  blackOut(const MainMenu()),
+                );
               },
               style: ElevatedButton.styleFrom(
                   minimumSize: const Size(250, 80),
@@ -45,4 +47,45 @@ class TitleScreen extends StatelessWidget {
           ])),
     );
   }
+}
+
+PageRouteBuilder<Object?> blackOut(Widget screen) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => screen,
+    transitionDuration: const Duration(seconds: 1),
+    reverseTransitionDuration: const Duration(seconds: 1),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final color = ColorTween(
+        begin: Colors.transparent,
+        end: Colors.black,
+      ).animate(
+        CurvedAnimation(
+          parent: animation,
+          curve: const Interval(0, 0.5, curve: Curves.easeInOut),
+        ),
+      );
+      final opacity = Tween<double>(
+        begin: 0,
+        end: 1,
+      ).animate(
+        CurvedAnimation(
+          parent: animation,
+          curve: const Interval(0.5, 1, curve: Curves.easeInOut),
+        ),
+      );
+      return AnimatedBuilder(
+        animation: animation,
+        builder: (context, child) {
+          return Container(
+            color: color.value,
+            child: Opacity(
+              opacity: opacity.value,
+              child: child,
+            ),
+          );
+        },
+        child: child,
+      );
+    },
+  );
 }

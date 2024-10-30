@@ -16,28 +16,79 @@ class GameSelect extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-        appBar: AppBar(),
-        body: FutureBuilder(
-            future: ref.watch(getGamesByDifficultyProvider(difficulty)),
-            builder: (context, AsyncSnapshot snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                List<GameModel> games = snapshot.data;
-                return Column(
-                  children: games.map((game) {
-                    return TextButton(
-                      child: Text(game.name),
-                      onPressed: () async {
-                        await ref.watch(currentGameViewModelProvider.notifier).initGame(difficulty, games.indexOf(game));
-                        WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.push('/game'));
-                      },
-                    );
-                  }).toList(),
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }));
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Color(0xFF4A789C),
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () {
+              Navigator.pop(context); // 前の画面に戻る
+            },
+          ),
+        ),
+        body: Column(children: <Widget>[
+          Container(
+            height: 40,
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 68, 122, 156),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(40),
+                bottomRight: Radius.circular(40),
+              ),
+            ),
+            child: const Center(
+              child: Text(
+                '場所選択',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 80),
+          Expanded(
+              child: FutureBuilder(
+                  future: ref.watch(getGamesByDifficultyProvider(difficulty)),
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      List<GameModel> games = snapshot.data;
+
+                      return Column(
+                        children: games.map((game) {
+                          return OutlinedButton(
+                              onPressed: () async {
+                                await ref
+                                    .watch(
+                                        currentGameViewModelProvider.notifier)
+                                    .initGame(difficulty, games.indexOf(game));
+                                WidgetsBinding.instance.addPostFrameCallback(
+                                    (timeStamp) => context.push('/game'));
+                              },
+                              style: OutlinedButton.styleFrom(
+                                  minimumSize: const Size(320, 90),
+                                  side: const BorderSide(
+                                      color: Color(0xFF4A789C), width: 1.5),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  backgroundColor: Colors.white),
+                              child: Text(
+                                game.name,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  color: Color(0xFF4A789C),
+                                ),
+                              ));
+                        }).toList(),
+                      );
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  }))
+        ]));
   }
 }

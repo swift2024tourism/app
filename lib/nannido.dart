@@ -9,10 +9,22 @@ class Nannido extends StatelessWidget {
     '上級': '/game/select/hard',
   };
 
+  const Nannido({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF4A789C),
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context); // 前の画面に戻る
+          },
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -28,10 +40,10 @@ class Nannido extends StatelessWidget {
     return ClipPath(
       clipper: CustomShapeClipper(),
       child: Container(
-        height: 120,
-        color: Color(0xFF4A789C),
+        height: 80,
+        color: const Color(0xFF4A789C),
         alignment: Alignment.center,
-        child: Padding(
+        child: const Padding(
           padding: EdgeInsets.only(bottom: 10),
           child: Text(
             '難易度設定',
@@ -49,7 +61,7 @@ class Nannido extends StatelessWidget {
   Widget _buildDifficultyButtons(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: difficultyRoutes.entries.map((entry) {
@@ -69,7 +81,7 @@ class Nannido extends StatelessWidget {
     required String route,
     required BuildContext context,
   }) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: 100,
       child: OutlinedButton(

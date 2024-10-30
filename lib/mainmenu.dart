@@ -21,9 +21,13 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF4A789C),
+          elevation: 0,
+        ),
         body: Column(children: <Widget>[
           Container(
-            height: 100,
+            height: 40,
             decoration: const BoxDecoration(
               color: Color.fromARGB(255, 68, 122, 156),
               borderRadius: BorderRadius.only(
@@ -35,7 +39,7 @@ class HomePage extends StatelessWidget {
               child: Text(
                 'Main Menu',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 30,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
