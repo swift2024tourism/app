@@ -8,9 +8,13 @@ class Asobikata extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFFCC14A),
+        elevation: 0,
+      ),
       body: Column(children: <Widget>[
         Container(
-          height: 100,
+          height: 40,
           decoration: const BoxDecoration(
             color: Color(0xFFFCC14A),
             borderRadius: BorderRadius.only(
@@ -22,7 +26,7 @@ class Asobikata extends StatelessWidget {
             child: Text(
               'このゲームの遊びかた',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 25,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -72,7 +76,7 @@ class Asobikata extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                     minimumSize: const Size(50, 55),
-                    backgroundColor: Color.fromARGB(192, 218, 218, 218),
+                    backgroundColor: const Color.fromARGB(192, 218, 218, 218),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))),
                 child: const Text(
