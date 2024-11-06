@@ -13,6 +13,7 @@ class Tyuuigaki extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: const Color(0xFFE63746),
           elevation: 0,
+          automaticallyImplyLeading: false,
         ),
         body: Column(children: <Widget>[
           Container(
@@ -107,7 +108,7 @@ class Tyuuigaki extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(50, 55),
-                      backgroundColor: Color.fromARGB(192, 218, 218, 218),
+                      backgroundColor: const Color.fromARGB(192, 218, 218, 218),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
                   child: const Text(

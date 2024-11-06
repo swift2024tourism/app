@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:app/mainmenu.dart';
 import 'package:flutter/material.dart';
 
