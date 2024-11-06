@@ -26,7 +26,7 @@ class TitleScreen extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                   minimumSize: const Size(250, 80),
-                  backgroundColor: Color.fromARGB(255, 68, 122, 156),
+                  backgroundColor: const Color.fromARGB(255, 68, 122, 156),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
               child: const Text(

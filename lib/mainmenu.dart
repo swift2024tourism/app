@@ -144,7 +144,7 @@ class _MainMenuState extends State<MainMenu> {
                         ),
                       ),
                       child: const Text(
-                        'a',
+                        '実績',
                         style: TextStyle(
                           fontSize: 20,
                           color: Colors.white,
