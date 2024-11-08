@@ -48,6 +48,6 @@ final router = GoRouter(
     GoRoute(path: '/title', pageBuilder: (context, state) => const MaterialPage(child: TitleScreen())),
     GoRoute(path: '/asobikata', pageBuilder: (context, state) => const MaterialPage(child: Asobikata())),
     GoRoute(path: '/tyuuigaki', pageBuilder: (context, state) => const MaterialPage(child: Tyuuigaki())),
-    GoRoute(path: '/nannido', pageBuilder: (context, state) => const MaterialPage(child: Nannido())),
+    GoRoute(path: '/nannido', pageBuilder: (context, state) => MaterialPage(child: Nannido())),
   ],
 );

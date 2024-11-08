@@ -3,12 +3,61 @@ import 'package:app/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'database.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  sqfliteFfiInit();
+  databaseFactory = databaseFactoryFfi;
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(ProviderScope(child: DatabaseTest()));
   //takuto
+}
+
+class DatabaseTest extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Column(
+          children: [
+            Text('data'),
+            Text(''),
+            Text(''),
+            Text(''),
+            Text(''),
+            TextButton(
+                onPressed: () async {
+                  print('開始');
+                  GameInfoProvider gameInfoProvider = GameInfoProvider();
+                  String path =
+                      'database.db'; //join(await getDatabasesPath(),'game_db.db');
+                  await gameInfoProvider.open(path);
+
+                  GameInfo newGameInfo = GameInfo();
+                  newGameInfo.waypointId = 'wp_001';
+                  newGameInfo.gameid = 'game_001';
+                  newGameInfo.round = 1;
+                  newGameInfo.score = 100;
+                  newGameInfo.lat = 35.6895;
+                  newGameInfo.lon = 139.6917;
+                  newGameInfo.distancefromgoal = 10.5;
+
+                  GameInfo insertedGameInfo =
+                      await gameInfoProvider.insert(newGameInfo);
+                  print('Inserted game info: ${insertedGameInfo.id}');
+
+                  // データベースを閉じる
+                  await gameInfoProvider.close();
+                },
+                child: Text("insert"))
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {

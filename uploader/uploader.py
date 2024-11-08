@@ -1,3 +1,5 @@
+#触らない----------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------
 import json
 import firebase_admin  
 from firebase_admin import credentials, firestore ,storage
@@ -6,6 +8,7 @@ from PIL import Image
 from PIL.ExifTags import TAGS, GPSTAGS
 from google.cloud.firestore_v1 import GeoPoint
 
+#画像から座標の抜き出し関数
 def get_exif_data(image):
     exif_data = {}
     info = image._getexif()
@@ -44,25 +47,29 @@ def get_lat_lon(exif_data):
     return lat, lon
 
 
+
 # Firebase Admin SDKの初期化
-cred = credentials.Certificate(r"C:\Users\hoshi\app\uploader\swift2024app-firebase-adminsdk-vk4eb-6af6538459.json")
+cred = credentials.Certificate(r"C:\Users\hoshi\app\uploader\swift2024app-firebase-adminsdk-vk4eb-6af6538459.json") #hoshiのPC
 firebase_admin.initialize_app(cred,{
     'storageBucket':'swift2024app.appspot.com'
 })
 
 db = firestore.client()
 
-#-------------------------------------------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------------------------------------------
+#   変更部分-----------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------
 
-# 線の中のみをいじってください！！
+pairs = 24 #アップロード画像のペア数
+place = 'goryokaku' #エリア名
+
+#-------------------------------------------------------------------------------------------------------------------------------
+#触らない------------------------------------------------------------------------------------------------------------------------
 
 #写真のアップロード
-for i in range(1,15):
-    path = "C:\\Users\\hoshi\\app\\uploader\\"
-    place = 'goryokaku'
+for i in range(1,pairs+1):
+    path = "C:\\Users\\hoshi\\app\\uploader\\" #hoshi のPC
     file = place +'_' + str(i) + '_' + str(1) + '.jpg'
-    document_name = 'waypoint_' + place + '_'+ str(i)
+    document_name = place + '_'+ str(i)
     reference_name1 = 'pictures/' + place + '_' +  str(i) + '_1'
     reference_name2 = 'pictures/' + place + '_' + str(i) + '_2'
     reference_example_pictures1  = db.document(reference_name1)
@@ -73,7 +80,9 @@ for i in range(1,15):
        reference_example_pictures2
     ]
 
-    print(file)
+    
+    #アップロードする画像から座標の抜き出し
+    #waypoint
     try:
         img = Image.open(path + file)  #書き直し
         exif_data = get_exif_data(img)
@@ -88,61 +97,68 @@ for i in range(1,15):
 
     except Exception as e:
         print(f"予期しないエラーが発生しました: {e}")
-    filename = "goryokaku_"+ str(i)+"_"+str(1)+".jpg"
-    filename = "goryokaku_"+ str(i)+"_"+str(2)+".jpg"
+    filename1 = place+ "_" + str(i)+"_"+str(1)+".jpg"
+    filename2 = place +"_" + str(i)+"_"+str(2)+".jpg"
     bucket = storage.bucket()
-    blob = bucket.blob(filename)
-    blob.upload_from_filename(path + filename)
-    print(blob.public_url)
+    blob1 = bucket.blob(filename1)
+    blob2 = bucket.blob(filename2)
+    blob1.upload_from_filename(path + filename1)
+    blob2.upload_from_filename(path + filename2)
 
-    doc_ref1 = db.collection('pictures').document('goryokaku'  + '_' + str(i) + '_' + '1')
-    doc_ref2 = db.collection('pictures').document('goryokaku' + '_' + str(i) + '_' + '2')
+    print(blob1.public_url)
+    print(blob2.public_url)
 
-    url1 = 'https://firebasestorage.googleapis.com/v0/b/swift2024app.appspot.com/o/goryokaku_'+ str(i) + '_1.jpg?alt=media'
-    url2 = 'https://firebasestorage.googleapis.com/v0/b/swift2024app.appspot.com/o/goryokaku_' + str(i) + '_2.jpg?alt=media'
+
+    doc_ref1 = db.collection('pictures').document(place + '_' + str(i) + '_' + '1')
+    doc_ref2 = db.collection('pictures').document(place + '_' + str(i) + '_' + '2')
+
+    url1 = 'https://firebasestorage.googleapis.com/v0/b/swift2024app.appspot.com/o/' + place +'_'+ str(i) + '_1.jpg?alt=media'
+    url2 = 'https://firebasestorage.googleapis.com/v0/b/swift2024app.appspot.com/o/' + place +'_' + str(i) + '_2.jpg?alt=media'
+
 
     doc_ref1.set({
+        'name':'まえ',
         'url':url1
     })
 
     doc_ref2.set({
+        'name':'うしろ',
         'url':url2
     })
 
 
-#DocumentReferenceを作成
-reference_example1 = db.document('waypoints/autotest1')
-reference_example2 = db.document('waypoints/autotest2')
+# #DocumentReferenceを作成
+# reference_example1 = db.document('waypoints/autotest1')
+# reference_example2 = db.document('waypoints/autotest2')
 
 
-data = {
-    "games": {
-        # ドキュメント名　"autotest1" , 難易度　"easy", エリア　"金森",　座標の参照先 "reference_example1"
-        "goryo_easy": {
-            "difficulty": "easy", 
-            "name": "五稜郭",
-            "waypoints": reference_example1
-        },
-        #2つ目以降
-        "goryo_mid": {
-            "difficulty": "midium",
-            "name": "五稜郭",
-            "waypoints": reference_example2
-        }
-    }
-}
+# #ゲームモード追加===============================================================================================================
+# #==============================================================================================================================
 
-#-------------------------------------------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------------------------------------------
+# data = {
+#     "games": {
+#         # ドキュメント名　"autotest1" , 難易度　"easy", エリア　"金森",　座標の参照先 "reference_example1"
+#         "motomati_easy": {
+#             "difficulty": "easy", 
+#             "name": "元町",
+#             "waypoints": reference_example1
+#         },
+#         #2つ目以降
+#         # "motomati_mid": {
+#         #     "difficulty": "midium",
+#         #     "name": "元町",
+#         #     "waypoints": reference_example2
+#         # }
+#     }
+# }
 
-#ここからは触らないでください
+# #============================================================================================================================
+# #触れない=====================================================================================================================
 
-# Firestoreにデータをアップロード
-# 'data'コレクション内の各ドキュメントにデータをセット
-for document_id, document_data in data['games'].items():
-    doc_ref = db.collection('games').document(document_id)
-    doc_ref.set(document_data)
-
-
+# # Firestoreにデータをアップロード
+# # 'data'コレクション内の各ドキュメントにデータをセット
+# for document_id, document_data in data['games'].items():
+#     doc_ref = db.collection('games').document(document_id)
+#     doc_ref.set(document_data)
 
 print('アップロード完了')
