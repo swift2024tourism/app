@@ -15,11 +15,32 @@ class GameResult extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: const Column(
+      body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           GameResultTop(),
           Expanded(child: GameResultMap()),
+          Consumer(builder: (context, ref, _) {
+            return TextButton(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: const Text(
+                  "次へ",
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
+                ),
+              ),
+              onPressed: () async {
+                bool isLast = !ref.read(currentGameViewModelProvider.notifier).nextWaypoint();
+                if (isLast) {
+                  context.pop();
+                  context.pop();
+                } else {
+                  debugPrint('isLast');
+                  context.pop();
+                }
+              },
+            );
+          })
         ],
       ),
     );
@@ -37,6 +58,7 @@ class GameResultMap extends ConsumerWidget {
           orElse: () => const CircularProgressIndicator(),
           data: (CurrentGameState data) {
             List<Marker> markers = [];
+            List<Polyline> polylines = [];
             // set goal
             markers.add(Marker(
                 width: 80.0,
@@ -50,6 +72,11 @@ class GameResultMap extends ConsumerWidget {
                 height: 80.0,
                 point: LatLng(data.currentLocation!.latitude, data.currentLocation!.longitude),
                 child: const Icon(Icons.location_on, color: Colors.blue, size: 80.0)));
+            polylines.add(Polyline(points: [
+              LatLng(data.currentLocation!.latitude, data.currentLocation!.longitude),
+              LatLng(data.currentGame!.waypoints[data.currentWaypointIndex].geopoint.latitude,
+                  data.currentGame!.waypoints[data.currentWaypointIndex].geopoint.longitude)
+            ], strokeWidth: 10, pattern: const StrokePattern.dotted()));
             return FlutterMap(
                 options: MapOptions(
                   initialCenter: LatLng(
@@ -62,7 +89,11 @@ class GameResultMap extends ConsumerWidget {
                   TileLayer(
                     urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                   ),
-                  MarkerLayer(markers: markers)
+                  MarkerLayer(markers: markers),
+                  PolylineLayer(
+                    polylines: polylines,
+                    cullingMargin: 100,
+                  )
                 ]);
           });
     });
