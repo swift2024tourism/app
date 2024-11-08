@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'current_game_view_model.dart';
+part of 'game_history_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$currentGameViewModelHash() =>
-    r'6f5cfe6caff8dea9c6606e3999eab56ab4fd9664';
+String _$gameHistoryRepositoryHash() =>
+    r'5c1dc8234525c887171cb3aa9353f48286bbe67a';
 
-/// See also [CurrentGameViewModel].
-@ProviderFor(CurrentGameViewModel)
-final currentGameViewModelProvider = AutoDisposeAsyncNotifierProvider<
-    CurrentGameViewModel, CurrentGameState>.internal(
-  CurrentGameViewModel.new,
-  name: r'currentGameViewModelProvider',
+/// See also [gameHistoryRepository].
+@ProviderFor(gameHistoryRepository)
+final gameHistoryRepositoryProvider = Provider<GameHistoryRepository>.internal(
+  gameHistoryRepository,
+  name: r'gameHistoryRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$currentGameViewModelHash,
+      : _$gameHistoryRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$CurrentGameViewModel = AutoDisposeAsyncNotifier<CurrentGameState>;
+typedef GameHistoryRepositoryRef = ProviderRef<GameHistoryRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

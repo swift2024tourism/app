@@ -18,7 +18,9 @@ class GameResult extends StatelessWidget {
             return TextButton(
               child: const Text("次へ"),
               onPressed: () async {
-                bool isLast = !ref.read(currentGameViewModelProvider.notifier).nextWaypoint();
+                bool isLast = !ref
+                    .read(currentGameViewModelProvider.notifier)
+                    .nextWaypoint();
                 if (isLast) {
                   context.pop();
                   context.pop();
@@ -47,7 +49,8 @@ class GameResultTop extends ConsumerWidget {
             const Text('Game Result'),
             Text("結果は：${data.gameResult!.score.toString()}"),
             Text("距離は：${data.gameResult!.meterDistanceFromAnswer.toString()}m"),
-            Text("現在地は：${data.currentLocation!.latitude.toString()}, ${data.currentLocation!.longitude.toString()}"),
+            Text(
+                "現在地は：${data.currentLocation!.latitude.toString()}, ${data.currentLocation!.longitude.toString()}"),
             Text(
                 "目的地は：${data.currentGame!.waypoints[data.currentWaypointIndex].geopoint.latitude.toString()}, ${data.currentGame!.waypoints[data.currentWaypointIndex].geopoint.longitude.toString()}")
           ]);

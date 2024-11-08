@@ -17,6 +17,7 @@ class CurrentGameState with _$CurrentGameState {
     @Default(0) int currentWaypointIndex,
     @Default(0) int currentPictureIndex,
     GameResultModel? gameResult,
+    @Default(0) int round,
   }) = _CurrentGameState;
 
   // クラスメソッドのため
@@ -28,7 +29,8 @@ class CurrentGameState with _$CurrentGameState {
   }
 
   bool isPictureIndexIncrementable() {
-    return currentPictureIndex < currentGame!.waypoints[currentWaypointIndex].pictures.length - 1;
+    return currentPictureIndex <
+        currentGame!.waypoints[currentWaypointIndex].pictures.length - 1;
   }
 
   bool isWaypointIndexDecrementable() {

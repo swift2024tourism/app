@@ -22,6 +22,7 @@ mixin _$CurrentGameState {
   int get currentWaypointIndex => throw _privateConstructorUsedError;
   int get currentPictureIndex => throw _privateConstructorUsedError;
   GameResultModel? get gameResult => throw _privateConstructorUsedError;
+  int get round => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CurrentGameStateCopyWith<CurrentGameState> get copyWith =>
@@ -40,7 +41,8 @@ abstract class $CurrentGameStateCopyWith<$Res> {
       GeoPoint? currentLocation,
       int currentWaypointIndex,
       int currentPictureIndex,
-      GameResultModel? gameResult});
+      GameResultModel? gameResult,
+      int round});
 
   $GameModelCopyWith<$Res>? get currentGame;
   $GameResultModelCopyWith<$Res>? get gameResult;
@@ -65,6 +67,7 @@ class _$CurrentGameStateCopyWithImpl<$Res, $Val extends CurrentGameState>
     Object? currentWaypointIndex = null,
     Object? currentPictureIndex = null,
     Object? gameResult = freezed,
+    Object? round = null,
   }) {
     return _then(_value.copyWith(
       difficulty: null == difficulty
@@ -91,6 +94,10 @@ class _$CurrentGameStateCopyWithImpl<$Res, $Val extends CurrentGameState>
           ? _value.gameResult
           : gameResult // ignore: cast_nullable_to_non_nullable
               as GameResultModel?,
+      round: null == round
+          ? _value.round
+          : round // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 
@@ -133,7 +140,8 @@ abstract class _$$CurrentGameStateImplCopyWith<$Res>
       GeoPoint? currentLocation,
       int currentWaypointIndex,
       int currentPictureIndex,
-      GameResultModel? gameResult});
+      GameResultModel? gameResult,
+      int round});
 
   @override
   $GameModelCopyWith<$Res>? get currentGame;
@@ -158,6 +166,7 @@ class __$$CurrentGameStateImplCopyWithImpl<$Res>
     Object? currentWaypointIndex = null,
     Object? currentPictureIndex = null,
     Object? gameResult = freezed,
+    Object? round = null,
   }) {
     return _then(_$CurrentGameStateImpl(
       difficulty: null == difficulty
@@ -184,6 +193,10 @@ class __$$CurrentGameStateImplCopyWithImpl<$Res>
           ? _value.gameResult
           : gameResult // ignore: cast_nullable_to_non_nullable
               as GameResultModel?,
+      round: null == round
+          ? _value.round
+          : round // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -197,7 +210,8 @@ class _$CurrentGameStateImpl extends _CurrentGameState {
       this.currentLocation,
       this.currentWaypointIndex = 0,
       this.currentPictureIndex = 0,
-      this.gameResult})
+      this.gameResult,
+      this.round = 0})
       : assert(currentWaypointIndex >= 0),
         assert(currentPictureIndex >= 0),
         super._();
@@ -217,10 +231,13 @@ class _$CurrentGameStateImpl extends _CurrentGameState {
   final int currentPictureIndex;
   @override
   final GameResultModel? gameResult;
+  @override
+  @JsonKey()
+  final int round;
 
   @override
   String toString() {
-    return 'CurrentGameState(difficulty: $difficulty, currentGame: $currentGame, currentLocation: $currentLocation, currentWaypointIndex: $currentWaypointIndex, currentPictureIndex: $currentPictureIndex, gameResult: $gameResult)';
+    return 'CurrentGameState(difficulty: $difficulty, currentGame: $currentGame, currentLocation: $currentLocation, currentWaypointIndex: $currentWaypointIndex, currentPictureIndex: $currentPictureIndex, gameResult: $gameResult, round: $round)';
   }
 
   @override
@@ -239,12 +256,20 @@ class _$CurrentGameStateImpl extends _CurrentGameState {
             (identical(other.currentPictureIndex, currentPictureIndex) ||
                 other.currentPictureIndex == currentPictureIndex) &&
             (identical(other.gameResult, gameResult) ||
-                other.gameResult == gameResult));
+                other.gameResult == gameResult) &&
+            (identical(other.round, round) || other.round == round));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, difficulty, currentGame,
-      currentLocation, currentWaypointIndex, currentPictureIndex, gameResult);
+  int get hashCode => Object.hash(
+      runtimeType,
+      difficulty,
+      currentGame,
+      currentLocation,
+      currentWaypointIndex,
+      currentPictureIndex,
+      gameResult,
+      round);
 
   @JsonKey(ignore: true)
   @override
@@ -261,7 +286,8 @@ abstract class _CurrentGameState extends CurrentGameState {
       final GeoPoint? currentLocation,
       final int currentWaypointIndex,
       final int currentPictureIndex,
-      final GameResultModel? gameResult}) = _$CurrentGameStateImpl;
+      final GameResultModel? gameResult,
+      final int round}) = _$CurrentGameStateImpl;
   const _CurrentGameState._() : super._();
 
   @override
@@ -276,6 +302,8 @@ abstract class _CurrentGameState extends CurrentGameState {
   int get currentPictureIndex;
   @override
   GameResultModel? get gameResult;
+  @override
+  int get round;
   @override
   @JsonKey(ignore: true)
   _$$CurrentGameStateImplCopyWith<_$CurrentGameStateImpl> get copyWith =>

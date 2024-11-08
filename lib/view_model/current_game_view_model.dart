@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:app/model/enums/difficulty_model.dart';
 import 'package:app/model/game/game_model.dart';
 import 'package:app/model/game_result/game_result_model.dart';
+import 'package:app/repository/game_history_repository.dart';
 import 'package:app/repository/games_repository.dart';
 import 'package:app/state/current_game_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:unixtime/unixtime.dart';
 
 part 'current_game_view_model.g.dart';
 
@@ -38,7 +40,8 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
       // 外側の円（5-10m）なら距離に応じて50-100点の間で線形に減少
       // 線形補間を使用してスコアを計算
       double scoreRange = (MAX_SCORE - MIN_SCORE).toDouble();
-      double distanceRatio = (OUTER_RADIUS - distance) / (OUTER_RADIUS - INNER_RADIUS);
+      double distanceRatio =
+          (OUTER_RADIUS - distance) / (OUTER_RADIUS - INNER_RADIUS);
       return (MIN_SCORE + (scoreRange * distanceRatio)).round();
     } else {
       // 円の外（10m以上）なら50点
@@ -60,7 +63,8 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
     }
     debugPrint("now start game: ${game.name}");
 
-    state = AsyncData(CurrentGameState(currentGame: game, difficulty: difficulty));
+    state =
+        AsyncData(CurrentGameState(currentGame: game, difficulty: difficulty));
   }
 
   Future<bool> finishGame() async {
@@ -72,7 +76,8 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
           ].request();
           var permission = await Geolocator.requestPermission();
 
-          if (permission == LocationPermission.denied && PermissionStatus.granted != statuses[Permission.location]) {
+          if (permission == LocationPermission.denied &&
+              PermissionStatus.granted != statuses[Permission.location]) {
             return false;
           }
 
@@ -82,16 +87,33 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
             Position current = await Geolocator.getCurrentPosition();
             debugPrint("current: ${current.latitude}, ${current.longitude}");
 
-            GeoPoint target = data.currentGame!.waypoints[data.currentWaypointIndex].geopoint;
-            double distance = Geolocator.distanceBetween(current.latitude, current.longitude, target.latitude, target.longitude);
+            GeoPoint target =
+                data.currentGame!.waypoints[data.currentWaypointIndex].geopoint;
+            double distance = Geolocator.distanceBetween(current.latitude,
+                current.longitude, target.latitude, target.longitude);
 
             // 距離に基づいてスコアを計算
             int score = calculateScore(distance);
             debugPrint("Distance: ${distance}m, Score: $score");
 
-            state = AsyncData(data.copyWith(
-                currentLocation: GeoPoint(current.latitude, current.longitude),
-                gameResult: GameResultModel(score: score, meterDistanceFromAnswer: distance.toInt())));
+            // ここら辺でゲームを保存？？？
+            var gameHistoryRepository = ref.read(gameHistoryRepositoryProvider);
+            var unixTime = DateTime.now().unixtime;
+            // gameHistoryRepository.saveGameInfo(GameInfoModel(
+            //     id: unixTime,
+            //     gameId: data.currentGame!.id,
+            //     waypointId:
+            //         data.currentGame!.waypoints[data.currentWaypointIndex].id,
+            //     round: round,
+            //     score: score,
+            //     lat: lat,
+            //     lon: lon,
+            //     distanceFromGoal: distanceFromGoal));
+
+            // state = AsyncData(data.copyWith(
+            //     currentLocation: GeoPoint(current.latitude, current.longitude),
+            //     gameResult: GameResultModel(
+            //         score: score, meterDistanceFromAnswer: distance.toInt())));
             return true;
           } else {
             return false;
@@ -105,12 +127,20 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
     return games[randomIndex];
   }
 
+  void setRound(int round) {
+    state.whenData((CurrentGameState value) {
+      state = AsyncData(value.copyWith(round: round));
+    });
+  }
+
   bool nextWaypoint() {
     bool result = false;
     state.whenData((CurrentGameState value) {
       debugPrint("currentWaypointIndex: ${value.currentWaypointIndex}");
       if (value.isWaypointIndexIncrementable()) {
-        state = AsyncData(value.copyWith(currentWaypointIndex: value.currentWaypointIndex + 1, currentPictureIndex: 0));
+        state = AsyncData(value.copyWith(
+            currentWaypointIndex: value.currentWaypointIndex + 1,
+            currentPictureIndex: 0));
         result = true;
       }
     });
@@ -120,7 +150,8 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   void previousWaypoint() {
     state.whenData((CurrentGameState value) {
       if (value.isWaypointIndexDecrementable()) {
-        state = AsyncData(value.copyWith(currentWaypointIndex: value.currentWaypointIndex - 1));
+        state = AsyncData(value.copyWith(
+            currentWaypointIndex: value.currentWaypointIndex - 1));
       }
     });
   }
@@ -128,7 +159,8 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   void nextPicture() {
     state.whenData((CurrentGameState value) {
       if (value.isPictureIndexIncrementable()) {
-        state = AsyncData(value.copyWith(currentPictureIndex: value.currentPictureIndex + 1));
+        state = AsyncData(
+            value.copyWith(currentPictureIndex: value.currentPictureIndex + 1));
       }
     });
   }
@@ -136,7 +168,8 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   void previousPicture() {
     state.whenData((CurrentGameState value) {
       if (value.isPictureIndexDecrementable()) {
-        state = AsyncData(value.copyWith(currentPictureIndex: value.currentPictureIndex - 1));
+        state = AsyncData(
+            value.copyWith(currentPictureIndex: value.currentPictureIndex - 1));
       }
     });
   }
