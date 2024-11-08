@@ -19,6 +19,7 @@ mixin _$GameResultModel {
   int get score => throw _privateConstructorUsedError;
   int get maxScore => throw _privateConstructorUsedError;
   int get meterDistanceFromAnswer => throw _privateConstructorUsedError;
+  double get directionFromCurrentLocation => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $GameResultModelCopyWith<GameResultModel> get copyWith =>
@@ -31,7 +32,11 @@ abstract class $GameResultModelCopyWith<$Res> {
           GameResultModel value, $Res Function(GameResultModel) then) =
       _$GameResultModelCopyWithImpl<$Res, GameResultModel>;
   @useResult
-  $Res call({int score, int maxScore, int meterDistanceFromAnswer});
+  $Res call(
+      {int score,
+      int maxScore,
+      int meterDistanceFromAnswer,
+      double directionFromCurrentLocation});
 }
 
 /// @nodoc
@@ -50,6 +55,7 @@ class _$GameResultModelCopyWithImpl<$Res, $Val extends GameResultModel>
     Object? score = null,
     Object? maxScore = null,
     Object? meterDistanceFromAnswer = null,
+    Object? directionFromCurrentLocation = null,
   }) {
     return _then(_value.copyWith(
       score: null == score
@@ -64,6 +70,10 @@ class _$GameResultModelCopyWithImpl<$Res, $Val extends GameResultModel>
           ? _value.meterDistanceFromAnswer
           : meterDistanceFromAnswer // ignore: cast_nullable_to_non_nullable
               as int,
+      directionFromCurrentLocation: null == directionFromCurrentLocation
+          ? _value.directionFromCurrentLocation
+          : directionFromCurrentLocation // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -76,7 +86,11 @@ abstract class _$$GameResultModelImplCopyWith<$Res>
       __$$GameResultModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int score, int maxScore, int meterDistanceFromAnswer});
+  $Res call(
+      {int score,
+      int maxScore,
+      int meterDistanceFromAnswer,
+      double directionFromCurrentLocation});
 }
 
 /// @nodoc
@@ -93,6 +107,7 @@ class __$$GameResultModelImplCopyWithImpl<$Res>
     Object? score = null,
     Object? maxScore = null,
     Object? meterDistanceFromAnswer = null,
+    Object? directionFromCurrentLocation = null,
   }) {
     return _then(_$GameResultModelImpl(
       score: null == score
@@ -107,6 +122,10 @@ class __$$GameResultModelImplCopyWithImpl<$Res>
           ? _value.meterDistanceFromAnswer
           : meterDistanceFromAnswer // ignore: cast_nullable_to_non_nullable
               as int,
+      directionFromCurrentLocation: null == directionFromCurrentLocation
+          ? _value.directionFromCurrentLocation
+          : directionFromCurrentLocation // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -117,7 +136,8 @@ class _$GameResultModelImpl implements _GameResultModel {
   const _$GameResultModelImpl(
       {required this.score,
       this.maxScore = 100,
-      required this.meterDistanceFromAnswer});
+      required this.meterDistanceFromAnswer,
+      required this.directionFromCurrentLocation});
 
   @override
   final int score;
@@ -126,10 +146,12 @@ class _$GameResultModelImpl implements _GameResultModel {
   final int maxScore;
   @override
   final int meterDistanceFromAnswer;
+  @override
+  final double directionFromCurrentLocation;
 
   @override
   String toString() {
-    return 'GameResultModel(score: $score, maxScore: $maxScore, meterDistanceFromAnswer: $meterDistanceFromAnswer)';
+    return 'GameResultModel(score: $score, maxScore: $maxScore, meterDistanceFromAnswer: $meterDistanceFromAnswer, directionFromCurrentLocation: $directionFromCurrentLocation)';
   }
 
   @override
@@ -142,12 +164,16 @@ class _$GameResultModelImpl implements _GameResultModel {
                 other.maxScore == maxScore) &&
             (identical(
                     other.meterDistanceFromAnswer, meterDistanceFromAnswer) ||
-                other.meterDistanceFromAnswer == meterDistanceFromAnswer));
+                other.meterDistanceFromAnswer == meterDistanceFromAnswer) &&
+            (identical(other.directionFromCurrentLocation,
+                    directionFromCurrentLocation) ||
+                other.directionFromCurrentLocation ==
+                    directionFromCurrentLocation));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, score, maxScore, meterDistanceFromAnswer);
+  int get hashCode => Object.hash(runtimeType, score, maxScore,
+      meterDistanceFromAnswer, directionFromCurrentLocation);
 
   @JsonKey(ignore: true)
   @override
@@ -159,9 +185,11 @@ class _$GameResultModelImpl implements _GameResultModel {
 
 abstract class _GameResultModel implements GameResultModel {
   const factory _GameResultModel(
-      {required final int score,
-      final int maxScore,
-      required final int meterDistanceFromAnswer}) = _$GameResultModelImpl;
+          {required final int score,
+          final int maxScore,
+          required final int meterDistanceFromAnswer,
+          required final double directionFromCurrentLocation}) =
+      _$GameResultModelImpl;
 
   @override
   int get score;
@@ -169,6 +197,8 @@ abstract class _GameResultModel implements GameResultModel {
   int get maxScore;
   @override
   int get meterDistanceFromAnswer;
+  @override
+  double get directionFromCurrentLocation;
   @override
   @JsonKey(ignore: true)
   _$$GameResultModelImplCopyWith<_$GameResultModelImpl> get copyWith =>

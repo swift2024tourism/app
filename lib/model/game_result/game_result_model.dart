@@ -8,5 +8,6 @@ class GameResultModel with _$GameResultModel {
     required int score,
     @Default(100) int maxScore,
     required int meterDistanceFromAnswer,
+    required double directionFromCurrentLocation,
   }) = _GameResultModel;
 }
