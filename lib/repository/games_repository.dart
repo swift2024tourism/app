@@ -13,11 +13,13 @@ abstract class IGamesRepository {
 }
 
 // for development use games_test
-const gamesCollection = "games_test";
+const gamesCollection = "games";
 
 @riverpod
 IGamesRepository gamesRepository(ref) {
-  return GamesRepository(FirebaseFirestore.instance.collection(gamesCollection));
+  var firestore = FirebaseFirestore.instance;
+  firestore.settings = const Settings(cacheSizeBytes: -1, persistenceEnabled: true);
+  return GamesRepository(firestore.collection(gamesCollection));
 }
 
 //Rawで囲うと勝手にAsyncValueにならない
@@ -87,6 +89,7 @@ class GamesRepository extends IGamesRepository {
     debugPrint("difficulty: ${difficulty.name}");
     games = await gamesCollectionRef.where("difficulty", isEqualTo: difficulty.name).get().then((QuerySnapshot<Object?> snapshot) async {
       games = await Future.wait(snapshot.docs.map((QueryDocumentSnapshot<Object?> documentSnapshot) async {
+        debugPrint("load game: ${documentSnapshot.data()}");
         return await GameModel.fromFirestore(documentSnapshot as DocumentSnapshot<Map<String, dynamic>>);
       }));
       return games;

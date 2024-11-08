@@ -1,4 +1,8 @@
+import 'package:app/model/enums/difficulty_model.dart';
+import 'package:app/repository/games_repository.dart';
+import 'package:app/view_model/current_game_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class Nannido extends StatelessWidget {
@@ -76,34 +80,66 @@ class Nannido extends StatelessWidget {
       ),
     );
   }
+  /*
+
+            TextButton(
+              child: const Text("難易度：初級"),
+              onPressed: () async {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.push('/game/select/easy'));
+              },
+            ),
+            TextButton(
+              child: const Text("難易度：中級"),
+              onPressed: () async {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.push('/game/select/medium'));
+              },
+            ),
+            TextButton(
+              child: const Text("難易度：上級"),
+              onPressed: () async {
+                // ignore: unused_result
+                await ref.refresh(getGamesByDifficultyProvider(Difficulty.hard));
+                await ref.watch(currentGameViewModelProvider.notifier).initGame(Difficulty.hard, null);
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.push('/game'));
+              },
+            ),
+  */
 
   Widget _buildDifficultyButton({
     required String text,
     required String route,
     required BuildContext context,
   }) {
-    return SizedBox(
-      width: double.infinity,
-      height: 100,
-      child: OutlinedButton(
-        onPressed: () => context.push(route),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 32,
-            color: Color(0xFF4A789C),
-            fontWeight: FontWeight.w500,
+    return Consumer(builder: (context, ref, _) {
+      return Container(
+        width: double.infinity,
+        height: 100,
+        child: OutlinedButton(
+          onPressed: () async {
+            if (route == '/game/select/hard') {
+              await ref.refresh(getGamesByDifficultyProvider(Difficulty.hard));
+              await ref.read(currentGameViewModelProvider.notifier).initGame(Difficulty.hard, null);
+            }
+            WidgetsBinding.instance.addPostFrameCallback((timestamp) => context.push(route));
+          },
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 32,
+              color: Color(0xFF4A789C),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          style: OutlinedButton.styleFrom(
+            side: BorderSide(color: Color(0xFF4A789C), width: 1.5),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            backgroundColor: Colors.white,
           ),
         ),
-        style: OutlinedButton.styleFrom(
-          side: BorderSide(color: Color(0xFF4A789C), width: 1.5),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          backgroundColor: Colors.white,
-        ),
-      ),
-    );
+      );
+    });
   }
 
   // 戻るボタンを定義
