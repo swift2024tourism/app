@@ -13,15 +13,28 @@ class Nannido extends StatelessWidget {
     '上級': '/game/select/hard',
   };
 
+  const Nannido({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF4A789C),
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context); // 前の画面に戻る
+          },
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
             _buildHeader(),
             _buildDifficultyButtons(context),
+            _buildBackButton(context), // ここに戻るボタンを追加
           ],
         ),
       ),
@@ -32,10 +45,10 @@ class Nannido extends StatelessWidget {
     return ClipPath(
       clipper: CustomShapeClipper(),
       child: Container(
-        height: 120,
-        color: Color(0xFF4A789C),
+        height: 80,
+        color: const Color(0xFF4A789C),
         alignment: Alignment.center,
-        child: Padding(
+        child: const Padding(
           padding: EdgeInsets.only(bottom: 10),
           child: Text(
             '難易度設定',
@@ -53,7 +66,7 @@ class Nannido extends StatelessWidget {
   Widget _buildDifficultyButtons(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: difficultyRoutes.entries.map((entry) {
@@ -127,6 +140,33 @@ class Nannido extends StatelessWidget {
         ),
       );
     });
+  }
+
+  // 戻るボタンを定義
+  Widget _buildBackButton(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(20),
+      child: SizedBox(
+        width: double.infinity,
+        height: 50,
+        child: ElevatedButton(
+          onPressed: () => context.pop(), // 前の画面に戻る
+          child: Text(
+            '戻る',
+            style: TextStyle(fontSize: 24),
+          ),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Color(0xFF4A789C)),
+            foregroundColor: MaterialStateProperty.all(Colors.white),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 

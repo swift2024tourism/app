@@ -10,9 +10,13 @@ class Tyuuigaki extends StatelessWidget {
 
     return Scaffold(
         backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: const Color(0xFFE63746),
+          elevation: 0,
+        ),
         body: Column(children: <Widget>[
           Container(
-            height: 100,
+            height: 40,
             decoration: const BoxDecoration(
               color: Color(0xFFE63746),
               borderRadius: BorderRadius.only(
@@ -24,7 +28,7 @@ class Tyuuigaki extends StatelessWidget {
               child: Text(
                 'ゲームを安全に楽しむために',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 25,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -38,7 +42,6 @@ class Tyuuigaki extends StatelessWidget {
               children: [
                 Container(
                   height: screenSize.height * 0.55,
-                  margin: const EdgeInsets.only(left: 30.0),
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -74,7 +77,6 @@ class Tyuuigaki extends StatelessWidget {
                 ),
                 Container(
                   height: screenSize.height * 0.55,
-                  margin: const EdgeInsets.only(right: 10.0),
                   padding: const EdgeInsets.all(20.0),
                   child: const Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
