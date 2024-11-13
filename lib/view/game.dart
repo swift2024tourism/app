@@ -17,6 +17,8 @@ class Game extends StatefulWidget {
 
 class _GameState extends State<Game> {
   final viewTransformationController = TransformationController();
+  int cycleCount = 1;
+
   @override
   void initState() {
     super.initState();
@@ -41,14 +43,20 @@ class _GameState extends State<Game> {
                     child: OverflowBox(
                       child: InteractiveViewer(
                           minScale: 0.1,
-                          onInteractionEnd: (details) => debugPrint(details.toString()),
+                          onInteractionEnd: (details) =>
+                              debugPrint(details.toString()),
                           constrained: false,
-                          transformationController: viewTransformationController,
+                          transformationController:
+                              viewTransformationController,
                           child: CachedNetworkImage(
-                            progressIndicatorBuilder: (context, _, downloadProcess) => const Center(
+                            progressIndicatorBuilder:
+                                (context, _, downloadProcess) => const Center(
                               child: CircularProgressIndicator(),
                             ),
-                            imageUrl: currentGame.waypoints[state.currentWaypointIndex].pictures[state.currentPictureIndex].url,
+                            imageUrl: currentGame
+                                .waypoints[state.currentWaypointIndex]
+                                .pictures[state.currentPictureIndex]
+                                .url,
                           )),
                     ),
                   );
@@ -63,17 +71,24 @@ class _GameState extends State<Game> {
                     return ref.watch(currentGameViewModelProvider).maybeWhen(
                         orElse: () => const CircularProgressIndicator(),
                         data: (state) {
-                          var currentWaypoint = state.currentGame!.waypoints[state.currentWaypointIndex];
+                          var currentWaypoint = state.currentGame!
+                              .waypoints[state.currentWaypointIndex];
                           var currentPictureIndex = state.currentPictureIndex;
                           String leftButtonText = "";
                           // if (currentWaypoint.pictures.contains(currentPictureIndex--)) {
-                          if (currentWaypoint.pictures.asMap().containsKey(currentPictureIndex - 1)) {
-                            leftButtonText = "${currentWaypoint.pictures[currentPictureIndex - 1].name}へ";
+                          if (currentWaypoint.pictures
+                              .asMap()
+                              .containsKey(currentPictureIndex - 1)) {
+                            leftButtonText =
+                                "${currentWaypoint.pictures[currentPictureIndex - 1].name}へ";
                           }
                           String rightButtonText = "";
                           // if (currentWaypoint.pictures.contains(currentPictureIndex++)) {
-                          if (currentWaypoint.pictures.asMap().containsKey(currentPictureIndex + 1)) {
-                            rightButtonText = "${currentWaypoint.pictures[currentPictureIndex + 1].name}へ";
+                          if (currentWaypoint.pictures
+                              .asMap()
+                              .containsKey(currentPictureIndex + 1)) {
+                            rightButtonText =
+                                "${currentWaypoint.pictures[currentPictureIndex + 1].name}へ";
                           }
                           return Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,22 +99,30 @@ class _GameState extends State<Game> {
                                 height: 100,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
-                                  color: (leftButtonText.isEmpty) ? Colors.transparent : Colors.black.withOpacity(0.3),
+                                  color: (leftButtonText.isEmpty)
+                                      ? Colors.transparent
+                                      : Colors.black.withOpacity(0.3),
                                 ),
                                 child: IconButton(
                                     onPressed: () {
-                                      ref.read(currentGameViewModelProvider.notifier).previousPicture();
+                                      ref
+                                          .read(currentGameViewModelProvider
+                                              .notifier)
+                                          .previousPicture();
                                     },
                                     icon: Column(
                                       children: [
                                         Icon(
                                           Icons.arrow_back,
                                           size: 60,
-                                          color: (leftButtonText.isEmpty) ? Colors.transparent : Colors.white,
+                                          color: (leftButtonText.isEmpty)
+                                              ? Colors.transparent
+                                              : Colors.white,
                                         ),
                                         Text(
                                           leftButtonText,
-                                          style: TextStyle(color: Colors.white),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         )
                                       ],
                                     )),
@@ -110,7 +133,8 @@ class _GameState extends State<Game> {
                                   children: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                        textStyle: const TextStyle(fontSize: 20),
+                                        textStyle:
+                                            const TextStyle(fontSize: 20),
                                         fixedSize: const Size(230, 65),
                                         backgroundColor: Colors.yellow,
                                       ),
@@ -118,14 +142,21 @@ class _GameState extends State<Game> {
                                         "決定",
                                       ),
                                       onPressed: () async {
-                                        bool isSuc = await ref.watch(currentGameViewModelProvider.notifier).finishGame();
+                                        bool isSuc = await ref
+                                            .watch(currentGameViewModelProvider
+                                                .notifier)
+                                            .finishGame();
                                         debugPrint("isSuc");
                                         debugPrint(isSuc.toString());
                                         if (context.mounted) {
                                           if (isSuc) {
+                                            setState(() {
+                                              cycleCount++;
+                                            });
                                             context.push('/game/result');
                                           } else {
-                                            ScaffoldMessenger.of(context).showSnackBar(
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
                                               const SnackBar(
                                                 content: Text('位置情報の権限が必要です'),
                                               ),
@@ -142,21 +173,31 @@ class _GameState extends State<Game> {
                                         Expanded(
                                           flex: 1,
                                           child: Padding(
-                                              padding: const EdgeInsets.all(5.0),
+                                              padding:
+                                                  const EdgeInsets.all(5.0),
                                               child: Container(
                                                   decoration: BoxDecoration(
                                                     color: Colors.black,
-                                                    borderRadius: BorderRadius.circular(15),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
                                                   ),
                                                   height: 60,
                                                   child: TextButton(
                                                       onPressed: () {
-                                                        showDialog(context: context, builder: (context) => _warningDialog(context));
+                                                        showDialog(
+                                                            context: context,
+                                                            builder: (context) =>
+                                                                _warningDialog(
+                                                                    context));
                                                       },
                                                       child: const Text(
-                                                        textAlign: TextAlign.center,
+                                                        textAlign:
+                                                            TextAlign.center,
                                                         "ゲーム中の\n注意事項",
-                                                        style: TextStyle(color: Colors.white),
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
                                                       )))),
                                         ),
                                         Expanded(
@@ -166,15 +207,18 @@ class _GameState extends State<Game> {
                                             child: Container(
                                                 decoration: BoxDecoration(
                                                   color: Colors.black,
-                                                  borderRadius: BorderRadius.circular(15),
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
                                                 ),
                                                 height: 60,
                                                 child: TextButton(
                                                     onPressed: () {},
                                                     child: const Text(
                                                       "操作方法",
-                                                      style: TextStyle(color: Colors.white),
-                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                      textAlign:
+                                                          TextAlign.center,
                                                     ))),
                                           ),
                                         )
@@ -189,22 +233,30 @@ class _GameState extends State<Game> {
                                 height: 100,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
-                                  color: (rightButtonText.isEmpty) ? Colors.transparent : Colors.black.withOpacity(0.3),
+                                  color: (rightButtonText.isEmpty)
+                                      ? Colors.transparent
+                                      : Colors.black.withOpacity(0.3),
                                 ),
                                 child: IconButton(
                                     onPressed: () {
-                                      ref.read(currentGameViewModelProvider.notifier).nextPicture();
+                                      ref
+                                          .read(currentGameViewModelProvider
+                                              .notifier)
+                                          .nextPicture();
                                     },
                                     icon: Column(
                                       children: [
                                         Icon(
-                                          color: (rightButtonText.isEmpty) ? Colors.transparent : Colors.white,
+                                          color: (rightButtonText.isEmpty)
+                                              ? Colors.transparent
+                                              : Colors.white,
                                           Icons.arrow_forward,
                                           size: 60,
                                         ),
                                         Text(
                                           rightButtonText,
-                                          style: const TextStyle(color: Colors.white),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         )
                                       ],
                                     )),
@@ -228,11 +280,11 @@ class _GameState extends State<Game> {
                 height: 120,
                 color: const Color(0xFF4A789C),
                 alignment: Alignment.center,
-                child: const Padding(
-                  padding: EdgeInsets.only(bottom: 10),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
-                    '撮影場所はどこか探そう',
-                    style: TextStyle(
+                    'ラウンド$cycleCount',
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -257,7 +309,7 @@ class _GameState extends State<Game> {
             icon,
             size: 80,
           ),
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
           Text(text),
         ],
       ),
@@ -268,11 +320,11 @@ class _GameState extends State<Game> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 80),
       child: Container(
-        decoration: BoxDecoration(color: Colors.white),
+        decoration: const BoxDecoration(color: Colors.white),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Container(
@@ -280,8 +332,8 @@ class _GameState extends State<Game> {
                 color: Colors.red,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
                 child: Text(
                   "ゲーム中の注意事項",
                   style: TextStyle(color: Colors.white),
@@ -291,7 +343,8 @@ class _GameState extends State<Game> {
             _warningItem("ゲームをするときは\n周りの状況をみましょう！", Icons.car_crash),
             _warningItem("ながらスマホは大変危険です\n絶対にやめましょう", Icons.smartphone),
             _warningItem("観光名所の立ち入り禁止\nエリアには入らないように\nしてください", Icons.close),
-            ElevatedButton(onPressed: () => context.pop(), child: const Text("閉じる")),
+            ElevatedButton(
+                onPressed: () => context.pop(), child: const Text("閉じる")),
           ],
         ),
       ),
