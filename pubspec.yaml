@@ -54,6 +54,8 @@ dependencies:
   latlong2: ^0.9.1
   vector_math: ^2.1.4
   cached_network_image: ^3.4.1
+  geolocator_web: ^4.1.1
+  universal_platform: ^1.1.0
 
 dev_dependencies:
   flutter_test:

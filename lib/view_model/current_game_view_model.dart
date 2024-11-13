@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:app/model/enums/difficulty_model.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:unixtime/unixtime.dart';
 
 import 'package:vector_math/vector_math_64.dart';
@@ -71,53 +73,66 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   Future<bool> finishGame() async {
     return state.maybeWhen(
         data: (CurrentGameState data) async {
+          Position? location;
+          if (UniversalPlatform.isWeb) {}
           debugPrint("finish game: ${data.currentGame!.name}");
           Map<Permission, PermissionStatus> statuses = await [
             Permission.location,
           ].request();
-          var permission = await Geolocator.requestPermission();
-
-          if (permission == LocationPermission.denied && PermissionStatus.granted != statuses[Permission.location]) {
-            return false;
-          }
-
-          if (await Permission.location.request().isGranted ||
-              permission == LocationPermission.whileInUse ||
-              permission == LocationPermission.always) {
-            Position current = await Geolocator.getCurrentPosition();
-            debugPrint("current: ${current.latitude}, ${current.longitude}");
-
-            GeoPoint target = data.currentGame!.waypoints[data.currentWaypointIndex].geopoint;
-            double distance = Geolocator.distanceBetween(current.latitude, current.longitude, target.latitude, target.longitude);
-
-            double direction = Geolocator.bearingBetween(current.latitude, current.longitude, target.latitude, target.longitude);
-            debugPrint(calculateBearing(current.latitude, current.longitude, target.latitude, target.longitude).toString());
-            direction = radians(calculateBearing(current.latitude, current.longitude, target.latitude, target.longitude)) + pi - pi / 2;
-            // 距離に基づいてスコアを計算
-            int score = calculateScore(distance);
-            debugPrint("Distance: ${distance.toInt()}m, Score: $score");
-
-            // ここら辺でゲームを保存？？？
-            var gameHistoryRepository = ref.read(gameHistoryRepositoryProvider);
-            var unixTime = DateTime.now().unixtime;
-
-            state = AsyncData(data.copyWith(
-                currentLocation: GeoPoint(current.latitude, current.longitude),
-                gameResult:
-                    GameResultModel(score: score, meterDistanceFromAnswer: distance.toInt(), directionFromCurrentLocation: direction)));
-            ref.read(gameHistoryRepositoryProvider).saveGameInfo(GameInfoModel(
-                id: unixTime,
-                gameId: data.currentGame!.id,
-                waypointId: data.currentGame!.waypoints[data.currentWaypointIndex].id,
-                round: data.round,
-                score: score,
-                lat: current.latitude,
-                lon: current.longitude,
-                distanceFromGoal: distance));
-            return true;
+          if (UniversalPlatform.isWeb) {
+            location = await Geolocator.getCurrentPosition();
           } else {
-            return false;
+            if (Platform.isAndroid || Platform.isIOS) {
+              var permission = await Geolocator.requestPermission();
+              if (permission == LocationPermission.denied && PermissionStatus.granted != statuses[Permission.location]) {
+                return false;
+              }
+
+              if (await Permission.location.request().isGranted ||
+                  permission == LocationPermission.whileInUse ||
+                  permission == LocationPermission.always) {
+                debugPrint("1");
+                location = await Geolocator.getCurrentPosition();
+              } else {
+                return false;
+              }
+            }
+            if (location == null) {
+              return false;
+            }
           }
+
+          debugPrint("3");
+          debugPrint("current: ${location.latitude}, ${location.longitude}");
+
+          GeoPoint target = data.currentGame!.waypoints[data.currentWaypointIndex].geopoint;
+          double distance = Geolocator.distanceBetween(location.latitude, location.longitude, target.latitude, target.longitude);
+
+          double direction = Geolocator.bearingBetween(location.latitude, location.longitude, target.latitude, target.longitude);
+          debugPrint(calculateBearing(location.latitude, location.longitude, target.latitude, target.longitude).toString());
+          direction = radians(calculateBearing(location.latitude, location.longitude, target.latitude, target.longitude)) + pi - pi / 2;
+          // 距離に基づいてスコアを計算
+          int score = calculateScore(distance);
+          debugPrint("Distance: ${distance.toInt()}m, Score: $score");
+
+          // ここら辺でゲームを保存？？？
+          var gameHistoryRepository = ref.read(gameHistoryRepositoryProvider);
+          var unixTime = DateTime.now().unixtime;
+
+          state = AsyncData(data.copyWith(
+              currentLocation: GeoPoint(location.latitude, location.longitude),
+              gameResult:
+                  GameResultModel(score: score, meterDistanceFromAnswer: distance.toInt(), directionFromCurrentLocation: direction)));
+          ref.read(gameHistoryRepositoryProvider).saveGameInfo(GameInfoModel(
+              id: unixTime,
+              gameId: data.currentGame!.id,
+              waypointId: data.currentGame!.waypoints[data.currentWaypointIndex].id,
+              round: data.round,
+              score: score,
+              lat: location.latitude,
+              lon: location.longitude,
+              distanceFromGoal: distance));
+          return true;
         },
         orElse: () => false);
   }
