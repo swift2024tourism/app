@@ -1,4 +1,7 @@
+import 'package:app/model/game_result/game_info_model.dart';
+import 'package:app/repository/game_history_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class MainMenu extends StatelessWidget {
@@ -20,6 +23,42 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return Scaffold(
+                  appBar: AppBar(
+                    title: const Text('Second Page'),
+                  ),
+                  body: Consumer(
+                    builder: (context, ref, child) {
+                      return FutureBuilder(
+                          future: ref.read(gameHistoryRepositoryProvider).getGameInfos(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return const Center(child: CircularProgressIndicator());
+                            }
+                            final gameInfos = snapshot.data as List<GameInfoModel>;
+                            return ListView.builder(
+                                itemCount: gameInfos.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    title: Text(gameInfos[index].gameId),
+                                    subtitle: Row(
+                                      children: [
+                                        Text(gameInfos[index].score.toString()),
+                                        Text(gameInfos[index].distanceFromGoal.toString()),
+                                      ],
+                                    ),
+                                  );
+                                });
+                          });
+                    },
+                  ));
+            }));
+          },
+          child: const Icon(Icons.arrow_back),
+        ),
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: const Color(0xFF4A789C),
@@ -58,14 +97,10 @@ class HomePage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(320, 90),
                       backgroundColor: const Color(0xFFFCC14A),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
                   child: const Text(
                     'このゲームのあそびかた',
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const SizedBox(height: 30),
@@ -76,14 +111,10 @@ class HomePage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(320, 90),
                       backgroundColor: const Color(0xFFE63746),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
                   child: const Text(
                     'ゲームを安全に楽しむために',
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -95,8 +126,7 @@ class HomePage extends StatelessWidget {
                       minimumSize: const Size(320, 250),
                       alignment: Alignment.centerLeft,
                       backgroundColor: const Color.fromARGB(255, 68, 122, 156),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
                   child: const Text.rich(TextSpan(children: <TextSpan>[
                     TextSpan(
                         text: 'Start the\nGame!\n',
