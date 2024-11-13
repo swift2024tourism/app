@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:app/model/enums/difficulty_model.dart';
 import 'package:app/model/game/game_model.dart';
+import 'package:app/model/game_result/game_info_model.dart';
 import 'package:app/model/game_result/game_result_model.dart';
 import 'package:app/repository/game_history_repository.dart';
 import 'package:app/repository/games_repository.dart';
@@ -121,10 +122,22 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
             //     lon: lon,
             //     distanceFromGoal: distanceFromGoal));
 
-            // state = AsyncData(data.copyWith(
-            //     currentLocation: GeoPoint(current.latitude, current.longitude),
-            //     gameResult: GameResultModel(
-            //         score: score, meterDistanceFromAnswer: distance.toInt())));
+            state = AsyncData(data.copyWith(
+                currentLocation: GeoPoint(current.latitude, current.longitude),
+                gameResult: GameResultModel(
+                    score: score,
+                    meterDistanceFromAnswer: distance.toInt(),
+                    directionFromCurrentLocation: direction)));
+            ref.read(gameHistoryRepositoryProvider).saveGameInfo(GameInfoModel(
+                id: unixTime,
+                gameId: data.currentGame!.id,
+                waypointId:
+                    data.currentGame!.waypoints[data.currentWaypointIndex].id,
+                round: data.round,
+                score: score,
+                lat: current.latitude,
+                lon: current.longitude,
+                distanceFromGoal: distance));
             return true;
           } else {
             return false;

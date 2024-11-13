@@ -15,6 +15,7 @@ class GameHistoryRepository {
   SharedPreferences? _prefs;
   final String _gameInfoListKey = 'gameInfoList';
 
+  /// ゲームの結果をshared_preferencesに保存する
   Future<void> saveGameInfo(GameInfoModel gameInfo) async {
     _prefs ??= await SharedPreferences.getInstance();
     final gameInfoList = _prefs?.getStringList(_gameInfoListKey) ?? [];
