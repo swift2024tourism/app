@@ -9,7 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class Game extends StatefulWidget {
-  const Game({super.key});
+  Game({super.key});
+  bool isGetResult = false;
 
   @override
   State<Game> createState() => _GameState();
@@ -28,7 +29,45 @@ class _GameState extends State<Game> {
 
   @override
   Widget build(BuildContext context) {
+    /*
+
+                  Container( height: 120,
+                    color: const Color(0xFF4A789C),
+                    alignment: Alignment.center,
+                    child: const Padding(
+                      padding: EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        '撮影場所はどこか探そう',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+  */
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () {
+              context.pop();
+            },
+          ),
+        ],
+        backgroundColor: const Color(0xFF4A789C),
+        title: Text(
+          '撮影場所はどこか探そう',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
       body: Consumer(builder: (context, ref, _) {
         return Stack(
           children: [
@@ -36,21 +75,18 @@ class _GameState extends State<Game> {
                 orElse: () => const CircularProgressIndicator(),
                 data: (state) {
                   GameModel currentGame = state.currentGame!;
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 80),
-                    child: OverflowBox(
-                      child: InteractiveViewer(
-                          minScale: 0.1,
-                          onInteractionEnd: (details) => debugPrint(details.toString()),
-                          constrained: false,
-                          transformationController: viewTransformationController,
-                          child: CachedNetworkImage(
-                            progressIndicatorBuilder: (context, _, downloadProcess) => const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                            imageUrl: currentGame.waypoints[state.currentWaypointIndex].pictures[state.currentPictureIndex].url,
-                          )),
-                    ),
+                  return OverflowBox(
+                    child: InteractiveViewer(
+                        minScale: 0.1,
+                        onInteractionEnd: (details) => debugPrint(details.toString()),
+                        constrained: false,
+                        transformationController: viewTransformationController,
+                        child: CachedNetworkImage(
+                          progressIndicatorBuilder: (context, _, downloadProcess) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          imageUrl: currentGame.waypoints[state.currentWaypointIndex].pictures[state.currentPictureIndex].url,
+                        )),
                   );
                 }),
             Container(
@@ -108,32 +144,37 @@ class _GameState extends State<Game> {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    TextButton(
-                                      style: TextButton.styleFrom(
-                                        textStyle: const TextStyle(fontSize: 20),
-                                        fixedSize: const Size(230, 65),
-                                        backgroundColor: Colors.yellow,
-                                      ),
-                                      child: const Text(
-                                        "決定",
-                                      ),
-                                      onPressed: () async {
-                                        bool isSuc = await ref.watch(currentGameViewModelProvider.notifier).finishGame();
-                                        debugPrint("isSuc");
-                                        debugPrint(isSuc.toString());
-                                        if (context.mounted) {
-                                          if (isSuc) {
-                                            context.push('/game/result');
-                                          } else {
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                              const SnackBar(
-                                                content: Text('位置情報の権限が必要です'),
-                                              ),
-                                            );
-                                          }
-                                        }
-                                      },
-                                    ),
+                                    widget.isGetResult
+                                        ? const CircularProgressIndicator()
+                                        : TextButton(
+                                            style: TextButton.styleFrom(
+                                              textStyle: const TextStyle(fontSize: 20),
+                                              fixedSize: const Size(230, 65),
+                                              backgroundColor: Colors.yellow,
+                                            ),
+                                            child: const Text(
+                                              "決定",
+                                            ),
+                                            onPressed: () async {
+                                              setState(() {
+                                                widget.isGetResult = true;
+                                              });
+                                              bool isSuc = await ref.watch(currentGameViewModelProvider.notifier).finishGame();
+                                              debugPrint("isSuc");
+                                              debugPrint(isSuc.toString());
+                                              if (context.mounted) {
+                                                if (isSuc) {
+                                                  context.push('/game/result');
+                                                } else {
+                                                  ScaffoldMessenger.of(context).showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text('位置情報の権限が必要です'),
+                                                    ),
+                                                  );
+                                                }
+                                              }
+                                            },
+                                          ),
                                     const SizedBox(
                                       height: 10,
                                     ),
@@ -220,25 +261,6 @@ class _GameState extends State<Game> {
                     height: 20,
                   )
                 ],
-              ),
-            ),
-            ClipPath(
-              clipper: CustomShapeClipper(),
-              child: Container(
-                height: 120,
-                color: const Color(0xFF4A789C),
-                alignment: Alignment.center,
-                child: const Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    '撮影場所はどこか探そう',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
               ),
             ),
           ],
