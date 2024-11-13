@@ -27,7 +27,7 @@ class TitleScreen extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(250, 130),
+                  minimumSize: const Size(280, 130),
                   backgroundColor: const Color.fromARGB(255, 68, 122, 156),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
@@ -47,7 +47,7 @@ class TitleScreen extends StatelessWidget {
                 );
               },
               style: OutlinedButton.styleFrom(
-                minimumSize: const Size(250, 80),
+                minimumSize: const Size(280, 80),
                 side: const BorderSide(color: Color(0xFF4A789C), width: 3.0),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -66,7 +66,7 @@ class TitleScreen extends StatelessWidget {
             OutlinedButton(
               onPressed: () {},
               style: OutlinedButton.styleFrom(
-                minimumSize: const Size(250, 80),
+                minimumSize: const Size(280, 80),
                 side: const BorderSide(color: Colors.black, width: 3.0),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),

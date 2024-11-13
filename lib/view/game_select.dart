@@ -18,7 +18,7 @@ class GameSelect extends ConsumerWidget {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Color(0xFF4A789C),
+          backgroundColor: const Color(0xFF4A789C),
           elevation: 0,
           automaticallyImplyLeading: false,
         ),

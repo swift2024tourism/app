@@ -9,31 +9,14 @@ class Asobikata extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        title: const Text('このゲームの遊びかた', style: TextStyle(color: Colors.white)),
+        centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 68, 122, 156),
         elevation: 0,
         automaticallyImplyLeading: false,
+        toolbarHeight: 100.0,
       ),
       body: Column(children: <Widget>[
-        Container(
-          height: 60,
-          decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 68, 122, 156),
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(40),
-              bottomRight: Radius.circular(40),
-            ),
-          ),
-          child: const Center(
-            child: Text(
-              'このゲームの遊びかた',
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
         const SizedBox(height: 50),
         const Center(
             child: Text(
