@@ -55,19 +55,13 @@ class GameSelect extends ConsumerWidget {
                         children: games.map((game) {
                           return OutlinedButton(
                               onPressed: () async {
-                                await ref
-                                    .watch(
-                                        currentGameViewModelProvider.notifier)
-                                    .initGame(difficulty, games.indexOf(game));
-                                WidgetsBinding.instance.addPostFrameCallback(
-                                    (timeStamp) => context.push('/game'));
+                                await ref.watch(currentGameViewModelProvider.notifier).initGame(difficulty, games.indexOf(game));
+                                WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.push('/game'));
                               },
                               style: OutlinedButton.styleFrom(
                                   minimumSize: const Size(320, 90),
-                                  side: const BorderSide(
-                                      color: Color(0xFF4A789C), width: 1.5),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
+                                  side: const BorderSide(color: Color(0xFF4A789C), width: 1.5),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                   backgroundColor: Colors.white),
                               child: Text(
                                 game.name,
