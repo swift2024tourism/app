@@ -18,24 +18,20 @@ class GameResult extends StatelessWidget {
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          GameResultTop(),
-          Expanded(child: GameResultMap()),
+          const GameResultTop(),
+          const Expanded(child: GameResultMap()),
           Consumer(builder: (context, ref, _) {
             return TextButton(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: const Text(
+              child: const Padding(
+                padding: EdgeInsets.all(12.0),
+                child: Text(
                   "次へ",
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
                 ),
               ),
               onPressed: () async {
-                bool isLast = !ref
-                    .read(currentGameViewModelProvider.notifier)
-                    .nextWaypoint();
+                bool isLast = !ref.read(currentGameViewModelProvider.notifier).nextWaypoint();
                 if (isLast) {
-                  context.pop();
-                  context.pop();
                 } else {
                   debugPrint('isLast');
                   context.pop();
@@ -65,54 +61,31 @@ class GameResultMap extends ConsumerWidget {
             markers.add(Marker(
                 width: 80.0,
                 height: 80.0,
-                point: LatLng(
-                    data.currentGame!.waypoints[data.currentWaypointIndex]
-                        .geopoint.latitude,
-                    data.currentGame!.waypoints[data.currentWaypointIndex]
-                        .geopoint.longitude),
-                child: const Icon(Icons.location_on,
-                    color: Colors.red, size: 80.0)));
+                point: LatLng(data.currentGame!.waypoints[data.currentWaypointIndex].geopoint.latitude,
+                    data.currentGame!.waypoints[data.currentWaypointIndex].geopoint.longitude),
+                child: const Icon(Icons.location_on, color: Colors.red, size: 80.0)));
             // set current location
             markers.add(Marker(
                 width: 80.0,
                 height: 80.0,
-                point: LatLng(data.currentLocation!.latitude,
-                    data.currentLocation!.longitude),
-                child: const Icon(Icons.location_on,
-                    color: Colors.blue, size: 80.0)));
+                point: LatLng(data.currentLocation!.latitude, data.currentLocation!.longitude),
+                child: const Icon(Icons.location_on, color: Colors.blue, size: 80.0)));
             polylines.add(Polyline(points: [
-              LatLng(data.currentLocation!.latitude,
-                  data.currentLocation!.longitude),
-              LatLng(
-                  data.currentGame!.waypoints[data.currentWaypointIndex]
-                      .geopoint.latitude,
-                  data.currentGame!.waypoints[data.currentWaypointIndex]
-                      .geopoint.longitude)
+              LatLng(data.currentLocation!.latitude, data.currentLocation!.longitude),
+              LatLng(data.currentGame!.waypoints[data.currentWaypointIndex].geopoint.latitude,
+                  data.currentGame!.waypoints[data.currentWaypointIndex].geopoint.longitude)
             ], strokeWidth: 10, pattern: const StrokePattern.dotted()));
             return FlutterMap(
                 options: MapOptions(
                   initialCenter: LatLng(
-                      (data.currentLocation!.latitude +
-                              data
-                                  .currentGame!
-                                  .waypoints[data.currentWaypointIndex]
-                                  .geopoint
-                                  .latitude) /
-                          2,
-                      (data.currentLocation!.longitude +
-                              data
-                                  .currentGame!
-                                  .waypoints[data.currentWaypointIndex]
-                                  .geopoint
-                                  .longitude) /
-                          2),
+                      (data.currentLocation!.latitude + data.currentGame!.waypoints[data.currentWaypointIndex].geopoint.latitude) / 2,
+                      (data.currentLocation!.longitude + data.currentGame!.waypoints[data.currentWaypointIndex].geopoint.longitude) / 2),
                   initialZoom: 15.5,
                   // 大きくなるほどズームが大きくなる 17.5
                 ),
                 children: [
                   TileLayer(
-                    urlTemplate:
-                        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                   ),
                   MarkerLayer(markers: markers),
                   PolylineLayer(
@@ -142,18 +115,14 @@ class GameResultTop extends ConsumerWidget {
                 children: [
                   Text(
                     data.gameResult!.score.toString(),
-                    style: const TextStyle(
-                        fontSize: 70,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 68, 122, 156)),
+                    style: const TextStyle(fontSize: 70, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 68, 122, 156)),
                     //color: Color.fromARGB(1, 68, 122, 156)
                   ),
                   const Padding(
                     padding: EdgeInsets.only(bottom: 17),
                     child: Text(
                       "/100",
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
                     ),
                   ),
                   Expanded(
@@ -162,8 +131,7 @@ class GameResultTop extends ConsumerWidget {
                         Text(
                           textAlign: TextAlign.center,
                           "撮影地から",
-                          style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.w600),
+                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
                         ),
                         Padding(
                           padding: EdgeInsets.only(bottom: 17),
@@ -173,8 +141,7 @@ class GameResultTop extends ConsumerWidget {
                               Expanded(
                                 child: Container(
                                   child: Transform.rotate(
-                                    angle: data.gameResult!
-                                        .directionFromCurrentLocation,
+                                    angle: data.gameResult!.directionFromCurrentLocation,
                                     child: Icon(
                                       Icons.arrow_back_outlined,
                                       size: 45,
@@ -184,10 +151,7 @@ class GameResultTop extends ConsumerWidget {
                               ),
                               Text(
                                 "${data.gameResult!.meterDistanceFromAnswer.toString()}m",
-                                style: TextStyle(
-                                    fontSize: 40,
-                                    color: boldTextFontColor,
-                                    fontWeight: FontWeight.w600),
+                                style: TextStyle(fontSize: 40, color: boldTextFontColor, fontWeight: FontWeight.w600),
                               )
                             ],
                           ),

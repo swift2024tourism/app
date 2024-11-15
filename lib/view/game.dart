@@ -62,7 +62,7 @@ class _GameState extends State<Game> {
         ],
         backgroundColor: const Color(0xFF4A789C),
         title: Text(
-          '撮影場所はどこか探そう',
+          'ラウンド$cycleCount',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,
@@ -263,25 +263,6 @@ class _GameState extends State<Game> {
                     height: 20,
                   )
                 ],
-              ),
-            ),
-            ClipPath(
-              clipper: CustomShapeClipper(),
-              child: Container(
-                height: 120,
-                color: const Color(0xFF4A789C),
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    'ラウンド$cycleCount',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
               ),
             ),
           ],
