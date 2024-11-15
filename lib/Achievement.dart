@@ -74,8 +74,7 @@ class Achievement extends StatelessWidget {
                     onPressed: () {},
                     style: OutlinedButton.styleFrom(
                       minimumSize: const Size(300, 120),
-                      side: const BorderSide(
-                          color: Color(0xFF4A789C), width: 3.0),
+                      side: const BorderSide(color: Color(0xFF4A789C), width: 3.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -83,18 +82,14 @@ class Achievement extends StatelessWidget {
                     ),
                     child: const Text(
                       '初級',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 25,
-                          color: Colors.black),
+                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25, color: Colors.black),
                     ),
                   ),
                   OutlinedButton(
                     onPressed: () {},
                     style: OutlinedButton.styleFrom(
                       minimumSize: const Size(300, 120),
-                      side: const BorderSide(
-                          color: Color(0xFF4A789C), width: 3.0),
+                      side: const BorderSide(color: Color(0xFF4A789C), width: 3.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -102,18 +97,14 @@ class Achievement extends StatelessWidget {
                     ),
                     child: const Text(
                       '中級',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 25,
-                          color: Colors.black),
+                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25, color: Colors.black),
                     ),
                   ),
                   OutlinedButton(
                     onPressed: () {},
                     style: OutlinedButton.styleFrom(
                       minimumSize: const Size(300, 120),
-                      side: const BorderSide(
-                          color: Color(0xFF4A789C), width: 3.0),
+                      side: const BorderSide(color: Color(0xFF4A789C), width: 3.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -121,10 +112,7 @@ class Achievement extends StatelessWidget {
                     ),
                     child: const Text(
                       '上級',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 25,
-                          color: Colors.black),
+                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25, color: Colors.black),
                     ),
                   ),
                 ],

@@ -21,16 +21,14 @@ class Asobikata extends StatelessWidget {
         const Center(
             child: Text(
           '撮影された場所を歩いて探して\nここだと思ったところで\n「ここに決める」ボタンを押そう！',
-          style: TextStyle(
-              fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         )),
         Image.asset('images/kokonikimeru.png', width: 200, height: 200),
         const Center(
             child: Text(
           'ボタンを押すと、距離に応じて\n得点がつきます\n近ければ近いほど高得点！',
-          style: TextStyle(
-              fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         )),
         const Spacer(),
@@ -46,14 +44,10 @@ class Asobikata extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                     minimumSize: const Size(50, 55),
                     backgroundColor: const Color.fromARGB(192, 218, 218, 218),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
                 child: const Text(
                   'メニューへ戻る',
-                  style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold),
                 ),
               ),
               const SizedBox(height: 145),
@@ -65,8 +59,7 @@ class Asobikata extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                     minimumSize: const Size(50, 55),
                     backgroundColor: const Color.fromARGB(255, 68, 122, 156),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
                 child: const Text(
                   'ゲームを始める',
                   style: TextStyle(fontSize: 15, color: Colors.white),
