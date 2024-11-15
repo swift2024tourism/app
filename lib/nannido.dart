@@ -6,13 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class Nannido extends StatelessWidget {
-  // 難易度の定義を定数として管理
-  static const Map<String, String> difficultyRoutes = {
-    '初級': '/game/select/easy',
-    '中級': '/game/select/medium',
-    '上級': '/game/select/hard',
-  };
-
   const Nannido({super.key});
 
   @override
@@ -22,170 +15,126 @@ class Nannido extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xFF4A789C),
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context); // 前の画面に戻る
-          },
-        ),
+        automaticallyImplyLeading: false,
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            _buildHeader(),
-            _buildDifficultyButtons(context),
-            _buildBackButton(context), // ここに戻るボタンを追加
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return ClipPath(
-      clipper: CustomShapeClipper(),
-      child: Container(
-        height: 80,
-        color: const Color(0xFF4A789C),
-        alignment: Alignment.center,
-        child: const Padding(
-          padding: EdgeInsets.only(bottom: 10),
-          child: Text(
-            '難易度設定',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+      body: Stack(
+        children: [
+          Column(
+            children: <Widget>[
+              Container(
+                height: 60,
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 68, 122, 156),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40),
+                  ),
+                ),
+                child: const Center(
+                  child: Text(
+                    '難易度設定',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      OutlinedButton(
+                        onPressed: () {
+                          context.push('/game/select/easy');
+                        },
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(300, 100),
+                          side: const BorderSide(
+                              color: Color(0xFF4A789C), width: 1.5),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          backgroundColor: Colors.white,
+                        ),
+                        child: const Text(
+                          '初級',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 32,
+                              color: Color(0xFF4A789C)),
+                        ),
+                      ),
+                      OutlinedButton(
+                        onPressed: () {
+                          context.push('/game/select/medium');
+                        },
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(300, 100),
+                          side: const BorderSide(
+                              color: Color(0xFF4A789C), width: 1.5),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          backgroundColor: Colors.white,
+                        ),
+                        child: const Text(
+                          '中級',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 32,
+                              color: Color(0xFF4A789C)),
+                        ),
+                      ),
+                      OutlinedButton(
+                        onPressed: () {
+                          context.push('/game/select/hard');
+                        },
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(300, 100),
+                          side: const BorderSide(
+                              color: Color(0xFF4A789C), width: 1.5),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          backgroundColor: Colors.white,
+                        ),
+                        child: const Text(
+                          '上級',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 32,
+                              color: Color(0xFF4A789C)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDifficultyButtons(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: difficultyRoutes.entries.map((entry) {
-            return _buildDifficultyButton(
-              text: entry.key,
-              route: entry.value,
-              context: context,
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
-  /*
-
-            TextButton(
-              child: const Text("難易度：初級"),
-              onPressed: () async {
-                WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.push('/game/select/easy'));
-              },
-            ),
-            TextButton(
-              child: const Text("難易度：中級"),
-              onPressed: () async {
-                WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.push('/game/select/medium'));
-              },
-            ),
-            TextButton(
-              child: const Text("難易度：上級"),
-              onPressed: () async {
-                // ignore: unused_result
-                await ref.refresh(getGamesByDifficultyProvider(Difficulty.hard));
-                await ref.watch(currentGameViewModelProvider.notifier).initGame(Difficulty.hard, null);
-                WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.push('/game'));
-              },
-            ),
-  */
-
-  Widget _buildDifficultyButton({
-    required String text,
-    required String route,
-    required BuildContext context,
-  }) {
-    return Consumer(builder: (context, ref, _) {
-      return Container(
-        width: double.infinity,
-        height: 100,
-        child: OutlinedButton(
-          onPressed: () async {
-            if (route == '/game/select/hard') {
-              await ref.refresh(getGamesByDifficultyProvider(Difficulty.hard));
-              await ref.read(currentGameViewModelProvider.notifier).initGame(Difficulty.hard, null);
-            }
-            WidgetsBinding.instance.addPostFrameCallback((timestamp) => context.push(route));
-          },
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 32,
-              color: Color(0xFF4A789C),
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          style: OutlinedButton.styleFrom(
-            side: BorderSide(color: Color(0xFF4A789C), width: 1.5),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            backgroundColor: Colors.white,
-          ),
-        ),
-      );
-    });
-  }
-
-  // 戻るボタンを定義
-  Widget _buildBackButton(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(20),
-      child: SizedBox(
-        width: double.infinity,
-        height: 50,
-        child: ElevatedButton(
-          onPressed: () => context.pop(), // 前の画面に戻る
-          child: Text(
-            '戻る',
-            style: TextStyle(fontSize: 24),
-          ),
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Color(0xFF4A789C)),
-            foregroundColor: MaterialStateProperty.all(Colors.white),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+          // 左下の丸いボタン
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: FloatingActionButton(
+                onPressed: () {
+                  context.pop();
+                },
+                backgroundColor: const Color.fromARGB(192, 218, 218, 218),
+                child: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
-}
-
-class CustomShapeClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    path.lineTo(0, size.height - 40);
-    path.quadraticBezierTo(
-      size.width / 2,
-      size.height,
-      size.width,
-      size.height - 40,
-    );
-    path.lineTo(size.width, 0);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

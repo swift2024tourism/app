@@ -18,6 +18,8 @@ class Game extends StatefulWidget {
 
 class _GameState extends State<Game> {
   final viewTransformationController = TransformationController();
+  int cycleCount = 1;
+
   @override
   void initState() {
     super.initState();
@@ -135,7 +137,7 @@ class _GameState extends State<Game> {
                                         ),
                                         Text(
                                           leftButtonText,
-                                          style: TextStyle(color: Colors.white),
+                                          style: const TextStyle(color: Colors.white),
                                         )
                                       ],
                                     )),
@@ -263,6 +265,25 @@ class _GameState extends State<Game> {
                 ],
               ),
             ),
+            ClipPath(
+              clipper: CustomShapeClipper(),
+              child: Container(
+                height: 120,
+                color: const Color(0xFF4A789C),
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'ラウンド$cycleCount',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         );
       }),
@@ -279,7 +300,7 @@ class _GameState extends State<Game> {
             icon,
             size: 80,
           ),
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
           Text(text),
         ],
       ),
@@ -290,11 +311,11 @@ class _GameState extends State<Game> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 80),
       child: Container(
-        decoration: BoxDecoration(color: Colors.white),
+        decoration: const BoxDecoration(color: Colors.white),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Container(
@@ -302,8 +323,8 @@ class _GameState extends State<Game> {
                 color: Colors.red,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
                 child: Text(
                   "ゲーム中の注意事項",
                   style: TextStyle(color: Colors.white),

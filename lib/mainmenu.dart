@@ -4,149 +4,204 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class MainMenu extends StatelessWidget {
+class MainMenu extends StatefulWidget {
   const MainMenu({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const HomePage(),
-    );
-  }
+  State<MainMenu> createState() => _MainMenuState();
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
+class _MainMenuState extends State<MainMenu> {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return Scaffold(
-                  appBar: AppBar(
-                    title: const Text('Second Page'),
-                  ),
-                  body: Consumer(
-                    builder: (context, ref, child) {
-                      return FutureBuilder(
-                          future: ref.read(gameHistoryRepositoryProvider).getGameInfos(),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.waiting) {
-                              return const Center(child: CircularProgressIndicator());
-                            }
-                            final gameInfos = snapshot.data as List<GameInfoModel>;
-                            return ListView.builder(
-                                itemCount: gameInfos.length,
-                                itemBuilder: (context, index) {
-                                  return ListTile(
-                                    title: Text(gameInfos[index].gameId),
-                                    subtitle: Row(
-                                      children: [
-                                        Text(gameInfos[index].score.toString()),
-                                        Text(gameInfos[index].distanceFromGoal.toString()),
-                                      ],
-                                    ),
-                                  );
-                                });
-                          });
-                    },
-                  ));
-            }));
-          },
-          child: const Icon(Icons.arrow_back),
-        ),
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: const Color(0xFF4A789C),
-          elevation: 0,
-        ),
-        body: Column(children: <Widget>[
-          Container(
-            height: 40,
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 68, 122, 156),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(40),
-                bottomRight: Radius.circular(40),
-              ),
-            ),
-            child: const Center(
-              child: Text(
-                'Main Menu',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showWelcomeDialog();
+    });
+  }
+
+  void _showWelcomeDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          backgroundColor: Colors.white,
+          title: const Text(
+            'ゲームを安全に楽しむために',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0xFFE63746),
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                const SizedBox(height: 80),
-                ElevatedButton(
-                  onPressed: () {
-                    context.push('/asobikata');
-                  },
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(320, 90),
-                      backgroundColor: const Color(0xFFFCC14A),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                  child: const Text(
-                    'このゲームのあそびかた',
-                    style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
+          content: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.8,
+            height: 350,
+            child: const Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 25),
+                Text(
+                  'ゲームをする際は周囲の\n交通状況にご注意ください。',
+                  style: TextStyle(fontSize: 18),
                 ),
-                const SizedBox(height: 30),
-                ElevatedButton(
-                  onPressed: () {
-                    context.push('/tyuuigaki');
-                  },
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(320, 90),
-                      backgroundColor: const Color(0xFFE63746),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                  child: const Text(
-                    'ゲームを安全に楽しむために',
-                    style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
+                SizedBox(height: 25),
+                Text(
+                  '歩きながらスマートフォンを\n操作する行為は思わぬ重大な\n事故になる可能性があります。\n絶対におやめください。',
+                  style: TextStyle(fontSize: 18),
                 ),
-                const SizedBox(height: 40),
-                ElevatedButton(
-                  onPressed: () {
-                    context.push('/nannido');
-                  },
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(320, 250),
-                      alignment: Alignment.centerLeft,
-                      backgroundColor: const Color.fromARGB(255, 68, 122, 156),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                  child: const Text.rich(TextSpan(children: <TextSpan>[
-                    TextSpan(
-                        text: 'Start the\nGame!\n',
-                        style: TextStyle(
-                          fontSize: 60,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        )),
-                    TextSpan(
-                        text: 'ゲームをはじめる',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ))
-                  ])),
+                SizedBox(height: 25),
+                Text(
+                  '観光名所には立ち入り禁止\nエリアがあります。\n立ち入り禁止エリアには\n入らないようにお願いします。',
+                  style: TextStyle(fontSize: 18),
                 ),
               ],
             ),
           ),
-        ]));
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF4A789C),
+              ),
+              child: const Text('閉じる', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF4A789C),
+        elevation: 0,
+        //automaticallyImplyLeading: false,
+      ),
+      body: Stack(
+        children: [
+          Column(
+            children: <Widget>[
+              Container(
+                height: 40,
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 68, 122, 156),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40),
+                  ),
+                ),
+                child: const Center(
+                  child: Text(
+                    'メインメニュー',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    const SizedBox(height: 80),
+                    ElevatedButton(
+                      onPressed: () {
+                        context.push('/asobikata');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(320, 90),
+                        backgroundColor: const Color(0xFFFCC14A),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text(
+                        'このゲームのあそびかた',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(320, 90),
+                        backgroundColor: const Color(0xFFE63746),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text(
+                        '実績',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    ElevatedButton(
+                      onPressed: () {
+                        context.push('/nannido');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(320, 250),
+                        alignment: Alignment.centerLeft,
+                        backgroundColor: const Color.fromARGB(255, 68, 122, 156),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text(
+                        'ゲームを始める',
+                        style: TextStyle(
+                          fontSize: 40,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: ElevatedButton(
+              onPressed: _showWelcomeDialog,
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                backgroundColor: const Color(0xFF4A789C),
+              ),
+              child: const Text(
+                'ヘルプ',
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

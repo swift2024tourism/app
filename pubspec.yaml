@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  animated_text_kit: ^4.2.2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -85,9 +86,15 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+     - assets/images/GreatJob.png
+     - assets/images/Excellent.png
+     - assets/images/WellDone.png
+     - assets/images/Vector5.png
+     - assets/images/Vector6.png
+     - assets/images/kokonikimeru.png
+     #- images/a_dot_ham.jpeg
+ 
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

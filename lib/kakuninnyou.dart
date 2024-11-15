@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class Nannido extends StatelessWidget {
+class AIUE extends StatelessWidget {
   // 難易度の定義を定数として管理
   static const Map<String, String> difficultyRoutes = {
     '初級': '/game/select/easy',
