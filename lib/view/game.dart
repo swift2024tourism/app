@@ -75,7 +75,6 @@ class _GameState extends State<Game> {
                               .waypoints[state.currentWaypointIndex];
                           var currentPictureIndex = state.currentPictureIndex;
                           String leftButtonText = "";
-                          // if (currentWaypoint.pictures.contains(currentPictureIndex--)) {
                           if (currentWaypoint.pictures
                               .asMap()
                               .containsKey(currentPictureIndex - 1)) {
@@ -83,7 +82,6 @@ class _GameState extends State<Game> {
                                 "${currentWaypoint.pictures[currentPictureIndex - 1].name}へ";
                           }
                           String rightButtonText = "";
-                          // if (currentWaypoint.pictures.contains(currentPictureIndex++)) {
                           if (currentWaypoint.pictures
                               .asMap()
                               .containsKey(currentPictureIndex + 1)) {
@@ -127,6 +125,7 @@ class _GameState extends State<Game> {
                                       ],
                                     )),
                               ),
+                              // 中央のボタン群
                               Expanded(
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -274,22 +273,65 @@ class _GameState extends State<Game> {
                 ],
               ),
             ),
-            ClipPath(
-              clipper: CustomShapeClipper(),
+            // ヘッダー（四角形）
+            Container(
+              height: 80,
+              width: double.infinity,
+              color: const Color(0xFF4A789C),
+              alignment: Alignment.bottomCenter,
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Text(
+                'ラウンド$cycleCount',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            // 戻るボタン
+            Positioned(
+              top: 30,
+              right: 16,
               child: Container(
-                height: 120,
-                color: const Color(0xFF4A789C),
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    'ラウンド$cycleCount',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.3),
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 32,
                   ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('確認'),
+                          content:
+                              const Text('メインメニューに戻りますか？\nゲームの進行状況は保存されません。'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: const Text('キャンセル'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                context.go('/'); // メインメニューに戻る
+                              },
+                              child: const Text(
+                                '戻る',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
             ),
@@ -299,6 +341,7 @@ class _GameState extends State<Game> {
     );
   }
 
+  // 既存のメソッドはそのまま...
   Widget _warningItem(String text, IconData icon) {
     return Container(
       height: 150,
