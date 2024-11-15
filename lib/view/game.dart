@@ -50,26 +50,6 @@ class _GameState extends State<Game> {
                   ),
   */
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () {
-              context.pop();
-            },
-          ),
-        ],
-        backgroundColor: const Color(0xFF4A789C),
-        title: Text(
-          'ラウンド$cycleCount',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
       body: Consumer(builder: (context, ref, _) {
         return Stack(
           children: [
@@ -192,6 +172,9 @@ class _GameState extends State<Game> {
                                               debugPrint(isSuc.toString());
                                               if (context.mounted) {
                                                 if (isSuc) {
+                                                  setState(() {
+                                                    cycleCount++;
+                                                  });
                                                   context.push('/game/result');
                                                 } else {
                                                   ScaffoldMessenger.of(context)
