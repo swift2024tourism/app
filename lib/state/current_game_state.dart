@@ -28,14 +28,12 @@ class CurrentGameState with _$CurrentGameState {
   const CurrentGameState._();
 
   bool isWaypointIndexIncrementable() {
-    debugPrint(
-        "currentGame!.waypoints.length: ${currentGame!.waypoints.length}");
+    debugPrint("currentGame!.waypoints.length: ${currentGame!.waypoints.length}");
     return currentWaypointIndex < currentGame!.waypoints.length - 1;
   }
 
   bool isPictureIndexIncrementable() {
-    return currentPictureIndex <
-        currentGame!.waypoints[currentWaypointIndex].pictures.length - 1;
+    return currentPictureIndex < currentGame!.waypoints[currentWaypointIndex].pictures.length - 1;
   }
 
   bool isWaypointIndexDecrementable() {
