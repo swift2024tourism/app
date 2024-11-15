@@ -6,8 +6,24 @@ part of 'current_game_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$currentAverageScoreHash() =>
+    r'7746ea360012f1532ad23f6f5fb26406a259a318';
+
+/// See also [currentAverageScore].
+@ProviderFor(currentAverageScore)
+final currentAverageScoreProvider = AutoDisposeProvider<double>.internal(
+  currentAverageScore,
+  name: r'currentAverageScoreProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$currentAverageScoreHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef CurrentAverageScoreRef = AutoDisposeProviderRef<double>;
 String _$currentGameViewModelHash() =>
-    r'6f5cfe6caff8dea9c6606e3999eab56ab4fd9664';
+    r'5db326ea341ffc1ef5eac4033c30f29f974d18b1';
 
 /// See also [CurrentGameViewModel].
 @ProviderFor(CurrentGameViewModel)
