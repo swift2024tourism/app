@@ -27,8 +27,7 @@ class GameHistoryRepository {
 
     gameInfos.add(gameInfo);
 
-    await _prefs?.setStringList(
-        _gameInfoListKey, gameInfos.map((e) => jsonEncode(e)).toList());
+    await _prefs?.setStringList(_gameInfoListKey, gameInfos.map((e) => jsonEncode(e)).toList());
   }
 
   Future<List<GameInfoModel>> getGameInfos() async {

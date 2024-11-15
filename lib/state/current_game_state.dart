@@ -29,8 +29,7 @@ class CurrentGameState with _$CurrentGameState {
   }
 
   bool isPictureIndexIncrementable() {
-    return currentPictureIndex <
-        currentGame!.waypoints[currentWaypointIndex].pictures.length - 1;
+    return currentPictureIndex < currentGame!.waypoints[currentWaypointIndex].pictures.length - 1;
   }
 
   bool isWaypointIndexDecrementable() {

@@ -16,6 +16,5 @@ class GameInfoModel with _$GameInfoModel {
     required double distanceFromGoal,
   }) = _GameInfoModel;
 
-  factory GameInfoModel.fromJson(Map<String, Object?> json) =>
-      _$GameInfoModelFromJson(json);
+  factory GameInfoModel.fromJson(Map<String, Object?> json) => _$GameInfoModelFromJson(json);
 }
