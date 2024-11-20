@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 class Asobikata extends StatefulWidget {
@@ -157,56 +156,64 @@ class Page1 extends StatelessWidget {
 class Page2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(
-            child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          const Text(
-            '難易度とエリアを設定するとこの画面が\n表示され、ゲームがスタートします',
-            style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-          Stack(
-            children: [
-              // 背景画像
-              Image.asset('images/gamegamen.png', width: 600, height: 450),
-              // ボタンを重ねる
-              const Positioned(
-                top: 430,
-                left: 200,
-                child: SmallButton(
-                  text: "1",
-                  dialogText: "ゲームの遊び方を確認できます",
+      backgroundColor: Colors.white,
+      body: Center(
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final double imageWidth = constraints.maxWidth * 0.8; // 画面幅の80%
+            final double imageHeight = imageWidth * 0.75; // アスペクト比 4:3
+
+            return Stack(
+              children: [
+                // 背景画像
+                Center(
+                  child: Image.asset(
+                    'images/gamegamen.png',
+                    width: imageWidth,
+                    height: imageHeight,
+                    fit: BoxFit.contain,
+                  ),
                 ),
-              ),
-              const Positioned(
-                top: 380,
-                left: 200,
-                child: SmallButton(
-                  text: "2",
-                  dialogText: "撮影場所が推測できたら\nここをクリック\n撮影場所との距離に応じて\n得点が表示されます",
+                // ボタンを画像と連動させる
+                Positioned(
+                  top: constraints.maxHeight / 2 + imageHeight * 0.4,
+                  left: constraints.maxWidth / 2 - imageWidth * 0.2,
+                  child: SmallButton(
+                    text: "1",
+                    dialogText: "ゲームの遊び方を確認できます",
+                  ),
                 ),
-              ),
-              const Positioned(
-                top: 410,
-                left: 280,
-                child: SmallButton(
-                  text: "3",
-                  dialogText: "同じ撮影場所の反対側から撮った\n写真に切り替わります",
+                Positioned(
+                  top: constraints.maxHeight / 2 + imageHeight * 0.3,
+                  left: constraints.maxWidth / 2,
+                  child: SmallButton(
+                    text: "2",
+                    dialogText: "撮影場所が推測できたら\nここをクリック\n撮影場所との距離に応じて\n得点が表示されます",
+                  ),
                 ),
-              ),
-              const Positioned(
-                top: 430,
-                left: 140,
-                child: SmallButton(
-                  text: "4",
-                  dialogText: "ゲーム中の注意事項を確認できます\nゲーム開始前に必ずお読みください",
+                Positioned(
+                  top: constraints.maxHeight / 2 + imageHeight * 0.35,
+                  left: constraints.maxWidth / 2 + imageWidth * 0.1,
+                  child: SmallButton(
+                    text: "3",
+                    dialogText: "同じ撮影場所の反対側から撮った\n写真に切り替わります",
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ])));
+                Positioned(
+                  top: constraints.maxHeight / 2 + imageHeight * 0.5,
+                  left: constraints.maxWidth / 2 - imageWidth * 0.3,
+                  child: SmallButton(
+                    text: "4",
+                    dialogText: "ゲーム中の注意事項を確認できます\nゲーム開始前に必ずお読みください",
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 
@@ -227,7 +234,11 @@ class SmallButton extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              content: Text(dialogText),
+              content: Text(
+                dialogText, textAlign: TextAlign.center, // 文字を中央寄せ
+                style: const TextStyle(fontSize: 16),
+              ),
+              backgroundColor: Colors.white,
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
