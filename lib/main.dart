@@ -53,7 +53,9 @@ class SharedPrefsTest extends StatelessWidget {
                       lon: 352.3,
                       distanceFromGoal: 642.4);
 
-                  ref.read(gameHistoryRepositoryProvider).saveGameInfo(gameInfo);
+                  ref
+                      .read(gameHistoryRepositoryProvider)
+                      .saveGameInfo(gameInfo);
                 },
               );
             }),
@@ -61,7 +63,9 @@ class SharedPrefsTest extends StatelessWidget {
               return TextButton(
                 child: Text("取得"),
                 onPressed: () async {
-                  var list = await ref.read(gameHistoryRepositoryProvider).getGameInfos();
+                  var list = await ref
+                      .read(gameHistoryRepositoryProvider)
+                      .getGameInfos();
                   list.forEach((element) {
                     debugPrint(element.gameId);
                   });
