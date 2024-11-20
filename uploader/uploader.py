@@ -76,8 +76,8 @@ for i in range(1,pairs+1):
     path = "C:\\Users\\hoshi\\app\\uploader\\" #hoshi のPC
     file = place +'_' + str(i) + '_' + str(1) + '.jpg'
     document_name = place + '_'+ str(i)
-    reference_name1 = 'pictures/' + place + '_' +  str(i) + '_1'
-    reference_name2 = 'pictures/' + place + '_' + str(i) + '_2'
+    reference_name1 = 'pictures2/' + place + '_' +  str(i) + '_1'
+    reference_name2 = 'pictures2/' + place + '_' + str(i) + '_2'
     reference_example_pictures1  = db.document(reference_name1)
     reference_example_pictures2 = db.document(reference_name2)
 
