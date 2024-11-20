@@ -21,6 +21,7 @@ class CurrentGameState with _$CurrentGameState {
     GameResultModel? gameResult,
     @Default(0) int round,
     @Default({}) Map<int, GameInfoModel> rounds,
+    @Default(0) double average,
   }) = _CurrentGameState;
 
   // クラスメソッドのため

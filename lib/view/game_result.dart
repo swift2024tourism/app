@@ -37,6 +37,7 @@ class GameResult extends StatelessWidget {
                   context.push('/result');
                 } else {
                   debugPrint('isLast');
+                  ref.read(currentGameViewModelProvider.notifier).addRound();
                   context.pop();
                 }
               },

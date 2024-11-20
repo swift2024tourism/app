@@ -181,58 +181,90 @@ class Page2 extends StatelessWidget {
               ),
               Stack(
                 children: [
-                  LayoutBuilder(
-                    builder:
-                        (BuildContext context, BoxConstraints constraints) {
-                      final imageWidth = constraints.maxWidth; // 画像の幅
-                      final imageHeight = constraints.maxHeight; // 画像の高さ
+                  // 背景画像
+                  Image.asset('images/gamegamen.png', width: 600, height: 450),
+                  // ボタンを重ねる
+                  const Positioned(
+                    top: 430,
+                    left: 200,
+                    child: SmallButton(
+                      text: "1",
+                      dialogText: "ゲームの遊び方を確認できます",
+                    ),
+                  ),
+                  Stack(
+                    children: [
+                      LayoutBuilder(
+                        builder:
+                            (BuildContext context, BoxConstraints constraints) {
+                          final imageWidth = constraints.maxWidth; // 画像の幅
+                          final imageHeight = constraints.maxHeight; // 画像の高さ
 
-                      return Stack(
-                        children: [
-                          // 背景画像
-                          Image.asset(
-                            'images/gamegamen.png',
-                            width: 600,
-                            height: 450,
-                            fit: BoxFit.contain,
-                          ),
-                          // ボタンを画像と連動させる
-                          Positioned(
-                            top: imageHeight * 0.05, // 高さの割合で位置を指定
-                            left: imageWidth * 0.1, // 幅の割合で位置を指定
-                            child: const SmallButton(
-                              text: "1",
-                              dialogText: "ゲームの遊び方を確認できます",
-                            ),
-                          ),
-                          Positioned(
-                            top: imageHeight * 0.85,
-                            left: imageWidth * 0.4,
-                            child: const SmallButton(
-                              text: "2",
-                              dialogText:
-                                  "撮影場所が推測できたら\nここをクリック\n撮影場所との距離に応じて\n得点が表示されます",
-                            ),
-                          ),
-                          Positioned(
-                            top: imageHeight * 0.91,
-                            left: imageWidth * 0.55,
-                            child: const SmallButton(
-                              text: "3",
-                              dialogText: "同じ撮影場所の反対側から撮った\n写真に切り替わります",
-                            ),
-                          ),
-                          Positioned(
-                            top: imageHeight * 0.95,
-                            left: imageWidth * 0.25,
-                            child: const SmallButton(
-                              text: "4",
-                              dialogText: "ゲーム中の注意事項を確認できます\nゲーム開始前に必ずお読みください",
-                            ),
-                          ),
-                        ],
-                      );
-                    },
+                          return Stack(
+                            children: [
+                              // 背景画像
+                              Image.asset(
+                                'images/gamegamen.png',
+                                width: 600,
+                                height: 450,
+                                fit: BoxFit.contain,
+                              ),
+                              // ボタンを画像と連動させる
+                              Positioned(
+                                top: imageHeight * 0.05, // 高さの割合で位置を指定
+                                left: imageWidth * 0.1, // 幅の割合で位置を指定
+                                child: const SmallButton(
+                                  text: "1",
+                                  dialogText: "ゲームの遊び方を確認できます",
+                                ),
+                              ),
+                              Positioned(
+                                top: imageHeight * 0.85,
+                                left: imageWidth * 0.4,
+                                child: const SmallButton(
+                                  text: "2",
+                                  dialogText:
+                                      "撮影場所が推測できたら\nここをクリック\n撮影場所との距離に応じて\n得点が表示されます",
+                                ),
+                              ),
+                              Positioned(
+                                top: imageHeight * 0.91,
+                                left: imageWidth * 0.9,
+                                child: const SmallButton(
+                                  text: "3",
+                                  dialogText: "同じ撮影場所の反対側から撮った\n写真に切り替わります",
+                                ),
+                              ),
+                              Positioned(
+                                top: imageHeight * 0.95,
+                                left: imageWidth * 0.25,
+                                child: const SmallButton(
+                                  text: "4",
+                                  dialogText:
+                                      "ゲーム中の注意事項を確認できます\nゲーム開始前に必ずお読みください",
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  const Positioned(
+                    top: 410,
+                    left: 280,
+                    child: SmallButton(
+                      text: "3",
+                      dialogText: "同じ撮影場所の反対側から撮った\n写真に切り替わります",
+                    ),
+                  ),
+                  const Positioned(
+                    top: 430,
+                    left: 140,
+                    child: SmallButton(
+                      text: "4",
+                      dialogText: "ゲーム中の注意事項を確認できます\nゲーム開始前に必ずお読みください",
+                    ),
                   ),
                 ],
               ),
