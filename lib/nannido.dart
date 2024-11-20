@@ -50,8 +50,7 @@ class Nannido extends StatelessWidget {
                         },
                         style: OutlinedButton.styleFrom(
                           minimumSize: const Size(300, 100),
-                          side: const BorderSide(
-                              color: Color(0xFF4A789C), width: 1.5),
+                          side: const BorderSide(color: Color(0xFF4A789C), width: 1.5),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -59,10 +58,7 @@ class Nannido extends StatelessWidget {
                         ),
                         child: const Text(
                           '初級',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 32,
-                              color: Color(0xFF4A789C)),
+                          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 32, color: Color(0xFF4A789C)),
                         ),
                       ),
                       OutlinedButton(
@@ -71,8 +67,7 @@ class Nannido extends StatelessWidget {
                         },
                         style: OutlinedButton.styleFrom(
                           minimumSize: const Size(300, 100),
-                          side: const BorderSide(
-                              color: Color(0xFF4A789C), width: 1.5),
+                          side: const BorderSide(color: Color(0xFF4A789C), width: 1.5),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -80,10 +75,7 @@ class Nannido extends StatelessWidget {
                         ),
                         child: const Text(
                           '中級',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 32,
-                              color: Color(0xFF4A789C)),
+                          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 32, color: Color(0xFF4A789C)),
                         ),
                       ),
                       OutlinedButton(
@@ -92,8 +84,7 @@ class Nannido extends StatelessWidget {
                         },
                         style: OutlinedButton.styleFrom(
                           minimumSize: const Size(300, 100),
-                          side: const BorderSide(
-                              color: Color(0xFF4A789C), width: 1.5),
+                          side: const BorderSide(color: Color(0xFF4A789C), width: 1.5),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -101,10 +92,7 @@ class Nannido extends StatelessWidget {
                         ),
                         child: const Text(
                           '上級',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 32,
-                              color: Color(0xFF4A789C)),
+                          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 32, color: Color(0xFF4A789C)),
                         ),
                       ),
                     ],

@@ -128,11 +128,8 @@ class GameTutorial extends StatelessWidget {
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.arrow_back,
-                                  color: Colors.black, size: 16),
-                              Text('前へ',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 12)),
+                              Icon(Icons.arrow_back, color: Colors.black, size: 16),
+                              Text('前へ', style: TextStyle(color: Colors.black, fontSize: 12)),
                             ],
                           ),
                         ),
@@ -155,11 +152,8 @@ class GameTutorial extends StatelessWidget {
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('次へ',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 12)),
-                              Icon(Icons.arrow_forward,
-                                  color: Colors.black, size: 16),
+                              Text('次へ', style: TextStyle(color: Colors.black, fontSize: 12)),
+                              Icon(Icons.arrow_forward, color: Colors.black, size: 16),
                             ],
                           ),
                         ),
