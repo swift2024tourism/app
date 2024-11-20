@@ -18,33 +18,26 @@ const gamesCollection = "games";
 @riverpod
 IGamesRepository gamesRepository(ref) {
   var firestore = FirebaseFirestore.instance;
-  firestore.settings =
-      const Settings(cacheSizeBytes: -1, persistenceEnabled: true);
+  firestore.settings = const Settings(cacheSizeBytes: -1, persistenceEnabled: true);
   return GamesRepository(firestore.collection(gamesCollection));
 }
 
 //Rawで囲うと勝手にAsyncValueにならない
 //ref: https://riverpod.dev/docs/essentials/websockets_sync
 @Riverpod(keepAlive: true)
-Raw<Future<List<GameModel>>> getGamesByDifficulty(
-    GetGamesByDifficultyRef ref, Difficulty difficulty) async {
+Raw<Future<List<GameModel>>> getGamesByDifficulty(GetGamesByDifficultyRef ref, Difficulty difficulty) async {
   switch (difficulty) {
     case Difficulty.easy:
-      return await ref
-          .read(gamesRepositoryProvider)
-          .getGamesByDifficulty(difficulty);
+      return await ref.read(gamesRepositoryProvider).getGamesByDifficulty(difficulty);
     case Difficulty.medium:
-      List<GameModel> games = await ref
-          .read(gamesRepositoryProvider)
-          .getGamesByDifficulty(difficulty);
+      List<GameModel> games = await ref.read(gamesRepositoryProvider).getGamesByDifficulty(difficulty);
       games.map<GameModel>((value) {
         value.waypoints.shuffle();
         return value;
       });
       return games;
     case Difficulty.hard:
-      List<GameModel> games =
-          await ref.read(gamesRepositoryProvider).getAllGames();
+      List<GameModel> games = await ref.read(gamesRepositoryProvider).getAllGames();
 
       GameModel? game;
       for (int i = 0; i < games.length; i++) {
@@ -77,14 +70,10 @@ class GamesRepository extends IGamesRepository {
     //   }));
     // });
 
-    games = await gamesCollectionRef
-        .get()
-        .then((QuerySnapshot<Object?> snapshot) async {
-      games = await Future.wait(snapshot.docs
-          .map((QueryDocumentSnapshot<Object?> documentSnapshot) async {
+    games = await gamesCollectionRef.get().then((QuerySnapshot<Object?> snapshot) async {
+      games = await Future.wait(snapshot.docs.map((QueryDocumentSnapshot<Object?> documentSnapshot) async {
         debugPrint("documentSnapshot: ${documentSnapshot.data()}");
-        return await GameModel.fromFirestore(
-            documentSnapshot as DocumentSnapshot<Map<String, dynamic>>);
+        return await GameModel.fromFirestore(documentSnapshot as DocumentSnapshot<Map<String, dynamic>>);
       }));
       return games;
     });
@@ -98,15 +87,10 @@ class GamesRepository extends IGamesRepository {
     List<GameModel> games = [];
 
     debugPrint("difficulty: ${difficulty.name}");
-    games = await gamesCollectionRef
-        .where("difficulty", isEqualTo: difficulty.name)
-        .get()
-        .then((QuerySnapshot<Object?> snapshot) async {
-      games = await Future.wait(snapshot.docs
-          .map((QueryDocumentSnapshot<Object?> documentSnapshot) async {
+    games = await gamesCollectionRef.where("difficulty", isEqualTo: difficulty.name).get().then((QuerySnapshot<Object?> snapshot) async {
+      games = await Future.wait(snapshot.docs.map((QueryDocumentSnapshot<Object?> documentSnapshot) async {
         debugPrint("load game: ${documentSnapshot.data()}");
-        return await GameModel.fromFirestore(
-            documentSnapshot as DocumentSnapshot<Map<String, dynamic>>);
+        return await GameModel.fromFirestore(documentSnapshot as DocumentSnapshot<Map<String, dynamic>>);
       }));
       return games;
     });
