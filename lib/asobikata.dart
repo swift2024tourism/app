@@ -64,14 +64,12 @@ class _AsobikataState extends State<Asobikata> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: const Text("前へ",
-                      style: TextStyle(fontSize: 12, color: Colors.black)),
+                  child: const Text("前へ", style: TextStyle(fontSize: 12, color: Colors.black)),
                 ),
               ),
               Text(
                 "${_currentIndex + 1}/3",
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 40),
@@ -84,8 +82,7 @@ class _AsobikataState extends State<Asobikata> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: const Text("次へ",
-                      style: TextStyle(fontSize: 12, color: Colors.black)),
+                  child: const Text("次へ", style: TextStyle(fontSize: 12, color: Colors.black)),
                 ),
               ),
             ],
@@ -105,8 +102,7 @@ class _AsobikataState extends State<Asobikata> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child:
-                    const Text("トップへ戻る", style: TextStyle(color: Colors.black)),
+                child: const Text("トップへ戻る", style: TextStyle(color: Colors.black)),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -120,8 +116,7 @@ class _AsobikataState extends State<Asobikata> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text("ゲームを始める",
-                    style: TextStyle(color: Colors.white)),
+                child: const Text("ゲームを始める", style: TextStyle(color: Colors.white)),
               ),
             ],
           ),
@@ -142,16 +137,14 @@ class Page1 extends StatelessWidget {
         const Center(
             child: Text(
           'このゲームは写真から撮影場所を\n探し当てるゲームです',
-          style: TextStyle(
-              fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         )),
         const SizedBox(height: 50),
         const Center(
             child: Text(
           '撮影場所からの距離に応じて\n得点が表示されます!\n近ければ近いほど高得点!',
-          style: TextStyle(
-              fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         )),
         Image.asset('images/result.png', width: 300, height: 300),
@@ -234,10 +227,7 @@ class SmallButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-          minimumSize: const Size(30, 30),
-          padding: EdgeInsets.zero,
-          shape: const CircleBorder(),
-          backgroundColor: Colors.red),
+          minimumSize: const Size(30, 30), padding: EdgeInsets.zero, shape: const CircleBorder(), backgroundColor: Colors.red),
       onPressed: () {
         // ダイアログを表示
         showDialog(
@@ -259,8 +249,7 @@ class SmallButton extends StatelessWidget {
           },
         );
       },
-      child:
-          Text(text, style: const TextStyle(fontSize: 16, color: Colors.white)),
+      child: Text(text, style: const TextStyle(fontSize: 16, color: Colors.white)),
     );
   }
 }
@@ -275,16 +264,14 @@ class Page3 extends StatelessWidget {
         Center(
             child: Text(
           '撮影された場所には、\n次のような「手がかり」があります',
-          style: TextStyle(
-              fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         )),
         SizedBox(height: 50),
         Center(
             child: Text(
           'このような建物の配置や距離などを画像から\n推測しよう。\nある程度場所が定まったら、撮影場所へ行き\nお題の写真を見比べて撮影場所と微調整しよう',
-          style: TextStyle(
-              fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         )),
       ]),
