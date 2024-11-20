@@ -10,6 +10,8 @@ import 'package:app/repository/games_repository.dart';
 import 'package:app/state/current_game_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -20,23 +22,37 @@ import 'package:vector_math/vector_math_64.dart';
 
 part 'current_game_view_model.g.dart';
 
-@riverpod
-double currentAverageScore(AutoDisposeProviderRef ref) {
-  ref.watch(currentGameViewModelProvider).whenData((CurrentGameState value) {
-    int sum = 0;
-    value.rounds.forEach((i, value) {
-      sum += value.score;
-    });
-    return sum / value.rounds.length;
-  });
-  return 0.0;
+@Riverpod()
+double currentAverageScore(ProviderRef ref) {
+  // return ref.watch(currentGameViewModelProvider).whenData((CurrentGameState value) {
+  //   int sum = 0;
+  //   value.rounds.forEach((i, value) {
+  //     sum += value.score;
+  //   });
+  //   return sum / value.rounds.length;
+  // });
+  return ref.watch(currentGameViewModelProvider).maybeWhen(
+      orElse: () => 0.0,
+      data: (data) {
+        double sum = 0;
+        data.rounds.forEach((i, value) {
+          debugPrint("data rounds");
+          debugPrint(value.score.toString());
+          sum += value.score;
+        });
+        double average = sum / data.rounds.length;
+        if (data.rounds.isEmpty) {
+          average = 0.0;
+        }
+        return average;
+      });
 }
 
 @riverpod
 class CurrentGameViewModel extends _$CurrentGameViewModel {
   // 定数の定義
   static const double INNER_RADIUS = 5.0; // 満点を取得できる内側の円の半径（メートル）
-  static const double OUTER_RADIUS = 10.0; // 得点圏の外側の円の半径（メートル）
+  static const double OUTER_RADIUS = 50.0; // 得点圏の外側の円の半径（メートル）
   static const int MAX_SCORE = 100; // 最高得点
   static const int MIN_SCORE = 0; // 最低得点（外側の円の境界上でのスコア）
 
@@ -46,14 +62,6 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
     return const CurrentGameState(
       currentGame: null,
     );
-  }
-
-  void addRounds(GameInfoModel gameInfoModel) {
-    state.whenData((CurrentGameState value) {
-      var newRounds = value.rounds;
-      newRounds[gameInfoModel.round] = gameInfoModel;
-      state = AsyncData(value.copyWith(rounds: value.rounds));
-    });
   }
 
   // スコアを計算するメソッド
@@ -122,9 +130,6 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
             }
           }
 
-          debugPrint("3");
-          debugPrint("current: ${location.latitude}, ${location.longitude}");
-
           GeoPoint target = data.currentGame!.waypoints[data.currentWaypointIndex].geopoint;
           double distance = Geolocator.distanceBetween(location.latitude, location.longitude, target.latitude, target.longitude);
 
@@ -136,7 +141,6 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
           debugPrint("Distance: ${distance.toInt()}m, Score: $score");
 
           // ここら辺でゲームを保存？？？
-          var gameHistoryRepository = ref.read(gameHistoryRepositoryProvider);
           var unixTime = DateTime.now().unixtime;
 
           state = AsyncData(data.copyWith(
@@ -153,7 +157,15 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
               lon: location.longitude,
               distanceFromGoal: distance);
           ref.read(gameHistoryRepositoryProvider).saveGameInfo(infoModel);
-          ref.read(currentGameViewModelProvider.notifier).addRounds(infoModel);
+
+          var newRounds = Map.of(data.rounds);
+          newRounds[infoModel.round] = infoModel;
+
+          state = AsyncData(data.copyWith(
+              currentLocation: GeoPoint(location.latitude, location.longitude),
+              rounds: newRounds,
+              gameResult:
+                  GameResultModel(score: score, meterDistanceFromAnswer: distance.toInt(), directionFromCurrentLocation: direction)));
           return true;
         },
         orElse: () => false);
@@ -177,6 +189,12 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
 
     // 方位角を0-360度の範囲に調整
     return (bearingDeg + 360) % 360;
+  }
+
+  void addRound() {
+    state.whenData((CurrentGameState value) {
+      state = AsyncData(value.copyWith(round: value.round + 1));
+    });
   }
 
   /// Get a random game from the list of games
