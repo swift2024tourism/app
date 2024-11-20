@@ -7,18 +7,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ScoreScreen extends ConsumerWidget {
   const ScoreScreen({super.key});
 
-  Future<List<Map<String, dynamic>>> fetchRoundData() async {
+  Future<List<Map<String, dynamic>>> fetchRoundData(WidgetRef ref) async {
     await Future.delayed(const Duration(seconds: 2));
-    return [
-      {'round': 1, 'score': 89, 'deviation': '31m'},
-      {'round': 2, 'score': 91, 'deviation': '21m'},
-      {'round': 3, 'score': 52, 'deviation': '56m'},
-      {'round': 4, 'score': 26, 'deviation': '81m'},
-      {'round': 5, 'score': 95, 'deviation': '10m'},
-      {'round': 6, 'score': 97, 'deviation': '9.4m'},
-      {'round': 7, 'score': 86, 'deviation': '27m'},
-      {'round': 8, 'score': 89, 'deviation': '30m'},
-    ];
+
+    List<Map<String, dynamic>> rounds = [];
+    const baseNum = 10;
+    ref.watch(currentGameViewModelProvider).maybeWhen(
+        orElse: () => {},
+        data: (data) {
+          data.rounds.forEach((i, value) {
+            rounds.add({
+              'round': i,
+              'score': value.score,
+              'deviation': '${(baseNum * value.distanceFromGoal).round() / baseNum}m',
+            });
+          });
+        });
+
+    return rounds;
   }
 
   @override
@@ -45,7 +51,7 @@ class ScoreScreen extends ConsumerWidget {
         automaticallyImplyLeading: false,
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: fetchRoundData(),
+        future: fetchRoundData(ref),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -87,27 +93,25 @@ class ScoreScreen extends ConsumerWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 60),
-                          const Text(
-                            '平均得点',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
-                            ),
-                          ),
-                          Text(
-                            averageScore.toString(),
-                            style: const TextStyle(
-                              fontSize: 80,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFFFCC14A),
-                            ),
-                          ),
-                        ]),
+                    Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      const SizedBox(height: 60),
+                      const Text(
+                        '平均得点',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      Text(
+                        averageScore.toString(),
+                        style: const TextStyle(
+                          fontSize: 80,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFFCC14A),
+                        ),
+                      ),
+                    ]),
                     Column(
                       children: [
                         Image.asset(
