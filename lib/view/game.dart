@@ -31,24 +31,6 @@ class _GameState extends State<Game> {
 
   @override
   Widget build(BuildContext context) {
-    /*
-
-                  Container( height: 120,
-                    color: const Color(0xFF4A789C),
-                    alignment: Alignment.center,
-                    child: const Padding(
-                      padding: EdgeInsets.only(bottom: 10),
-                      child: Text(
-                        '撮影場所はどこか探そう',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-  */
     return Scaffold(
       body: Consumer(builder: (context, ref, _) {
         return Stack(

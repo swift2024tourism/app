@@ -24,6 +24,7 @@ mixin _$CurrentGameState {
   GameResultModel? get gameResult => throw _privateConstructorUsedError;
   int get round => throw _privateConstructorUsedError;
   Map<int, GameInfoModel> get rounds => throw _privateConstructorUsedError;
+  double get average => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CurrentGameStateCopyWith<CurrentGameState> get copyWith =>
@@ -44,7 +45,8 @@ abstract class $CurrentGameStateCopyWith<$Res> {
       int currentPictureIndex,
       GameResultModel? gameResult,
       int round,
-      Map<int, GameInfoModel> rounds});
+      Map<int, GameInfoModel> rounds,
+      double average});
 
   $GameModelCopyWith<$Res>? get currentGame;
   $GameResultModelCopyWith<$Res>? get gameResult;
@@ -71,6 +73,7 @@ class _$CurrentGameStateCopyWithImpl<$Res, $Val extends CurrentGameState>
     Object? gameResult = freezed,
     Object? round = null,
     Object? rounds = null,
+    Object? average = null,
   }) {
     return _then(_value.copyWith(
       difficulty: null == difficulty
@@ -105,6 +108,10 @@ class _$CurrentGameStateCopyWithImpl<$Res, $Val extends CurrentGameState>
           ? _value.rounds
           : rounds // ignore: cast_nullable_to_non_nullable
               as Map<int, GameInfoModel>,
+      average: null == average
+          ? _value.average
+          : average // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 
@@ -149,7 +156,8 @@ abstract class _$$CurrentGameStateImplCopyWith<$Res>
       int currentPictureIndex,
       GameResultModel? gameResult,
       int round,
-      Map<int, GameInfoModel> rounds});
+      Map<int, GameInfoModel> rounds,
+      double average});
 
   @override
   $GameModelCopyWith<$Res>? get currentGame;
@@ -176,6 +184,7 @@ class __$$CurrentGameStateImplCopyWithImpl<$Res>
     Object? gameResult = freezed,
     Object? round = null,
     Object? rounds = null,
+    Object? average = null,
   }) {
     return _then(_$CurrentGameStateImpl(
       difficulty: null == difficulty
@@ -210,6 +219,10 @@ class __$$CurrentGameStateImplCopyWithImpl<$Res>
           ? _value._rounds
           : rounds // ignore: cast_nullable_to_non_nullable
               as Map<int, GameInfoModel>,
+      average: null == average
+          ? _value.average
+          : average // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -225,7 +238,8 @@ class _$CurrentGameStateImpl extends _CurrentGameState {
       this.currentPictureIndex = 0,
       this.gameResult,
       this.round = 0,
-      final Map<int, GameInfoModel> rounds = const {}})
+      final Map<int, GameInfoModel> rounds = const {},
+      this.average = 0})
       : assert(currentWaypointIndex >= 0),
         assert(currentPictureIndex >= 0),
         _rounds = rounds,
@@ -259,8 +273,12 @@ class _$CurrentGameStateImpl extends _CurrentGameState {
   }
 
   @override
+  @JsonKey()
+  final double average;
+
+  @override
   String toString() {
-    return 'CurrentGameState(difficulty: $difficulty, currentGame: $currentGame, currentLocation: $currentLocation, currentWaypointIndex: $currentWaypointIndex, currentPictureIndex: $currentPictureIndex, gameResult: $gameResult, round: $round, rounds: $rounds)';
+    return 'CurrentGameState(difficulty: $difficulty, currentGame: $currentGame, currentLocation: $currentLocation, currentWaypointIndex: $currentWaypointIndex, currentPictureIndex: $currentPictureIndex, gameResult: $gameResult, round: $round, rounds: $rounds, average: $average)';
   }
 
   @override
@@ -281,7 +299,8 @@ class _$CurrentGameStateImpl extends _CurrentGameState {
             (identical(other.gameResult, gameResult) ||
                 other.gameResult == gameResult) &&
             (identical(other.round, round) || other.round == round) &&
-            const DeepCollectionEquality().equals(other._rounds, _rounds));
+            const DeepCollectionEquality().equals(other._rounds, _rounds) &&
+            (identical(other.average, average) || other.average == average));
   }
 
   @override
@@ -294,7 +313,8 @@ class _$CurrentGameStateImpl extends _CurrentGameState {
       currentPictureIndex,
       gameResult,
       round,
-      const DeepCollectionEquality().hash(_rounds));
+      const DeepCollectionEquality().hash(_rounds),
+      average);
 
   @JsonKey(ignore: true)
   @override
@@ -313,7 +333,8 @@ abstract class _CurrentGameState extends CurrentGameState {
       final int currentPictureIndex,
       final GameResultModel? gameResult,
       final int round,
-      final Map<int, GameInfoModel> rounds}) = _$CurrentGameStateImpl;
+      final Map<int, GameInfoModel> rounds,
+      final double average}) = _$CurrentGameStateImpl;
   const _CurrentGameState._() : super._();
 
   @override
@@ -332,6 +353,8 @@ abstract class _CurrentGameState extends CurrentGameState {
   int get round;
   @override
   Map<int, GameInfoModel> get rounds;
+  @override
+  double get average;
   @override
   @JsonKey(ignore: true)
   _$$CurrentGameStateImplCopyWith<_$CurrentGameStateImpl> get copyWith =>
