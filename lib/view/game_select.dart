@@ -18,18 +18,13 @@ class GameSelect extends ConsumerWidget {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Color(0xFF4A789C),
+          backgroundColor: const Color(0xFF4A789C),
           elevation: 0,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-              Navigator.pop(context); // 前の画面に戻る
-            },
-          ),
+          automaticallyImplyLeading: false,
         ),
         body: Column(children: <Widget>[
           Container(
-            height: 40,
+            height: 60,
             decoration: const BoxDecoration(
               color: Color.fromARGB(255, 68, 122, 156),
               borderRadius: BorderRadius.only(
@@ -41,7 +36,7 @@ class GameSelect extends ConsumerWidget {
               child: Text(
                 '場所選択',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -82,7 +77,23 @@ class GameSelect extends ConsumerWidget {
                         child: CircularProgressIndicator(),
                       );
                     }
-                  }))
+                  })),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: FloatingActionButton(
+                onPressed: () {
+                  context.pop();
+                },
+                backgroundColor: const Color.fromARGB(192, 218, 218, 218),
+                child: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
         ]));
   }
 }

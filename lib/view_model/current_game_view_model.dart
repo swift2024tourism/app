@@ -1,25 +1,58 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:app/model/enums/difficulty_model.dart';
 import 'package:app/model/game/game_model.dart';
+import 'package:app/model/game_result/game_info_model.dart';
 import 'package:app/model/game_result/game_result_model.dart';
+import 'package:app/repository/game_history_repository.dart';
 import 'package:app/repository/games_repository.dart';
 import 'package:app/state/current_game_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:universal_platform/universal_platform.dart';
+import 'package:unixtime/unixtime.dart';
 
 import 'package:vector_math/vector_math_64.dart';
 
 part 'current_game_view_model.g.dart';
 
+@Riverpod()
+double currentAverageScore(ProviderRef ref) {
+  // return ref.watch(currentGameViewModelProvider).whenData((CurrentGameState value) {
+  //   int sum = 0;
+  //   value.rounds.forEach((i, value) {
+  //     sum += value.score;
+  //   });
+  //   return sum / value.rounds.length;
+  // });
+  return ref.watch(currentGameViewModelProvider).maybeWhen(
+      orElse: () => 0.0,
+      data: (data) {
+        double sum = 0;
+        data.rounds.forEach((i, value) {
+          debugPrint("data rounds");
+          debugPrint(value.score.toString());
+          sum += value.score;
+        });
+        double average = sum / data.rounds.length;
+        if (data.rounds.isEmpty) {
+          average = 0.0;
+        }
+        return average;
+      });
+}
+
 @riverpod
 class CurrentGameViewModel extends _$CurrentGameViewModel {
   // 定数の定義
   static const double INNER_RADIUS = 5.0; // 満点を取得できる内側の円の半径（メートル）
-  static const double OUTER_RADIUS = 10.0; // 得点圏の外側の円の半径（メートル）
+  static const double OUTER_RADIUS = 50.0; // 得点圏の外側の円の半径（メートル）
   static const int MAX_SCORE = 100; // 最高得点
   static const int MIN_SCORE = 0; // 最低得点（外側の円の境界上でのスコア）
 
@@ -68,42 +101,72 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
   Future<bool> finishGame() async {
     return state.maybeWhen(
         data: (CurrentGameState data) async {
+          Position? location;
+          if (UniversalPlatform.isWeb) {}
           debugPrint("finish game: ${data.currentGame!.name}");
           Map<Permission, PermissionStatus> statuses = await [
             Permission.location,
           ].request();
-          var permission = await Geolocator.requestPermission();
-
-          if (permission == LocationPermission.denied && PermissionStatus.granted != statuses[Permission.location]) {
-            return false;
-          }
-
-          if (await Permission.location.request().isGranted ||
-              permission == LocationPermission.whileInUse ||
-              permission == LocationPermission.always) {
-            Position current = await Geolocator.getCurrentPosition();
-            debugPrint("current: ${current.latitude}, ${current.longitude}");
-
-            GeoPoint target = data.currentGame!.waypoints[data.currentWaypointIndex].geopoint;
-            final double distance = Geolocator.distanceBetween(current.latitude, current.longitude, target.latitude, target.longitude);
-            debugPrint("距離は: $distance");
-
-            double direction = Geolocator.bearingBetween(current.latitude, current.longitude, target.latitude, target.longitude);
-            debugPrint(calculateBearing(current.latitude, current.longitude, target.latitude, target.longitude).toString());
-            direction = radians(calculateBearing(current.latitude, current.longitude, target.latitude, target.longitude)) + pi - pi / 2;
-            // 距離に基づいてスコアを計算
-            int score = calculateScore(distance);
-            debugPrint("Distance: ${distance.toInt()}m, Score: $score");
-
-            state = AsyncData(data.copyWith(
-                currentLocation: GeoPoint(current.latitude, current.longitude),
-                gameResult:
-                    GameResultModel(score: score, meterDistanceFromAnswer: distance.toInt(), directionFromCurrentLocation: direction)));
-            debugPrint("direction: $direction");
-            return true;
+          if (UniversalPlatform.isWeb) {
+            location = await Geolocator.getCurrentPosition();
           } else {
-            return false;
+            if (Platform.isAndroid || Platform.isIOS) {
+              var permission = await Geolocator.requestPermission();
+              if (permission == LocationPermission.denied && PermissionStatus.granted != statuses[Permission.location]) {
+                return false;
+              }
+
+              if (await Permission.location.request().isGranted ||
+                  permission == LocationPermission.whileInUse ||
+                  permission == LocationPermission.always) {
+                debugPrint("1");
+                location = await Geolocator.getCurrentPosition();
+              } else {
+                return false;
+              }
+            }
+            if (location == null) {
+              return false;
+            }
           }
+
+          GeoPoint target = data.currentGame!.waypoints[data.currentWaypointIndex].geopoint;
+          double distance = Geolocator.distanceBetween(location.latitude, location.longitude, target.latitude, target.longitude);
+
+          double direction = Geolocator.bearingBetween(location.latitude, location.longitude, target.latitude, target.longitude);
+          debugPrint(calculateBearing(location.latitude, location.longitude, target.latitude, target.longitude).toString());
+          direction = radians(calculateBearing(location.latitude, location.longitude, target.latitude, target.longitude)) + pi - pi / 2;
+          // 距離に基づいてスコアを計算
+          int score = calculateScore(distance);
+          debugPrint("Distance: ${distance.toInt()}m, Score: $score");
+
+          // ここら辺でゲームを保存？？？
+          var unixTime = DateTime.now().unixtime;
+
+          state = AsyncData(data.copyWith(
+              currentLocation: GeoPoint(location.latitude, location.longitude),
+              gameResult:
+                  GameResultModel(score: score, meterDistanceFromAnswer: distance.toInt(), directionFromCurrentLocation: direction)));
+          var infoModel = GameInfoModel(
+              id: unixTime,
+              gameId: data.currentGame!.id,
+              waypointId: data.currentGame!.waypoints[data.currentWaypointIndex].id,
+              round: data.round,
+              score: score,
+              lat: location.latitude,
+              lon: location.longitude,
+              distanceFromGoal: distance);
+          ref.read(gameHistoryRepositoryProvider).saveGameInfo(infoModel);
+
+          var newRounds = Map.of(data.rounds);
+          newRounds[infoModel.round] = infoModel;
+
+          state = AsyncData(data.copyWith(
+              currentLocation: GeoPoint(location.latitude, location.longitude),
+              rounds: newRounds,
+              gameResult:
+                  GameResultModel(score: score, meterDistanceFromAnswer: distance.toInt(), directionFromCurrentLocation: direction)));
+          return true;
         },
         orElse: () => false);
   }
@@ -128,10 +191,22 @@ class CurrentGameViewModel extends _$CurrentGameViewModel {
     return (bearingDeg + 360) % 360;
   }
 
+  void addRound() {
+    state.whenData((CurrentGameState value) {
+      state = AsyncData(value.copyWith(round: value.round + 1));
+    });
+  }
+
   /// Get a random game from the list of games
   GameModel getMonoGame(List<GameModel> games) {
     final randomIndex = Random().nextInt(games.length);
     return games[randomIndex];
+  }
+
+  void setRound(int round) {
+    state.whenData((CurrentGameState value) {
+      state = AsyncData(value.copyWith(round: round));
+    });
   }
 
   bool nextWaypoint() {

@@ -13,6 +13,7 @@ class Tyuuigaki extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: const Color(0xFFE63746),
           elevation: 0,
+          automaticallyImplyLeading: false,
         ),
         body: Column(children: <Widget>[
           Container(
@@ -82,14 +83,9 @@ class Tyuuigaki extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Text('ゲームをする際は周囲の\n交通状況にご注意ください。',
-                          style: TextStyle(fontSize: 15)),
-                      Text(
-                          '歩きながらスマートフォンを\n操作する行為は思わぬ重大な\n事故になる可能性があります。\n絶対におやめください。',
-                          style: TextStyle(fontSize: 15)),
-                      Text(
-                          '観光名所には立ち入り禁止\nエリアがあります。\n立ち入り禁止エリアには\n入らないようにお願いします。',
-                          style: TextStyle(fontSize: 15)),
+                      Text('ゲームをする際は周囲の\n交通状況にご注意ください。', style: TextStyle(fontSize: 15)),
+                      Text('歩きながらスマートフォンを\n操作する行為は思わぬ重大な\n事故になる可能性があります。\n絶対におやめください。', style: TextStyle(fontSize: 15)),
+                      Text('観光名所には立ち入り禁止\nエリアがあります。\n立ち入り禁止エリアには\n入らないようにお願いします。', style: TextStyle(fontSize: 15)),
                     ],
                   ),
                 ),
@@ -107,9 +103,8 @@ class Tyuuigaki extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(50, 55),
-                      backgroundColor: Color.fromARGB(192, 218, 218, 218),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
+                      backgroundColor: const Color.fromARGB(192, 218, 218, 218),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
                   child: const Text(
                     'メニューへ',
                     style: TextStyle(fontSize: 15, color: Colors.black),
@@ -124,8 +119,7 @@ class Tyuuigaki extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(50, 55),
                       backgroundColor: const Color.fromARGB(255, 68, 122, 156),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
                   child: const Text(
                     'ゲームを始める',
                     style: TextStyle(fontSize: 15, color: Colors.white),

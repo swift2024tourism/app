@@ -18,24 +18,26 @@ class GameResult extends StatelessWidget {
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          GameResultTop(),
-          Expanded(child: GameResultMap()),
+          const GameResultTop(),
+          const Expanded(child: GameResultMap()),
           Consumer(builder: (context, ref, _) {
             return TextButton(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: const Text(
+              child: const Padding(
+                padding: EdgeInsets.all(12.0),
+                child: Text(
                   "次へ",
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
                 ),
               ),
               onPressed: () async {
                 bool isLast = !ref.read(currentGameViewModelProvider.notifier).nextWaypoint();
+                //#TODO 消す
+                //isLast = true;
                 if (isLast) {
-                  context.pop();
-                  context.pop();
+                  context.push('/result');
                 } else {
                   debugPrint('isLast');
+                  ref.read(currentGameViewModelProvider.notifier).addRound();
                   context.pop();
                 }
               },

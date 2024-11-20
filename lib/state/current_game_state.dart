@@ -1,7 +1,9 @@
 import 'package:app/model/enums/difficulty_model.dart';
 import 'package:app/model/game/game_model.dart';
+import 'package:app/model/game_result/game_info_model.dart';
 import 'package:app/model/game_result/game_result_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'current_game_state.freezed.dart';
@@ -17,6 +19,9 @@ class CurrentGameState with _$CurrentGameState {
     @Default(0) int currentWaypointIndex,
     @Default(0) int currentPictureIndex,
     GameResultModel? gameResult,
+    @Default(0) int round,
+    @Default({}) Map<int, GameInfoModel> rounds,
+    @Default(0) double average,
   }) = _CurrentGameState;
 
   // クラスメソッドのため
@@ -24,6 +29,7 @@ class CurrentGameState with _$CurrentGameState {
   const CurrentGameState._();
 
   bool isWaypointIndexIncrementable() {
+    debugPrint("currentGame!.waypoints.length: ${currentGame!.waypoints.length}");
     return currentWaypointIndex < currentGame!.waypoints.length - 1;
   }
 

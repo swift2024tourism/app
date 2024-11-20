@@ -18,6 +18,8 @@ class Game extends StatefulWidget {
 
 class _GameState extends State<Game> {
   final viewTransformationController = TransformationController();
+  int cycleCount = 1;
+
   @override
   void initState() {
     super.initState();
@@ -29,45 +31,7 @@ class _GameState extends State<Game> {
 
   @override
   Widget build(BuildContext context) {
-    /*
-
-                  Container( height: 120,
-                    color: const Color(0xFF4A789C),
-                    alignment: Alignment.center,
-                    child: const Padding(
-                      padding: EdgeInsets.only(bottom: 10),
-                      child: Text(
-                        '撮影場所はどこか探そう',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-  */
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () {
-              context.pop();
-            },
-          ),
-        ],
-        backgroundColor: const Color(0xFF4A789C),
-        title: Text(
-          '撮影場所はどこか探そう',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
       body: Consumer(builder: (context, ref, _) {
         return Stack(
           children: [
@@ -135,11 +99,12 @@ class _GameState extends State<Game> {
                                         ),
                                         Text(
                                           leftButtonText,
-                                          style: TextStyle(color: Colors.white),
+                                          style: const TextStyle(color: Colors.white),
                                         )
                                       ],
                                     )),
                               ),
+                              // 中央のボタン群
                               Expanded(
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -164,6 +129,9 @@ class _GameState extends State<Game> {
                                               debugPrint(isSuc.toString());
                                               if (context.mounted) {
                                                 if (isSuc) {
+                                                  setState(() {
+                                                    cycleCount++;
+                                                  });
                                                   context.push('/game/result');
                                                 } else {
                                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -263,12 +231,74 @@ class _GameState extends State<Game> {
                 ],
               ),
             ),
+            // ヘッダー（四角形）
+            Container(
+              height: 80,
+              width: double.infinity,
+              color: const Color(0xFF4A789C),
+              alignment: Alignment.bottomCenter,
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Text(
+                'ラウンド$cycleCount',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            // 戻るボタン
+            Positioned(
+              top: 30,
+              right: 16,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.3),
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 32,
+                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('確認'),
+                          content: const Text('メインメニューに戻りますか？\nゲームの進行状況は保存されません。'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: const Text('キャンセル'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                context.go('/'); // メインメニューに戻る
+                              },
+                              child: const Text(
+                                '戻る',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ),
           ],
         );
       }),
     );
   }
 
+  // 既存のメソッドはそのまま...
   Widget _warningItem(String text, IconData icon) {
     return Container(
       height: 150,
@@ -279,7 +309,7 @@ class _GameState extends State<Game> {
             icon,
             size: 80,
           ),
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
           Text(text),
         ],
       ),
@@ -290,11 +320,11 @@ class _GameState extends State<Game> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 80),
       child: Container(
-        decoration: BoxDecoration(color: Colors.white),
+        decoration: const BoxDecoration(color: Colors.white),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Container(
@@ -302,8 +332,8 @@ class _GameState extends State<Game> {
                 color: Colors.red,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
                 child: Text(
                   "ゲーム中の注意事項",
                   style: TextStyle(color: Colors.white),
