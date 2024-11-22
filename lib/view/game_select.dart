@@ -18,31 +18,16 @@ class GameSelect extends ConsumerWidget {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: const Color(0xFF4A789C),
+          title: const Text('場所選択',
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          centerTitle: true,
+          backgroundColor: const Color.fromARGB(255, 68, 122, 156),
           elevation: 0,
           automaticallyImplyLeading: false,
+          toolbarHeight: 100.0,
         ),
         body: Column(children: <Widget>[
-          Container(
-            height: 60,
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 68, 122, 156),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(40),
-                bottomRight: Radius.circular(40),
-              ),
-            ),
-            child: const Center(
-              child: Text(
-                '場所選択',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
           const SizedBox(height: 80),
           Expanded(
               child: FutureBuilder(
@@ -55,13 +40,19 @@ class GameSelect extends ConsumerWidget {
                         children: games.map((game) {
                           return OutlinedButton(
                               onPressed: () async {
-                                await ref.watch(currentGameViewModelProvider.notifier).initGame(difficulty, games.indexOf(game));
-                                WidgetsBinding.instance.addPostFrameCallback((timeStamp) => context.push('/game'));
+                                await ref
+                                    .watch(
+                                        currentGameViewModelProvider.notifier)
+                                    .initGame(difficulty, games.indexOf(game));
+                                WidgetsBinding.instance.addPostFrameCallback(
+                                    (timeStamp) => context.push('/game'));
                               },
                               style: OutlinedButton.styleFrom(
                                   minimumSize: const Size(320, 90),
-                                  side: const BorderSide(color: Color(0xFF4A789C), width: 1.5),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                  side: const BorderSide(
+                                      color: Color(0xFF4A789C), width: 1.5),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
                                   backgroundColor: Colors.white),
                               child: Text(
                                 game.name,
