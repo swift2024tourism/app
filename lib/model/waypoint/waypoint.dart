@@ -1,5 +1,6 @@
 import 'package:app/model/picture/picture_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firestore_cache/firestore_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -22,7 +23,7 @@ class Waypoint with _$Waypoint {
       List<DocumentReference<Map<String, dynamic>>> picturesRef = List<DocumentReference<Map<String, dynamic>>>.from(data['pictures']);
 
       List<PictureModel> pictures = await Future.wait(picturesRef.map((DocumentReference<Map<String, dynamic>> e) async {
-        return PictureModel.fromFirestore(await e.get());
+        return PictureModel.fromFirestore(await FirestoreCache.getDocument(e));
       }));
 
       GeoPoint geoPoint = data['geopoint'] as GeoPoint;

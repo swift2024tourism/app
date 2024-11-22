@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/model/enums/difficulty_model.dart';
 import 'package:app/model/game/game_model.dart';
 import 'package:app/model/waypoint/waypoint.dart';
@@ -20,7 +22,6 @@ const cacheField = 'updatedAt';
 @riverpod
 IGamesRepository gamesRepository(ref) {
   var firestore = FirebaseFirestore.instance;
-  firestore.settings = const Settings(cacheSizeBytes: -1, persistenceEnabled: true);
   return GamesRepository(firestore.collection(gamesCollection));
 }
 
@@ -63,15 +64,28 @@ class GamesRepository extends IGamesRepository {
   final CollectionReference<Map<String, dynamic>> gamesCollectionRef;
   GamesRepository(this.gamesCollectionRef);
 
+  _test() async {
+    final cacheDocRef = FirebaseFirestore.instance.doc('status/status');
+
+// This should be the timestamp field in that document
+    final cacheField = 'updatedAt';
+
+    final query = FirebaseFirestore.instance.collection('posts');
+    final snapshot = await FirestoreCache.getDocuments(
+      query: query,
+      cacheDocRef: cacheDocRef,
+      firestoreCacheField: cacheField,
+    );
+  }
+
   @override
   Future<List<GameModel>> getAllGames() async {
     List<GameModel> games = [];
 
     games = await gamesCollectionRef.get().then((QuerySnapshot<Map<String, dynamic>> snapshot) async {
       games = await Future.wait(snapshot.docs.map((QueryDocumentSnapshot<Map<String, dynamic>> documentSnapshot) async {
-        final snnnaspshot = await FirestoreCache.getDocuments(
-            query: gamesCollectionRef, cacheDocRef: documentSnapshot.reference, firestoreCacheField: cacheField);
-        return await GameModel.fromFirestore(snnnaspshot as DocumentSnapshot<Map<String, dynamic>>);
+        debugPrint("documentSnapshot: ${documentSnapshot.data()}");
+        return await GameModel.fromFirestore(documentSnapshot);
       }));
       return games;
     });
@@ -84,36 +98,17 @@ class GamesRepository extends IGamesRepository {
   Future<List<GameModel>> getGamesByDifficulty(Difficulty difficulty) async {
     List<GameModel> games = [];
 
-    // games = await gamesCollectionRef.get().then((QuerySnapshot<Map<String, dynamic>> snapshot) async {
-    //   games = await Future.wait(snapshot.docs.map((QueryDocumentSnapshot<Map<String, dynamic>> documentSnapshot) async {
-    //     final snnnaspshot = await FirestoreCache.getDocuments(
-    //         query: gamesCollectionRef, cacheDocRef: documentSnapshot.reference, firestoreCacheField: cacheField);
-    //     return await GameModel.fromFirestore(snnnaspshot as DocumentSnapshot<Map<String, dynamic>>);
-    //   }));
-    //   return games;
-    // });
-    games = await gamesCollectionRef
-        .where("difficulty", isEqualTo: difficulty.name)
-        .get()
-        .then((QuerySnapshot<Map<String, dynamic>> snapshot) async {
-      games = await Future.wait(snapshot.docs.map((QueryDocumentSnapshot<Map<String, dynamic>> documentSnapshot) async {
-        var sssnapshot = await FirestoreCache.getDocuments(
-            query: gamesCollectionRef, cacheDocRef: documentSnapshot.reference, firestoreCacheField: cacheField);
-        return await GameModel.fromFirestore(sssnapshot as DocumentSnapshot<Map<String, dynamic>>);
-      }));
-      return games;
-    });
-    // games = await gamesCollectionRef
-    //     .where("difficulty", isEqualTo: difficulty.name)
-    //     .get()
-    //     .then((QuerySnapshot<Map<String, dynamic>> snapshot) async {
-    //   games = await Future.wait(snapshot.docs.map((QueryDocumentSnapshot<Map<String, dynamic>> documentSnapshot) async {
-    //     var sssnapshot = await FirestoreCache.getDocuments(
-    //         query: gamesCollectionRef, cacheDocRef: documentSnapshot.reference, firestoreCacheField: cacheField);
-    //     return await GameModel.fromFirestore(sssnapshot as DocumentSnapshot<Map<String, dynamic>>);
-    //   }));
-    //   return games;
-    // });
+    debugPrint("difficulty: ${difficulty.name}");
+    final gamesQuery = FirebaseFirestore.instance.collection(gamesCollection).where("difficulty", isEqualTo: difficulty.name);
+
+    QuerySnapshot<Map<String, dynamic>> gamesCollectionSnapshot = await FirestoreCache.getDocuments(
+        query: gamesQuery, cacheDocRef: FirebaseFirestore.instance.doc('games/difficult'), firestoreCacheField: cacheField);
+    games = await Future.wait(gamesCollectionSnapshot.docs.map((QueryDocumentSnapshot<Map<String, dynamic>> documentSnapshot) async {
+      debugPrint("load game: ${documentSnapshot.data()}");
+      return await GameModel.fromFirestore(documentSnapshot);
+    }));
+    log(games.length.toString());
+    debugPrint("jkdsfjajfdsahkfdkahfsd");
 
     return games;
   }
