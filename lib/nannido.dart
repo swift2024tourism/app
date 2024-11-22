@@ -25,10 +25,7 @@ class Nannido extends StatelessWidget {
                 height: 60,
                 decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 68, 122, 156),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(40),
-                    bottomRight: Radius.circular(40),
-                  ),
+                  // borderRadiusを削除して四角にする
                 ),
                 child: const Center(
                   child: Text(
@@ -104,7 +101,6 @@ class Nannido extends StatelessWidget {
               ),
             ],
           ),
-          // 左下の丸いボタン
           Align(
             alignment: Alignment.bottomLeft,
             child: Padding(
