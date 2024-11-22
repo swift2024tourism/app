@@ -7,7 +7,7 @@ part of 'current_game_view_model.dart';
 // **************************************************************************
 
 String _$currentAverageScoreHash() =>
-    r'7746ea360012f1532ad23f6f5fb26406a259a318';
+    r'3be3a5c20200f656282c99ff35ac3c48220cab03';
 
 /// See also [currentAverageScore].
 @ProviderFor(currentAverageScore)
@@ -23,7 +23,7 @@ final currentAverageScoreProvider = AutoDisposeProvider<double>.internal(
 
 typedef CurrentAverageScoreRef = AutoDisposeProviderRef<double>;
 String _$currentGameViewModelHash() =>
-    r'5db326ea341ffc1ef5eac4033c30f29f974d18b1';
+    r'080035a42b4fc47a051fd890d9454a4678c5ce57';
 
 /// See also [CurrentGameViewModel].
 @ProviderFor(CurrentGameViewModel)
