@@ -60,9 +60,7 @@ class _AsobikataState extends State<Asobikata> {
                     onPressed: _currentIndex > 0 ? _previousPage : null,
                     style: ElevatedButton.styleFrom(
                       fixedSize: const Size(60, 60),
-                      backgroundColor: _currentIndex > 0
-                          ? const Color.fromARGB(192, 218, 218, 218)
-                          : Colors.grey[300],
+                      backgroundColor: _currentIndex > 0 ? const Color.fromARGB(192, 218, 218, 218) : Colors.grey[300],
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -71,16 +69,13 @@ class _AsobikataState extends State<Asobikata> {
                       "前へ",
                       style: TextStyle(
                         fontSize: 12,
-                        color: _currentIndex > 0
-                            ? Colors.black
-                            : Colors.grey, // 押せない場合の文字色
+                        color: _currentIndex > 0 ? Colors.black : Colors.grey, // 押せない場合の文字色
                       ),
                     )),
               ),
               Text(
                 "${_currentIndex + 1}/3",
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 40),
@@ -88,9 +83,7 @@ class _AsobikataState extends State<Asobikata> {
                   onPressed: _currentIndex < 2 ? _nextPage : null,
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(60, 60),
-                    backgroundColor: _currentIndex < 2
-                        ? const Color.fromARGB(192, 218, 218, 218)
-                        : Colors.grey[300],
+                    backgroundColor: _currentIndex < 2 ? const Color.fromARGB(192, 218, 218, 218) : Colors.grey[300],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -99,9 +92,7 @@ class _AsobikataState extends State<Asobikata> {
                     "次へ",
                     style: TextStyle(
                       fontSize: 12,
-                      color: _currentIndex < 2
-                          ? Colors.black
-                          : Colors.grey, // 押せない場合の文字色
+                      color: _currentIndex < 2 ? Colors.black : Colors.grey, // 押せない場合の文字色
                     ),
                   ),
                 ),
@@ -123,8 +114,7 @@ class _AsobikataState extends State<Asobikata> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child:
-                    const Text("トップへ戻る", style: TextStyle(color: Colors.black)),
+                child: const Text("トップへ戻る", style: TextStyle(color: Colors.black)),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -138,8 +128,7 @@ class _AsobikataState extends State<Asobikata> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text("ゲームを始める",
-                    style: TextStyle(color: Colors.white)),
+                child: const Text("ゲームを始める", style: TextStyle(color: Colors.white)),
               ),
             ],
           ),
@@ -162,16 +151,14 @@ class Page1 extends StatelessWidget {
         const Center(
             child: Text(
           'このゲームは写真から撮影場所を\n探し当てるゲームです',
-          style: TextStyle(
-              fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400),
+          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400),
           textAlign: TextAlign.center,
         )),
         const SizedBox(height: 30),
         const Center(
             child: Text(
           '撮影場所からの距離に応じて\n得点が表示されます!\n近ければ近いほど高得点!',
-          style: TextStyle(
-              fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400),
+          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400),
           textAlign: TextAlign.center,
         )),
         Image.asset('images/result.png', width: 300, height: 300),
@@ -268,10 +255,7 @@ class SmallButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-          minimumSize: const Size(30, 30),
-          padding: EdgeInsets.zero,
-          shape: const CircleBorder(),
-          backgroundColor: Colors.red),
+          minimumSize: const Size(30, 30), padding: EdgeInsets.zero, shape: const CircleBorder(), backgroundColor: Colors.red),
       onPressed: () {
         // ダイアログを表示
         showDialog(
@@ -279,16 +263,14 @@ class SmallButton extends StatelessWidget {
           barrierDismissible: true,
           builder: (BuildContext context) {
             return AlertDialog(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+              contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     dialogText,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w500),
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(height: 20),
                   // 画面外をタップで戻る説明
@@ -307,8 +289,7 @@ class SmallButton extends StatelessWidget {
           },
         );
       },
-      child:
-          Text(text, style: const TextStyle(fontSize: 16, color: Colors.white)),
+      child: Text(text, style: const TextStyle(fontSize: 16, color: Colors.white)),
     );
   }
 }

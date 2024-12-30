@@ -293,10 +293,10 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_core
-      sha256: e59141ff83e70a9ba571a1f8733c5598cf57e6e68037ab185581d7fc0a436738
+      sha256: "2438a75ad803e818ad3bd5df49137ee619c46b6fc7101f4dbc23da07305ce553"
       url: "https://pub.dev"
     source: hosted
-    version: "3.7.0"
+    version: "3.8.0"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -313,6 +313,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.18.1"
+  firestore_cache:
+    dependency: "direct main"
+    description:
+      name: firestore_cache
+      sha256: a1822c481b99cd358262b1cc79bb3bf265a48c5500a52765ab779cd0bb895952
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.13.6"
   fixnum:
     dependency: transitive
     description:
@@ -1159,4 +1167,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.4.4 <4.0.0"
-  flutter: ">=3.22.0"
+  flutter: ">=3.22.3"

@@ -34,6 +34,10 @@ class GameSelect extends ConsumerWidget {
                   future: ref.watch(getGamesByDifficultyProvider(difficulty)),
                   builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
+                      if (!snapshot.hasData)
+                        return const Center(
+                          child: Text('データがありません'),
+                        );
                       List<GameModel> games = snapshot.data;
 
                       return Column(
