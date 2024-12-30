@@ -20,8 +20,7 @@ class ScoreScreen extends ConsumerWidget {
             rounds.add({
               'round': i,
               'score': value.score,
-              'deviation':
-                  '${(baseNum * value.distanceFromGoal).round() / baseNum}m',
+              'deviation': '${(baseNum * value.distanceFromGoal).round() / baseNum}m',
             });
           });
         });
@@ -93,27 +92,25 @@ class ScoreScreen extends ConsumerWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 60),
-                          const Text(
-                            '平均得点',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
-                            ),
-                          ),
-                          Text(
-                            averageScore.toString(),
-                            style: const TextStyle(
-                              fontSize: 60,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFFFCC14A),
-                            ),
-                          ),
-                        ]),
+                    Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      const SizedBox(height: 60),
+                      const Text(
+                        '平均得点',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      Text(
+                        averageScore.toString(),
+                        style: const TextStyle(
+                          fontSize: 60,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFFCC14A),
+                        ),
+                      ),
+                    ]),
                     Column(
                       children: [
                         Image.asset(

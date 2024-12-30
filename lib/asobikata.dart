@@ -161,7 +161,7 @@ class Page1 extends StatelessWidget {
           style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400),
           textAlign: TextAlign.center,
         )),
-        Image.asset('images/result.png', width: 300, height: 300),
+        Image.asset('assets/images/result.png', width: 300, height: 300),
       ]),
     );
   }
@@ -198,7 +198,7 @@ class Page2 extends StatelessWidget {
               children: [
                 // 背景画像
                 Image.asset(
-                  'images/gamegamen.png',
+                  'assets/images/gamegamen.png',
                   width: 580, // 固定幅
                   height: 430, // 固定高さ
                   fit: BoxFit.contain,
