@@ -5,6 +5,7 @@ class Asobikata extends StatefulWidget {
   const Asobikata({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AsobikataState createState() => _AsobikataState();
 }
 
@@ -41,7 +42,7 @@ class _AsobikataState extends State<Asobikata> {
       ),
       body: IndexedStack(
         index: _currentIndex,
-        children: [
+        children: const [
           Page1(),
           Page2(),
           Page3(),
@@ -56,16 +57,21 @@ class _AsobikataState extends State<Asobikata> {
               Padding(
                 padding: const EdgeInsets.only(right: 40),
                 child: ElevatedButton(
-                  onPressed: _previousPage,
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(60, 60),
-                    backgroundColor: const Color.fromARGB(192, 218, 218, 218),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                    onPressed: _currentIndex > 0 ? _previousPage : null,
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(60, 60),
+                      backgroundColor: _currentIndex > 0 ? const Color.fromARGB(192, 218, 218, 218) : Colors.grey[300],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                  ),
-                  child: const Text("前へ", style: TextStyle(fontSize: 12, color: Colors.black)),
-                ),
+                    child: Text(
+                      "前へ",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: _currentIndex > 0 ? Colors.black : Colors.grey, // 押せない場合の文字色
+                      ),
+                    )),
               ),
               Text(
                 "${_currentIndex + 1}/3",
@@ -74,15 +80,21 @@ class _AsobikataState extends State<Asobikata> {
               Padding(
                 padding: const EdgeInsets.only(left: 40),
                 child: ElevatedButton(
-                  onPressed: _nextPage,
+                  onPressed: _currentIndex < 2 ? _nextPage : null,
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(60, 60),
-                    backgroundColor: const Color.fromARGB(192, 218, 218, 218),
+                    backgroundColor: _currentIndex < 2 ? const Color.fromARGB(192, 218, 218, 218) : Colors.grey[300],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: const Text("次へ", style: TextStyle(fontSize: 12, color: Colors.black)),
+                  child: Text(
+                    "次へ",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: _currentIndex < 2 ? Colors.black : Colors.grey, // 押せない場合の文字色
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -128,6 +140,8 @@ class _AsobikataState extends State<Asobikata> {
 }
 
 class Page1 extends StatelessWidget {
+  const Page1({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,80 +151,94 @@ class Page1 extends StatelessWidget {
         const Center(
             child: Text(
           'このゲームは写真から撮影場所を\n探し当てるゲームです',
-          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400),
           textAlign: TextAlign.center,
         )),
-        const SizedBox(height: 50),
+        const SizedBox(height: 30),
         const Center(
             child: Text(
           '撮影場所からの距離に応じて\n得点が表示されます!\n近ければ近いほど高得点!',
-          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400),
           textAlign: TextAlign.center,
         )),
-        Image.asset('images/result.png', width: 300, height: 300),
+        Image.asset('assets/images/result.png', width: 300, height: 300),
       ]),
     );
   }
 }
 
 class Page2 extends StatelessWidget {
+  const Page2({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            final double imageWidth = constraints.maxWidth * 0.8; // 画面幅の80%
-            final double imageHeight = imageWidth * 0.75; // アスペクト比 4:3
-
-            return Stack(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start, // 上部に配置
+          crossAxisAlignment: CrossAxisAlignment.center, // 中央揃え
+          children: [
+            // 上部のテキスト
+            const Padding(
+              padding: EdgeInsets.all(16.0), // テキスト周りの余白
+              child: Text(
+                '難易度とエリアを設定するとこの画面が\n表示され、ゲームがスタートします',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            // 背景画像とボタンのStack
+            Stack(
+              alignment: Alignment.center,
               children: [
                 // 背景画像
-                Center(
-                  child: Image.asset(
-                    'images/gamegamen.png',
-                    width: imageWidth,
-                    height: imageHeight,
-                    fit: BoxFit.contain,
-                  ),
+                Image.asset(
+                  'assets/images/gamegamen.png',
+                  width: 580, // 固定幅
+                  height: 430, // 固定高さ
+                  fit: BoxFit.contain,
                 ),
                 // ボタンを画像と連動させる
-                Positioned(
-                  top: constraints.maxHeight / 2 + imageHeight * 0.4,
-                  left: constraints.maxWidth / 2 - imageWidth * 0.2,
+                const Positioned(
+                  top: 400,
+                  left: 230,
                   child: SmallButton(
                     text: "1",
                     dialogText: "ゲームの遊び方を確認できます",
                   ),
                 ),
-                Positioned(
-                  top: constraints.maxHeight / 2 + imageHeight * 0.3,
-                  left: constraints.maxWidth / 2,
+                const Positioned(
+                  top: 340,
+                  left: 230,
                   child: SmallButton(
                     text: "2",
                     dialogText: "撮影場所が推測できたら\nここをクリック\n撮影場所との距離に応じて\n得点が表示されます",
                   ),
                 ),
-                Positioned(
-                  top: constraints.maxHeight / 2 + imageHeight * 0.35,
-                  left: constraints.maxWidth / 2 + imageWidth * 0.1,
+                const Positioned(
+                  top: 380,
+                  left: 280,
                   child: SmallButton(
                     text: "3",
                     dialogText: "同じ撮影場所の反対側から撮った\n写真に切り替わります",
                   ),
                 ),
-                Positioned(
-                  top: constraints.maxHeight / 2 + imageHeight * 0.5,
-                  left: constraints.maxWidth / 2 - imageWidth * 0.3,
+                const Positioned(
+                  top: 400,
+                  left: 140,
                   child: SmallButton(
                     text: "4",
-                    dialogText: "ゲーム中の注意事項を確認できます\nゲーム開始前に必ずお読みください",
+                    dialogText: "ゲーム中の注意事項を確認できます",
                   ),
                 ),
               ],
-            );
-          },
+            ),
+          ],
         ),
       ),
     );
@@ -221,7 +249,7 @@ class SmallButton extends StatelessWidget {
   final String text;
   final String dialogText;
 
-  const SmallButton({required this.text, required this.dialogText});
+  const SmallButton({super.key, required this.text, required this.dialogText});
 
   @override
   Widget build(BuildContext context) {
@@ -232,19 +260,31 @@ class SmallButton extends StatelessWidget {
         // ダイアログを表示
         showDialog(
           context: context,
+          barrierDismissible: true,
           builder: (BuildContext context) {
             return AlertDialog(
-              content: Text(
-                dialogText, textAlign: TextAlign.center, // 文字を中央寄せ
-                style: const TextStyle(fontSize: 16),
+              contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    dialogText,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(height: 20),
+                  // 画面外をタップで戻る説明
+                  const Text(
+                    '画面外をタップで戻る',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                ],
               ),
               backgroundColor: Colors.white,
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text("閉じる"),
-                ),
-              ],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0), // ダイアログの角丸設定
+              ),
             );
           },
         );
@@ -255,26 +295,84 @@ class SmallButton extends StatelessWidget {
 }
 
 class Page3 extends StatelessWidget {
+  const Page3({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(children: <Widget>[
-        SizedBox(height: 30),
-        Center(
-            child: Text(
-          '撮影された場所には、\n次のような「手がかり」があります',
-          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
-        )),
-        SizedBox(height: 50),
-        Center(
-            child: Text(
-          'このような建物の配置や距離などを画像から\n推測しよう。\nある程度場所が定まったら、撮影場所へ行き\nお題の写真を見比べて撮影場所と微調整しよう',
-          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
-        )),
-      ]),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: <Widget>[
+            const SizedBox(height: 20),
+            const Text(
+              '撮影された場所には、',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '次のような ',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                ),
+                Text(
+                  '「手がかり」',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
+                  ),
+                ),
+                Text(
+                  ' があります',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              '「手がかり」の例',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 5),
+            Container(
+              width: 300, // 任意の幅
+              height: 160, // 任意の高さ
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('モニュメント', style: TextStyle(fontSize: 16)),
+                  SizedBox(height: 12),
+                  Text('特徴的な建物', style: TextStyle(fontSize: 16)),
+                  SizedBox(height: 12),
+                  Text('道路標識', style: TextStyle(fontSize: 16)),
+                  SizedBox(height: 12),
+                  Text('看板', style: TextStyle(fontSize: 16)),
+                ],
+              ),
+            ),
+            const SizedBox(height: 40),
+            const Text(
+              'このような建物の配置や距離などを画像から\n推測しよう。',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'ある程度場所が定まったら、撮影場所へ行き\nお題の写真を見比べて撮影場所と微調整しよう',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

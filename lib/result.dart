@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class ScoreScreen extends ConsumerWidget {
   const ScoreScreen({super.key});
@@ -45,6 +46,7 @@ class ScoreScreen extends ConsumerWidget {
     }
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: const Color(0xFF4A789C),
         elevation: 0,
@@ -69,17 +71,14 @@ class ScoreScreen extends ConsumerWidget {
               Container(
                 height: 40,
                 decoration: const BoxDecoration(
-                  color: Color(0xFF4A789C),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(40),
-                    bottomRight: Radius.circular(40),
-                  ),
+                  color: Color.fromARGB(255, 68, 122, 156),
+                  // borderRadiusを削除して四角にする
                 ),
                 child: const Center(
                   child: Text(
                     'エリア合計',
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -106,7 +105,7 @@ class ScoreScreen extends ConsumerWidget {
                       Text(
                         averageScore.toString(),
                         style: const TextStyle(
-                          fontSize: 80,
+                          fontSize: 60,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFFFCC14A),
                         ),
@@ -261,7 +260,9 @@ class ScoreScreen extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.push('/title');
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.amber[400],
                     minimumSize: const Size(250, 80),

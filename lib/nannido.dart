@@ -5,8 +5,82 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class Nannido extends StatelessWidget {
+class Nannido extends StatefulWidget {
   const Nannido({super.key});
+
+  @override
+  State<Nannido> createState() => _NannidoState();
+}
+
+class _NannidoState extends State<Nannido> {
+  @override
+  void initState() {
+    super.initState();
+
+    // 画面ビルド後にダイアログを表示
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showWelcomeDialog();
+    });
+  }
+
+  void _showWelcomeDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          backgroundColor: Colors.white,
+          title: const Text(
+            '注意事項',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0xFFE63746),
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.8,
+            height: 400,
+            child: const Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 25),
+                Text(
+                  'ゲームをする際は周囲の\n交通状況にご注意ください。',
+                  style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(height: 25),
+                Text(
+                  '歩きながらスマートフォンを\n操作する行為は思わぬ重大な\n事故になる可能性があります。\n絶対におやめください。',
+                  style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(height: 25),
+                Text(
+                  '観光名所には立ち入り禁止\nエリアがあります。\n立ち入り禁止エリアには\n入らないようにお願いします。',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF4A789C),
+              ),
+              child: const Text('閉じる', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +99,6 @@ class Nannido extends StatelessWidget {
                 height: 60,
                 decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 68, 122, 156),
-                  // borderRadiusを削除して四角にする
                 ),
                 child: const Center(
                   child: Text(
