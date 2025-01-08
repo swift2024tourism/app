@@ -7,12 +7,12 @@ import 'package:go_router/go_router.dart';
 
 class ScoreScreen extends ConsumerWidget {
   const ScoreScreen({super.key});
+  final baseNum = 10;
 
   Future<List<Map<String, dynamic>>> fetchRoundData(WidgetRef ref) async {
     await Future.delayed(const Duration(seconds: 2));
 
     List<Map<String, dynamic>> rounds = [];
-    const baseNum = 10;
     ref.watch(currentGameViewModelProvider).maybeWhen(
         orElse: () => {},
         data: (data) {
@@ -103,7 +103,7 @@ class ScoreScreen extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        averageScore.toString(),
+                        ((baseNum * averageScore).round() / baseNum).toString(),
                         style: const TextStyle(
                           fontSize: 60,
                           fontWeight: FontWeight.bold,
