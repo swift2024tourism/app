@@ -42,28 +42,30 @@ class _NannidoState extends State<Nannido> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          content: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
-            height: 400,
-            child: const Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(height: 25),
-                Text(
-                  'ゲームをする際は周囲の\n交通状況にご注意ください。',
-                  style: TextStyle(fontSize: 18),
-                ),
-                SizedBox(height: 25),
-                Text(
-                  '歩きながらスマートフォンを\n操作する行為は思わぬ重大な\n事故になる可能性があります。\n絶対におやめください。',
-                  style: TextStyle(fontSize: 18),
-                ),
-                SizedBox(height: 25),
-                Text(
-                  '観光名所には立ち入り禁止\nエリアがあります。\n立ち入り禁止エリアには\n入らないようにお願いします。',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ],
+          content: SingleChildScrollView(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: 400,
+              child: const Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: 25),
+                  Text(
+                    'ゲームをする際は周囲の\n交通状況にご注意ください。',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  SizedBox(height: 25),
+                  Text(
+                    '歩きながらスマートフォンを\n操作する行為は思わぬ重大な\n事故になる可能性があります。\n絶対におやめください。',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  SizedBox(height: 25),
+                  Text(
+                    '観光名所には立ち入り禁止\nエリアがあります。\n立ち入り禁止エリアには\n入らないようにお願いします。',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
             ),
           ),
           actions: <Widget>[
